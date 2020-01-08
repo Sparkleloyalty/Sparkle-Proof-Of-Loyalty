@@ -2,12 +2,12 @@
 
 Proof of Loyalty smart contract built on ethereum (Note this Contract should be considered an example of a  basic framwork for token loyalty based on block.timestamp or block.number)
 
-Development environment: Truffle 
-Testing Framework: Truffle (reccomended)  Remix (optional) 
-Ethereum MainNet Contract: Currently not for production
-Ethereum MaiNet Contract Link: Current not for production
-Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xb954c94ed1e96be6cc55d0b62a4089f610d8afea#code)
-Ropsten TestNet Contract Address: 0xb954c94Ed1E96Be6cc55d0b62A4089f610d8aFEA
+* Development environment: Truffle 
+* Testing Framework: Truffle (reccomended)  Remix (optional) 
+* Ethereum MainNet Contract: Currently not for production
+* Ethereum MaiNet Contract Link: Current not for production
+* Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xb954c94ed1e96be6cc55d0b62a4089f610d8afea#code)
+* Ropsten TestNet Contract Address: 0xb954c94Ed1E96Be6cc55d0b62A4089f610d8aFEA
 
 | ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
 | --- |
