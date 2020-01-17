@@ -69,10 +69,9 @@ One could assume due to a community actively trading this issue may not occur fo
 ### Bug Bounty
 
 Bug bounties are subject to approved pull request or users bugs found by interactions with our TestNet contract. Both will result in a bounty reward
-* Approved Pull requests - $100 USD value in our native token SPRKL
-* known or found user bugs - $100 USD value in our native token SPRKL
 
-If you pull request is approved please join our [telegram](https://t.me/Sparklemobile) with your github username to claim your reward.
+
+If you wish to join our team and contribute please join our [telegram](https://t.me/Sparklemobile) with your github username and ask our admins how to start earning rewards.
 
 
 
