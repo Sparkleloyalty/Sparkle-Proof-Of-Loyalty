@@ -125,14 +125,13 @@ else{
 function loyaltyBonus2 () external payable returns (bool multiplierAdded){
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 require (msg.sender == POL._miner,'miner address does not match sender address');
-bonusAccount.transfer(0.2 ether);
-emit Transfer (this, bonusAccount, msg.value);
+require (msg.value >= 0.2 ether,'Please send the correct amount to enter loyalty bonus');
 if (POL._miner == msg.sender){
-  require (msg.value >= 0.2 ether,'Please send the correct amount to enter loyalty bonus');
+  bonusAccount.transfer(0.2 ether);
+  emit Transfer (this, bonusAccount, msg.value);
   POL._multiplier = b;
  }
  else {
-  POL._multiplier = POL._multiplier;
   return false;
  }
 }
