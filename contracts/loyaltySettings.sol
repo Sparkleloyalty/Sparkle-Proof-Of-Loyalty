@@ -8,7 +8,7 @@ contract loyaltySettings is Ownable{
 
 using SafeMath for uint256;
 uint256 public currentMiners = 0;  // @dev a method to keep tract of current miners
-uint256 private loyaltyRequired = 2000 * (10**8); // @dev token amount required for loyalty contract (optional can be modified)
+uint256 private loyaltyRequired = 1000 * (10**8); // @dev token amount required for loyalty contract (optional can be modified)
 uint256 private loyaltyNeeded = loyaltyRequired; // @dev modify required loyalty
 uint256 public timeLegnth = 60; //@dev exspected loyalty legnth (optional can be modified by contract owner only )  24 hrs = 86400 seconds
 uint256 private _timeLegnth = timeLegnth;
