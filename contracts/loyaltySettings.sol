@@ -243,8 +243,6 @@ if ( _value >= loyaltyNeeded) {
   loyaltyTimestamp[msg.sender] = ProofOfLoyalty(_miner, true, _rewardApproved, _value, 0, 0,_multiplier,block.timestamp,timeLegnth+block.timestamp);
 }
 else {
-  currentMiners = currentMiners;
-  revert("User needs to approve contract to deposit tokens");
   return false;
      }
    }
