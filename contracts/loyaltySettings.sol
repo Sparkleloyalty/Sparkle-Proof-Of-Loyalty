@@ -151,9 +151,11 @@ if (block.timestamp > POL._rewardTime) {
   POL._rewardApproved = true;
   dailyCounter();
 }
+if (block.timestamp < POL._rewardTime) {
+ revert("Loyalty age not accepted");
+}
 else{
   return false;
-  revert("Loyalty age not accepted");
  }
 }
 
