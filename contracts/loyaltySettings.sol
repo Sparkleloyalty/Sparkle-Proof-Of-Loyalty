@@ -167,10 +167,12 @@ else{
 
 function dailyCounter () internal returns (uint256) {
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
-POL._loyaltyDays = (block.timestamp-POL._rewardTime)/timeLegnth;
+require (msg.sender == POL._miner,'miner address does not match sender address');
+if (msg.sender == POL._miner){
+   POL._loyaltyDays = (block.timestamp-POL._rewardTime)/timeLegnth;
+}
 if (POL._loyaltyDays < 1){
   POL._loyaltyDays = 0;
-  require (msg.sender == POL._miner,'miner address does not match sender address');
 }
 else{
   return POL._loyaltyDays;
