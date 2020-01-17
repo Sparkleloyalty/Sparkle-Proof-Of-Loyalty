@@ -222,8 +222,6 @@ if (msg.sender == POL._miner) {
   delete loyaltyTimestamp[msg.sender];
   delete POL._loyaltyNeeded;
   delete POL._rewardApproved;
-  //POL._loyaltyNeeded = _loyaltyNeeded;
-  //POL._rewardApproved = _rewardApproved;
 }
 else{
   return false;
