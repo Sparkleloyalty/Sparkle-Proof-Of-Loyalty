@@ -200,8 +200,6 @@ if (POL._rewardApproved = true){
   POL._rewardApproved = _rewardApproved;
 }
 else {
-  POL._rewardAmount = POL._rewardAmount;
-  revert("User has not deposited any tokens");
   return false;
  }
 }
