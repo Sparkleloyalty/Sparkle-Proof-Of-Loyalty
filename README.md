@@ -1,9 +1,9 @@
 # Sparkle-Proof-Of-Loyalty
 
-Proof of Loyalty smart contract built on ethereum (Note this Contract should be considered an example of a  basic framwork for token loyalty based on block.timestamp or block.number)
+Proof of Loyalty smart contract built on Ethereum (Note this Contract should be considered an example of a  basic framework for token loyalty based on block.timestamp or block.number)
 
 * Development environment: Truffle 
-* Testing Framework: Truffle (reccomended)  Remix (optional) 
+* Testing Framework: Truffle (recommended)  Remix (optional) 
 * Ethereum MainNet Contract: Currently not for production
 * Ethereum MaiNet Contract Link: Current not for production
 * Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xb954c94ed1e96be6cc55d0b62a4089f610d8afea#code)
@@ -63,7 +63,7 @@ To get started please see the [Quick Usage](#QuickUsage) section of this README.
 
 ### Proof of Loyalty *Cons/Issues* 
 
-Unknown storage growth over long periods of time with extremely large communities. Even tho the msg.senders strut mapping is deleted apon withdrawal, if the mapping exceeds 10000 addresses its hard to say the rewards values wouldn't be eaten by the gas cost to map over the array and execute the transaction. (this is why we recommend setting a required loyalty amount. Keep in mind to make this amount fair)
+Unknown storage growth over long periods of time with extremely large communities. Even tho the msg.senders strut mapping is deleted upon withdrawal, if the mapping exceeds 10000 addresses its hard to say the rewards values wouldn't be eaten by the gas cost to map over the array and execute the transaction. (this is why we recommend setting a required loyalty amount. Keep in mind to make this amount fair)
 One could assume due to a community actively trading this issue may not occur for a long period of time which a new contract can be redeployed. 
 
 ### Bug Bounty
