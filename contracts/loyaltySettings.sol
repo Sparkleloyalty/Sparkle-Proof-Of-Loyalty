@@ -17,6 +17,7 @@ bool private _loyaltyNeeded = false; //@dev set bool values false by default
 address public loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
 address public bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
 
+uint256 private _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
 uint256 private b = 1.50000000 * 10e7;
@@ -191,7 +192,7 @@ require (POL._loyaltyDays > 0,'User cannot claim loyalty reward twice in one day
 require (msg.sender == POL._miner,'miner address does not match sender address');
 require (POL._rewardApproved = true,"Users reward has not yet been approved");
 if (POL._loyaltyDays >= 1) {
-  POL._rewardAmount = ((POL._rewardAmount+((( 0.00082191 * 10e7)*POL._value)*POL._multiplier/10e7)*POL._loyaltyDays)/10e7) + POL._rewardAmount;
+  POL._rewardAmount = ((POL._rewardAmount+(( _basePercentage * POL._value)*POL._multiplier/10e7)*POL._loyaltyDays)/10e7) + POL._rewardAmount;
   POL._depositTime = block.timestamp;
   POL._rewardTime = timeLegnth+block.timestamp;
 }
