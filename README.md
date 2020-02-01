@@ -70,9 +70,13 @@ One could assume due to a community actively trading this issue may not occur fo
 
 Bug bounties are subject to approved pull request or users bugs found by interactions with our TestNet contract. Both will result in a bounty reward
 
+### Test File
 
-If you wish to join our team and contribute please join our [telegram](https://t.me/Sparklemobile) with your github username and ask our admins how to start earning rewards.
+Please add all bugs found with the appropriate test.js file alongside your purposed contract solutions.
 
+### Contributors
+
+If you wish to learn more about the project please join our [telegram](https://t.me/Sparklemobile) with your github username and ask our admins how to start earning rewards.
 
 
 
