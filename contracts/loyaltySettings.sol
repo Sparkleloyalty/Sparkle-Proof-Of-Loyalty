@@ -245,12 +245,12 @@ else{
 
 function depositLoyalty( address _miner,  uint256 _value) nonReentrant() external returns (bool LoyaltyAccepted){
 Sparkle token = Sparkle (0x9bb1E675CF9D585Cf615382959D74C337d50337F);
-token.transferFrom(msg.sender, this, _value);
 require(_value >= loyaltyNeeded,'User did not send the minimum loyalty amount');
 if ( _value >= loyaltyNeeded) {
   currentMiners += 1;
   LoyaltyList[currentMiners] = publicloyaltyList(_value,block.timestamp,timeLegnth+block.timestamp);
   loyaltyTimestamp[msg.sender] = ProofOfLoyalty(_miner, true, _rewardApproved, _value, 0, 0,_multiplier,block.timestamp,timeLegnth+block.timestamp);
+  token.transferFrom(msg.sender, this, _value);
 }
 else {
   return false;
