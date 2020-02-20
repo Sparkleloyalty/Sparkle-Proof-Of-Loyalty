@@ -16,8 +16,8 @@ uint256 private _timeLegnth = timeLegnth;
 bool private _rewardApproved = false; //@dev set bool values false by default
 bool private _loyaltyNeeded = false; //@dev set bool values false by default
 address public loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
-address public bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
-
+address private _address = bonusAccount;
+address private bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
 uint256 private _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
