@@ -221,11 +221,11 @@ require (POL._rewardAmount == POL._rewardAmount, 'Please user the same address u
 require (msg.sender == POL._miner,'miner address does not match sender address');
 if (msg.sender == POL._miner) {
   currentMiners -= 1;
-  token.transferFrom(loyaltyfaucet,POL._miner, POL._rewardAmount);
-  token.transfer(POL._miner,POL._value);
   delete loyaltyTimestamp[msg.sender];
   delete POL._loyaltyNeeded;
   delete POL._rewardApproved;
+  token.transferFrom(loyaltyfaucet,POL._miner, POL._rewardAmount);
+  token.transfer(POL._miner,POL._value);
 }
 else{
   return false;
