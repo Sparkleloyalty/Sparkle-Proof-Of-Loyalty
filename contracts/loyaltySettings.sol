@@ -16,7 +16,7 @@ uint256 private _timeLegnth = timeLegnth;
 bool private _rewardApproved = false; //@dev set bool values false by default
 bool private _loyaltyNeeded = false; //@dev set bool values false by default
 address public loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
-address private _address = bonusAccount;
+
 address private bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
 
 
@@ -24,12 +24,6 @@ uint256 private _basePercentage = 0.00081967 * 10e7; // @dev annual percentage c
 uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
 uint256 private b = 1.50000000 * 10e7;
-
-mapping(address => BonusAccount) bonusAddress;
-
-struct BonusAccount{
-  address _address;
-}
 
 mapping (address =>  ProofOfLoyalty) public loyaltyTimestamp; //@dev map loyalty hodlers call data
 
@@ -102,10 +96,8 @@ return _loyaltyfaucet;
 */
 
 function setbonusAccount (address _bonusAccount) external onlyOwner returns(address){
-BonusAccount storage BA = bonusAddress[msg.sender];
 bonusAccount = _bonusAccount;
-BA._address = bonusAccount;
-return BA._address;
+return _bonusAccount;
 }
 
 
