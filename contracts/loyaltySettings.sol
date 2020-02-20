@@ -18,8 +18,8 @@ bool private _loyaltyNeeded = false; //@dev set bool values false by default
 address public loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
 address private _address = bonusAccount;
 address private bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
-uint256 etherAmount1 = 0.15 ether; //@dev multiplier price for bouns 1
-uint256 etherAmount2 = 0.2 ether;  //@dev multiplier price for bouns 2
+
+
 uint256 private _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
@@ -115,8 +115,9 @@ return BA._address;
 
 function loyaltyBonus1() nonReentrant() external payable returns (bool multiplierAdded){
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
+uint256 etherAmount1 = 0.15 ether; //@dev multiplier price for bouns 1
 require (msg.sender == POL._miner,'miner address does not match sender address');
-require (msg.value >= 0.15 ether,'Please send the correct amount to enter loyalty bonus');
+require (msg.value >= etherAmount1,'Please send the correct amount to enter loyalty bonus');
 if (POL._miner == msg.sender){
   POL._multiplier = a;
   emit Transfer (this, bonusAccount, msg.value);
@@ -134,8 +135,9 @@ else{
 
 function loyaltyBonus2() nonReentrant() external payable returns (bool multiplierAdded){
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
+uint256 etherAmount2 = 0.2 ether;  //@dev multiplier price for bouns 2
 require (msg.sender == POL._miner,'miner address does not match sender address');
-require (msg.value >= 0.2 ether,'Please send the correct amount to enter loyalty bonus');
+require (msg.value >= etherAmount2,'Please send the correct amount to enter loyalty bonus');
 if (POL._miner == msg.sender){
   POL._multiplier = b;
   emit Transfer (this, bonusAccount, msg.value);
