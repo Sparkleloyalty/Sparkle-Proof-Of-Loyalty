@@ -113,7 +113,7 @@ require (msg.value >= etherAmount1,'Please send the correct amount to enter loya
 if (POL._miner == msg.sender){
   POL._multiplier = a;
   emit Transfer (this, bonusAccount, msg.value);
-  bonusAccount.transfer(etherAmount1);
+  address(this).transfer(etherAmount1);
 }
 else{
   return false;
@@ -133,7 +133,7 @@ require (msg.value >= etherAmount2,'Please send the correct amount to enter loya
 if (POL._miner == msg.sender){
   POL._multiplier = b;
   emit Transfer (this, bonusAccount, msg.value);
-  bonusAccount.transfer(etherAmount2);
+  address(this).transfer(etherAmount2);
  }
  else {
   return false;
