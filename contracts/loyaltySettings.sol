@@ -137,9 +137,9 @@ ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 require (msg.sender == POL._miner,'miner address does not match sender address');
 require (msg.value >= 0.2 ether,'Please send the correct amount to enter loyalty bonus');
 if (POL._miner == msg.sender){
-  bonusAccount.transfer(0.2 ether);
-  emit Transfer (this, bonusAccount, msg.value);
   POL._multiplier = b;
+  emit Transfer (this, bonusAccount, msg.value);
+  bonusAccount.transfer(etherAmount2);
  }
  else {
   return false;
