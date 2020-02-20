@@ -23,7 +23,7 @@ uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
 uint256 private b = 1.50000000 * 10e7;
 
-
+mapping(address => BonusAccount) bonusAddress;
 
 mapping (address =>  ProofOfLoyalty) public loyaltyTimestamp; //@dev map loyalty hodlers call data
 
