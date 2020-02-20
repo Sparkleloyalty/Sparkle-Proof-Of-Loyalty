@@ -25,6 +25,10 @@ uint256 private b = 1.50000000 * 10e7;
 
 mapping(address => BonusAccount) bonusAddress;
 
+struct BonusAccount{
+  address _address;
+}
+
 mapping (address =>  ProofOfLoyalty) public loyaltyTimestamp; //@dev map loyalty hodlers call data
 
 
