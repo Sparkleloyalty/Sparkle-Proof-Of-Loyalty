@@ -100,8 +100,10 @@ return _loyaltyfaucet;
 */
 
 function setbonusAccount (address _bonusAccount) external onlyOwner returns(address){
+BonusAccount storage BA = bonusAddress[msg.sender];
 bonusAccount = _bonusAccount;
-return _bonusAccount;
+BA._address = bonusAccount;
+return BA._address;
 }
 
 
