@@ -69,6 +69,9 @@ One could assume due to a community actively trading this issue may not occur fo
 Both the timestamp and the block hash can be influenced by miners to some degree. Bad actors in the mining community can for example run a casino payout function on a chosen hash and just retry a different hash if they did not receive any money.
 The current block timestamp must be strictly larger than the timestamp of the last block, but the only guarantee is that it will be somewhere between the timestamps of two consecutive blocks in the canonical chain.
 
+### Known Issues 
+ Known issues can be viewed publicly using pre audit reports compiled by [Chainsecurity](https://securify.chainsecurity.com/)
+
 ### Bug Bounty
 
 Bug bounties are subject to approved pull request or users bugs found by interactions with our TestNet contract. Both will result in a bounty reward
