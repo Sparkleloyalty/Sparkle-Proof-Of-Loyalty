@@ -192,7 +192,7 @@ require (POL._loyaltyDays > 0,'User cannot claim loyalty reward twice in one day
 require (msg.sender == POL._miner,'miner address does not match sender address');
 require (POL._rewardApproved = true,"Users reward has not yet been approved");
 if (POL._loyaltyDays >= 1) {
-  POL._rewardAmount = ((POL._rewardAmount+(( _basePercentage * POL._value)*POL._multiplier/10e7)*POL._loyaltyDays)/10e7) + POL._rewardAmount;
+  POL._rewardAmount = ((POL._rewardAmount+(( _basePercentage * POL._value)*POL._multiplier)*POL._loyaltyDays)/10e7)/10e7 + POL._rewardAmount;
   POL._depositTime = block.timestamp;
   POL._rewardTime = timeLegnth+block.timestamp;
 }
