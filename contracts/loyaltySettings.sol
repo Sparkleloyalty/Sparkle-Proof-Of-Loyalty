@@ -6,23 +6,26 @@ import './ReentrancyGuard.sol';
 
 
 contract loyaltySettings is Ownable, ReentrancyGuard{
+
 constructor() ReentrancyGuard() public {}
+
 using SafeMath for uint256;
-uint256 public currentMiners = 0;  // @dev a method to keep tract of current miners
+
+uint256 private currentMiners = 0;  // @dev a method to keep tract of current miners
 uint256 private loyaltyRequired = 1000 * (10**8); // @dev token amount required for loyalty contract (optional can be modified)
 uint256 private loyaltyNeeded = loyaltyRequired; // @dev modify required loyalty
-uint256 public timeLegnth = 60; //@dev exspected loyalty legnth (optional can be modified by contract owner only )  24 hrs = 86400 seconds
+uint256 private timeLegnth = 60; //@dev exspected loyalty legnth (optional can be modified by contract owner only )  24 hrs = 86400 seconds
 uint256 private _timeLegnth = timeLegnth;
 bool private _rewardApproved = false; //@dev set bool values false by default
 bool private _loyaltyNeeded = false; //@dev set bool values false by default
-address public loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
+address private loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
 address private bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
 uint256 private _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
 uint256 private b = 1.50000000 * 10e7;
 
-mapping (address =>  ProofOfLoyalty) public loyaltyTimestamp; //@dev map loyalty hodlers call data
+mapping (address =>  ProofOfLoyalty) private loyaltyTimestamp; //@dev map loyalty hodlers call data
 
 
 struct ProofOfLoyalty{
@@ -40,7 +43,7 @@ struct ProofOfLoyalty{
 }
 
 
-mapping (uint256 =>  publicloyaltyList ) public LoyaltyList;   // @dev mapping public loyalty list call data
+mapping (uint256 =>  publicloyaltyList ) private LoyaltyList;   // @dev mapping public loyalty list call data
 
 struct publicloyaltyList {
 
