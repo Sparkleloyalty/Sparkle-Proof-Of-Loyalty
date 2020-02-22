@@ -7,8 +7,6 @@ import './ReentrancyGuard.sol';
 
 contract loyaltySettings is Ownable, ReentrancyGuard{
 
-constructor() ReentrancyGuard() public {}
-
 using SafeMath for uint256;
 
 uint256 private currentMiners = 0;  // @dev a method to keep tract of current miners
@@ -19,11 +17,15 @@ uint256 private _timeLegnth = timeLegnth;
 bool private _rewardApproved = false; //@dev set bool values false by default
 bool private _loyaltyNeeded = false; //@dev set bool values false by default
 address private loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
+
 address private bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
+
 uint256 private _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
 uint256 private b = 1.50000000 * 10e7;
+
+constructor() ReentrancyGuard() public {}
 
 mapping (address =>  ProofOfLoyalty) private loyaltyTimestamp; //@dev map loyalty hodlers call data
 
@@ -39,17 +41,6 @@ struct ProofOfLoyalty{
    uint256 _multiplier;
    uint256 _depositTime;
    uint256 _rewardTime;
-
-}
-
-
-mapping (uint256 =>  publicloyaltyList ) private LoyaltyList;   // @dev mapping public loyalty list call data
-
-struct publicloyaltyList {
-
-  uint256 _value;
-  uint256 _depositTime;
-  uint256 _rewardTime;
 
 }
 
@@ -101,15 +92,16 @@ return _bonusAccount;
 }
 
 
+
 /**
 * @dev user can deposit 0.5 eth to activate loyalty _multiplier x1.25
 */
 
-function loyaltyBonus1() nonReentrant() external payable returns (bool multiplierAdded){
+function loyaltyBonus1() external nonReentrant() payable returns (bool multiplierAdded) {
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
-uint256 etherAmount1 = 0.15 ether; //@dev multiplier price for bouns 1
-require (msg.sender == POL._miner,'miner address does not match sender address');
-require (msg.value >= etherAmount1,'Please send the correct amount to enter loyalty bonus');
+  uint256 etherAmount1 = 0.15 ether;  //@dev multiplier price for bouns 1
+  require (msg.sender == POL._miner,'miner address does not match sender address');
+  require (msg.value >= etherAmount1,'Please send the correct amount to enter loyalty bonus');
 if (POL._miner == msg.sender){
   POL._multiplier = a;
   emit Transfer (this, bonusAccount, msg.value);
@@ -125,7 +117,7 @@ else{
 * @dev user can deposit 1 eth to activate loyalty _multiplier x1.50
 */
 
-function loyaltyBonus2() nonReentrant() external payable returns (bool multiplierAdded){
+function loyaltyBonus2() external nonReentrant() payable returns (bool multiplierAdded){
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256 etherAmount2 = 0.2 ether;  //@dev multiplier price for bouns 2
 require (msg.sender == POL._miner,'miner address does not match sender address');
@@ -146,7 +138,7 @@ if (POL._miner == msg.sender){
 * @dev A method for loyalty hodlers to verify block loyalty
 */
 
-function verifyBlockLoyalty() external returns (bool verified) {
+function verifyBlockLoyalty () external returns (bool verified) {
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 require(POL._loyaltyNeeded = true, 'User is not a loyalty holder');
 require(block.timestamp > POL._rewardTime,'Users reward has not yet been approved');
@@ -213,7 +205,7 @@ else {
 * for daily reward structure, user must deposit tokens in order to claim rewards
 */
 
-function withdrawLoyalty() nonReentrant() external returns (bool withdrawComplete){
+function withdrawLoyalty () external nonReentrant() returns (bool withdrawComplete){
 Sparkle token = Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 require (POL._value == POL._value, 'Please user the same address used for loyalty deposit');
@@ -237,16 +229,15 @@ else{
 * bi weekly reward structure, user must deposit tokens in order to claim rewards
 */
 
-function depositLoyalty( address _miner,  uint256 _value) nonReentrant() external returns (bool LoyaltyAccepted){
+function depositLoyalty( address _miner,  uint256 _value) external nonReentrant() returns (bool LoyaltyAccepted){
 Sparkle token = Sparkle (0x9bb1E675CF9D585Cf615382959D74C337d50337F);
+ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 require(_value >= loyaltyNeeded,'User did not send the minimum loyalty amount');
-require(msg.sender == _miner,'Senders address does not match the miner address');
 if ( _value >= loyaltyNeeded) {
-  uint256 _currentMiners = currentMiners;
-  _currentMiners += 1;
-  LoyaltyList[_currentMiners] = publicloyaltyList(_value,block.timestamp,timeLegnth+block.timestamp);
-  loyaltyTimestamp[msg.sender] = ProofOfLoyalty(_miner, true, _rewardApproved, _value, 0, 0,_multiplier,block.timestamp,timeLegnth+block.timestamp);
-  token.transferFrom(msg.sender, this, _value);
+uint256 _currentMiners = currentMiners;
+_currentMiners += 1;
+loyaltyTimestamp[msg.sender] = ProofOfLoyalty(_miner, true, _rewardApproved,POL._value+_value, 0, 0,_multiplier,block.timestamp,timeLegnth+block.timestamp);
+token.transferFrom(msg.sender, this, _value);
 }
 else {
   return false;
