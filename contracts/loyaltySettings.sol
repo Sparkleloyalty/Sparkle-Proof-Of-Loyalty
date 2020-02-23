@@ -15,9 +15,7 @@ uint256 private timeLegnth = 60; //@dev exspected loyalty legnth (optional can b
 uint256 private _timeLegnth = timeLegnth;
 bool private _rewardApproved = false; //@dev set bool values false by default
 address private loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
-
 address private bonusAccount;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
-
 uint256 private _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 private _multiplier = 1.0000000 * 10e7;
 uint256 private a = 1.25000000 * 10e7;
@@ -208,6 +206,7 @@ else {
 function withdrawLoyalty () external nonReentrant() returns (bool withdrawComplete){
 Sparkle token = Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
+require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
 require (POL._loyaltyNeeded == true, 'Please make a deposit before attempting a withdraw');
 require (POL._value == POL._value, 'Please user the same address used for loyalty deposit');
 require (POL._rewardAmount == POL._rewardAmount, 'Please use the same address used for loyalty deposit');
@@ -233,12 +232,13 @@ else{
 function depositLoyalty( address _miner,  uint256 _value) external nonReentrant() returns (bool LoyaltyAccepted){
 Sparkle token = Sparkle (0x9bb1E675CF9D585Cf615382959D74C337d50337F);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
-require (_value >= loyaltyNeeded,'User did not send the minimum loyalty amount');
+require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
+require(_value >= loyaltyNeeded,'User did not send the minimum loyalty amount');
 if ( _value >= loyaltyNeeded) {
-uint256 _currentMiners = currentMiners;
-_currentMiners += 1;
-loyaltyTimestamp[msg.sender] = ProofOfLoyalty(_miner, true, _rewardApproved,POL._value+_value, 0, 0,_multiplier,block.timestamp,_timeLegnth+block.timestamp);
-token.transferFrom(msg.sender, this, _value);
+  uint256 _currentMiners = currentMiners;
+  _currentMiners += 1;
+  loyaltyTimestamp[msg.sender] = ProofOfLoyalty(_miner, true, _rewardApproved,POL._value+_value, 0, 0,_multiplier,block.timestamp,_timeLegnth+block.timestamp);
+  token.transferFrom(msg.sender, this, _value);
 }
 else {
   return false;
