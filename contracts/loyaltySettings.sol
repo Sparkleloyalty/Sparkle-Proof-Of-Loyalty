@@ -1,10 +1,11 @@
 pragma solidity 0.4.25;
 
-import './SparkleToken.sol';
+import './ERC20.sol';
+import './Ownable.sol';
 import './ReentrancyGuard.sol';
 
 
-contract loyaltySettings is Ownable, ReentrancyGuard{
+contract loyaltySettings is Ownable, ReentrancyGuard, ERC20 {
 
 using SafeMath for uint256;
 
