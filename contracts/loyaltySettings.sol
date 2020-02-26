@@ -39,7 +39,7 @@ struct ProofOfLoyalty{
 mapping (address =>  storageDump) public timestampRemoved; //@dev map timestamp removal
 
 struct storageDump{
-    
+
    bool _timestampRemoved;
 }
 
@@ -63,7 +63,7 @@ function loyaltyBonus1() external nonReentrant() payable returns (bool multiplie
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256 a = 1.25000000 * 10e7;
 uint256 etherAmount1 = 0.15 ether;  //@dev multiplier price for bouns 1
-address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
+address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0;  //@dev main address to recieve ether
   require (bonusAccount == 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0,'bonusAccount address not accepted');
   require (msg.sender == POL._miner,'miner address does not match sender address');
   require (a == 1.25000000 * 10e7,'multiplier must not be tanpered with');
@@ -86,7 +86,7 @@ function loyaltyBonus2() external nonReentrant() payable returns (bool multiplie
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256 b = 1.50000000 * 10e7;
 uint256 etherAmount2 = 0.2 ether;  //@dev multiplier price for bouns 2
-address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0;  //@dev main address to recieve ether (for security reasons ether is forwarded externally)
+address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0;  //@dev main address to recieve ether
   require (bonusAccount == 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0,'bonusAccount address not accepted');
   require (msg.sender == POL._miner,'miner address does not match sender address');
   require (b == 1.50000000 * 10e7,'multiplier must not be tanpered with');
@@ -240,8 +240,8 @@ if ( _value >= loyaltyNeeded) {
   delete timestampRemoved[msg.sender];
   POL._miner = _miner;
   POL._loyaltyNeeded = true;
-  POL._rewardApproved = false; 
-  POL._value = POL._value + _value; 
+  POL._rewardApproved = false;
+  POL._value = POL._value + _value;
   POL._rewardAmount = 0;
   POL._loyaltyDays = 0;
   POL._multiplier = _multiplier;
@@ -250,7 +250,7 @@ if ( _value >= loyaltyNeeded) {
   token.transferFrom(msg.sender, this, _value);
 }
 else {
-  revert ('Unexspected error ');    
+  revert ('Unexspected error ');
   return false;
      }
    }
