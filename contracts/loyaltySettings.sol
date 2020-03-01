@@ -5,7 +5,7 @@ import './ReentrancyGuard.sol';
 import './SparkleToken.sol';
 
 
-contract loyaltySettings is Ownable, ReentrancyGuard, ERC20{
+contract loyaltySettings is Ownable, ReentrancyGuard, ERC20 {
 
 using SafeMath for uint256;
 
@@ -63,7 +63,7 @@ function loyaltyBonus1() external nonReentrant() payable returns (bool multiplie
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256 a = 1.25000000 * 10e7;
 uint256 etherAmount1 = 0.15 ether;  //@dev multiplier price for bouns 1
-address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0;  //@dev main address to recieve ether
+address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0; //@dev (for security ether is forwarded externally)
   require (bonusAccount == 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0,'bonusAccount address not accepted');
   require (msg.sender == POL._miner,'miner address does not match sender address');
   require (a == 1.25000000 * 10e7,'multiplier must not be tanpered with');
@@ -86,7 +86,7 @@ function loyaltyBonus2() external nonReentrant() payable returns (bool multiplie
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256 b = 1.50000000 * 10e7;
 uint256 etherAmount2 = 0.2 ether;  //@dev multiplier price for bouns 2
-address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0;  //@dev main address to recieve ether
+address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0; //@dev (for security ether is forwarded externally)
   require (bonusAccount == 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0,'bonusAccount address not accepted');
   require (msg.sender == POL._miner,'miner address does not match sender address');
   require (b == 1.50000000 * 10e7,'multiplier must not be tanpered with');
@@ -173,7 +173,7 @@ if (POL._loyaltyDays >= 1) {
 }
 if (POL._rewardApproved = true){
   POL._loyaltyDays = 0;
-  POL._rewardApproved = false;
+  delete POL._rewardApproved;
 }
 else {
   return false;
@@ -206,6 +206,7 @@ if (msg.sender == POL._miner) {
   SD._timestampRemoved = true;
 }
 if (SD._timestampRemoved == true) {
+require (SD._timestampRemoved == true,'timestamp must be removed before tokens can be withdrawn');
 token.transferFrom(loyaltyfaucet,_recipiant,_reward);
 token.transfer(_recipiant,_amount);
 }
@@ -216,7 +217,7 @@ else{
 
 /**
 * @dev depositloyalty allows users to deposit tokens and partisipate in POL
-* bi weekly reward structure, user must deposit tokens in order to claim rewards
+* daily reward structure, user must deposit tokens in order to claim rewards
 */
 
 function depositLoyalty( address _miner,  uint256 _value) external nonReentrant() returns (bool LoyaltyAccepted){
@@ -235,8 +236,7 @@ uint256 _timeLegnth = timeLegnth;
   require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
   require(_value >= loyaltyNeeded,'User did not send the minimum loyalty amount');
 if ( _value >= loyaltyNeeded) {
-  uint256 _currentMiners = currentMiners;
-  _currentMiners += 1;
+  currentMiners += 1;
   delete timestampRemoved[msg.sender];
   POL._miner = _miner;
   POL._loyaltyNeeded = true;
