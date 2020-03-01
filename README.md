@@ -87,7 +87,7 @@ It is possible to estimate a time delta using the block.number property and [ave
 See [SWC-116](https://swcregistry.io/docs/SWC-116)
 
 
-#### Security Measures In The Event of Malicious Actors 
+### Security Measures In The Event of Malicious Actors 
 
 #### Pause Contract
 * LoyaltySettings.sol can be paused by using the setFaucetAddress function to remove the declared faucet address. Note this will also prevent anyone from withdrawing tokens which were previously sent to the contract along with any expected rewards. 
