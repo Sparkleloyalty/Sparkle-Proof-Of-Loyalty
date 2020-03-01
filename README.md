@@ -4,7 +4,7 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 * Development environment: Truffle 
 * Testing Framework: Truffle (recommended) Remix (optional) 
-* Ethereum MaiNet Contract  [MainNet Link](): Currently not for production
+* Ethereum MainNet Contract  [MainNet Link](): Currently not for production
 * Ethereum MainNet Contract Address: Currently not for production
 * Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xb954c94ed1e96be6cc55d0b62a4089f610d8afea#code)
 * Ropsten TestNet Contract Address: 0xb954c94Ed1E96Be6cc55d0b62A4089f610d8aFEA
@@ -50,7 +50,7 @@ $ git clone https://github.com/YOURFORKEDPROJECT
 
 To get started please see the [Quick Usage](#QuickUsage) section of this README.
 
-### Considerations While Using block.timestamp
+### Security Considerations While Using block.timestamp
 
 There are three main considerations when using a timestamp to execute a critical function in a contract, especially when actions involve fund transfer.
 
@@ -72,7 +72,7 @@ function random(uint Max) constant private returns (uint256 result){
 }
 ```
 
-When a contract uses the timestamp to seed a random number, the miner can actually post a timestamp within 15 seconds of the block being validated, effectively allowing the miner to precompute an option more favorable to their chances in the lottery. Timestamps are not random and should not be used in that context. To 100% be clear block.timestamp should never be used as a source of randomness 
+When a contract uses the timestamp to seed a random number, the miner can actually post a timestamp within 15 seconds of the block being validated, effectively allowing the miner to precompute an option more favorable to their chances in the lottery. Timestamps are not random and should not be used in that context. To clear the consensus is block.timestamp should never be used as a source of randomness but rather a source of accuracy.
 
 #### 2.The 15-second Rule
 The [Yellow Paper](https://ethereum.github.io/yellowpaper/paper.pdf) (Ethereum's reference specification) does not specify a constraint on how much blocks can drift in time, but it does specify that each timestamp should be bigger than the timestamp of its parent. Popular Ethereum protocol implementations [Geth](https://github.com/ethereum/go-ethereum/blob/4e474c74dc2ac1d26b339c32064d0bac98775e77/consensus/ethash/consensus.go#L45) and [Parity](https://github.com/OpenEthereum/open-ethereum/blob/73db5dda8c0109bb6bc1392624875078f973be14/ethcore/src/verification/verification.rs#L296-L307) both reject blocks with timestamp more than 15 seconds in future. Therefore, a good rule of thumb in evaluating timestamp usage is:
@@ -87,6 +87,13 @@ It is possible to estimate a time delta using the block.number property and [ave
 See [SWC-116](https://swcregistry.io/docs/SWC-116)
 
 
+#### Security Measures In The Event of Malicious Actors 
+
+#### Pause Contract
+* LoyaltySettings.sol can be paused by using the setFaucetAddress function to remove the declared faucet address. Note this will also prevent anyone from withdrawing tokens which were previously sent to the contract along with any expected rewards. 
+
+#### Redeploy Contract
+* In the most extreme measures the contract owner can pause the contract then remove all tokens from the faucet address. After the contract has been successfully paused we can manually send tokens back to their respected owners and redeploy a new contract with the required changes that need to be done.    
 
 
 ### Proof Of Loyalty *Pros* 
@@ -105,9 +112,6 @@ See [SWC-116](https://swcregistry.io/docs/SWC-116)
 
 Unknown storage growth over long periods of time with extremely large communities. Even tho the msg.senders strut mapping is deleted upon withdrawal, if the mapping exceeds 10000 addresses its hard to say the rewards values wouldn't be eaten by the gas cost to map over the array and execute the transaction. (this is why we recommend setting a required loyalty amount. Keep in mind to make this amount fair)
 One could assume due to a community actively trading this issue may not occur for a long period of time which a new contract can be redeployed. 
-
-Both the timestamp and the block hash can be influenced by miners to some degree. Bad actors in the mining community can for example run a casino payout function on a chosen hash and just retry a different hash if they did not receive any money.
-The current block timestamp must be strictly larger than the timestamp of the last block, but the only guarantee is that it will be somewhere between the timestamps of two consecutive blocks in the canonical chain.
 
 ### Known Issues 
  Known issues can be viewed publicly using pre audit reports compiled by [Chainsecurity](https://securify.chainsecurity.com/)
