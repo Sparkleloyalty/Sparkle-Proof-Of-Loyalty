@@ -131,6 +131,6 @@ If you wish to learn more about the project please join our [telegram](https://t
 
 
 ### Sources
-[The-15-second-rule](https://consensys.github.io/smart-contract-best-practices/recommendations/#the-15-second-rule)
-[SWCregistry ](https://swcregistry.io/)
-[Build Highly Secure, Decentralized Application](https://books.google.ca/books/about/Advanced_Blockchain_Development.html?id=lOiZDwAAQBAJ&printsec=frontcover&source=kp_read_button&redir_esc=y#v=twopage&q&f=false)
+* [The-15-second-rule](https://consensys.github.io/smart-contract-best-practices/recommendations/#the-15-second-rule)
+* [SWCregistry ](https://swcregistry.io/)
+* [Build Highly Secure, Decentralized Application](https://books.google.ca/books/about/Advanced_Blockchain_Development.html?id=lOiZDwAAQBAJ&printsec=frontcover&source=kp_read_button&redir_esc=y#v=twopage&q&f=false)
