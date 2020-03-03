@@ -207,8 +207,8 @@ if (msg.sender == POL._miner) {
 }
 if (SD._timestampRemoved == true) {
 require (SD._timestampRemoved == true,'timestamp must be removed before tokens can be withdrawn');
-token.transferFrom(loyaltyfaucet,_recipiant,_reward);
-token.transfer(_recipiant,_amount);
+token.transferFrom(address(loyaltyfaucet),address(_recipiant),_reward);
+token.transfer(address(_recipiant),_amount);
 }
 else{
   return false;
@@ -247,7 +247,7 @@ if ( _value >= loyaltyNeeded) {
   POL._multiplier = _multiplier;
   POL._depositTime = block.timestamp;
   POL._rewardTime = _timeLegnth+block.timestamp;
-  token.transferFrom(msg.sender, this, _value);
+  token.transferFrom(address(msg.sender), address(this), _value);
 }
 else {
   revert ('Unexspected error ');
