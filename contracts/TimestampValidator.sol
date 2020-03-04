@@ -1,8 +1,9 @@
 pragma solidity 0.4.25;
 
+import './ReentrancyGuard.sol';
 import './SparkleToken.sol';
 
-contract VerifyTime is Ownable{
+contract VerifyTime is Ownable, ReentrancyGuard{
 
 using SafeMath for uint256;
 
@@ -11,6 +12,7 @@ address private contractAddress;
 
 constructor()
 Ownable()
+ReentrancyGuard()
 public{}
 
 mapping (address => mapping (address =>  ProofOfTime)) public checkTimestamp; //@dev map loyalty hodlers call data
@@ -33,7 +35,7 @@ return contractAddress;
 }
 
 
-function setTimestamp(address _miner) external returns (bool) {
+function setTimestamp(address _miner) external nonReentrant() returns (bool) {
 
 ProofOfTime storage POT = checkTimestamp[msg.sender][address(_miner)];
 uint256 verifyTimeLegnth = 60;
@@ -60,7 +62,7 @@ return false;
  }
 }
 
-function checkTimestamp (address _miner) external returns (bool ){
+function checkTimestamp (address _miner) external nonReentrant() returns (bool ){
 ProofOfTime storage POT = checkTimestamp[address(msg.sender)][address(_miner)];
 uint256 verifyTimeLegnth = 60;
 address contractCheck = address(msg.sender);
@@ -80,7 +82,7 @@ return false;
  }
 }
 
-function resetTimestamp (address _miner) external returns (bool) {
+function resetTimestamp (address _miner) external nonReentrant() returns (bool) {
 ProofOfTime storage POT = checkTimestamp[address(msg.sender)][address(_miner)];
 uint256 verifyTimeLegnth = 60;
 address contractCheck = address(msg.sender);
@@ -104,7 +106,7 @@ return false;
  }
 }
 
-function removeTimestamp (address _miner) external returns (bool){
+function removeTimestamp (address _miner) external nonReentrant() returns (bool){
 ProofOfTime storage POT = checkTimestamp[address(msg.sender)][address(_miner)];
 address contractCheck = address(msg.sender);
 require (POT._contractCheck == contractAddress, 'contract address do not match');
