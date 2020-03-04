@@ -1,0 +1,194 @@
+@startuml
+
+' -- classes --
+
+
+interface IERC20 {
+    ' -- inheritance --
+
+    ' -- usingFor --
+
+    ' -- vars --
+
+    ' -- methods --
+	+🔍totalSupply()
+	+🔍balanceOf()
+	+🔍allowance()
+	+transfer()
+	+approve()
+	+transferFrom()
+
+}
+
+
+abstract SafeMath {
+    ' -- inheritance --
+
+    ' -- usingFor --
+
+    ' -- vars --
+
+    ' -- methods --
+	#🔍mul()
+	#🔍div()
+	#🔍sub()
+	#🔍add()
+	#🔍mod()
+
+}
+
+
+class ERC20 {
+    ' -- inheritance --
+	{abstract}IERC20
+
+    ' -- usingFor --
+	{abstract}📚SafeMath for [[uint256]]
+
+    ' -- vars --
+	-[[mapping address=>uint256 ]] _balances
+	-[[mapping address=>mapping address=>uint256  ]] _allowed
+	-[[uint256]] _totalSupply
+
+    ' -- methods --
+	+🔍totalSupply()
+	+🔍balanceOf()
+	+🔍allowance()
+	+transfer()
+	+approve()
+	+transferFrom()
+	+increaseAllowance()
+	+decreaseAllowance()
+	#_transfer()
+	#_mint()
+	#_burn()
+	#_burnFrom()
+
+}
+
+
+class ERC20Detailed {
+    ' -- inheritance --
+	{abstract}IERC20
+
+    ' -- usingFor --
+
+    ' -- vars --
+	-[[string]] _name
+	-[[string]] _symbol
+	-[[uint8]] _decimals
+
+    ' -- methods --
+	+**__constructor__**()
+	+🔍name()
+	+🔍symbol()
+	+🔍decimals()
+
+}
+
+
+class Ownable {
+    ' -- inheritance --
+
+    ' -- usingFor --
+
+    ' -- vars --
+	-[[address]] _owner
+
+    ' -- methods --
+	#**__constructor__**()
+	+🔍owner()
+	+🔍isOwner()
+	+renounceOwnership()
+	+transferOwnership()
+	#_transferOwnership()
+
+}
+
+
+class Sparkle {
+    ' -- inheritance --
+	{abstract}Ownable
+	{abstract}ERC20
+	{abstract}ERC20Detailed
+
+    ' -- usingFor --
+
+    ' -- vars --
+	+[[string]] _tokenName
+	+[[string]] _tokenSymbol
+	+[[uint8]] _tokenDecimals
+	+[[uint256]] _tokenMaxSupply
+
+    ' -- methods --
+	+**__constructor__**()
+
+}
+
+
+class VerifyTime {
+    ' -- inheritance --
+	{abstract}Ownable
+	{abstract}ReentrancyGuard
+
+    ' -- usingFor --
+	{abstract}📚SafeMath for [[uint256]]
+
+    ' -- vars --
+	-[[address]] contractAddress
+	+[[mapping address=>mapping address=>ProofOfTime  ]] checkTimestamp
+
+    ' -- methods --
+	+**__constructor__**()
+	+setContractAddress()
+	+setTimestamp()
+	+checkTimestamp()
+	+resetTimestamp()
+	+removeTimestamp()
+
+}
+
+
+class loyaltySettings {
+    ' -- inheritance --
+	{abstract}Ownable
+	{abstract}ReentrancyGuard
+	{abstract}ERC20
+
+    ' -- usingFor --
+	{abstract}📚SafeMath for [[uint256]]
+
+    ' -- vars --
+	+[[uint256]] currentMiners
+	-[[address]] loyaltyfaucet
+	+[[mapping address=>ProofOfLoyalty ]] loyaltyTimestamp
+	+[[mapping address=>storageDump ]] timestampRemoved
+
+    ' -- methods --
+	+**__constructor__**()
+	+setfaucetAddress()
+	+💰loyaltyBonus1()
+	+💰loyaltyBonus2()
+	+verifyBlockLoyalty()
+	#dailyCounter()
+	+claimReward()
+	+withdrawLoyalty()
+	+depositLoyalty()
+
+}
+' -- inheritance / usingFor --
+ERC20 --[#DarkGoldenRod]|> IERC20
+ERC20 ..[#DarkOliveGreen]|> SafeMath : //for uint256//
+ERC20Detailed --[#DarkGoldenRod]|> IERC20
+Sparkle --[#DarkGoldenRod]|> Ownable
+Sparkle --[#DarkGoldenRod]|> ERC20
+Sparkle --[#DarkGoldenRod]|> ERC20Detailed
+VerifyTime --[#DarkGoldenRod]|> Ownable
+VerifyTime --[#DarkGoldenRod]|> ReentrancyGuard
+VerifyTime ..[#DarkOliveGreen]|> SafeMath : //for uint256//
+loyaltySettings --[#DarkGoldenRod]|> Ownable
+loyaltySettings --[#DarkGoldenRod]|> ReentrancyGuard
+loyaltySettings --[#DarkGoldenRod]|> ERC20
+loyaltySettings ..[#DarkOliveGreen]|> SafeMath : //for uint256//
+
+@enduml
