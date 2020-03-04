@@ -3,6 +3,7 @@ pragma solidity 0.4.25;
 
 import './ReentrancyGuard.sol';
 import './SparkleToken.sol';
+import './VerifyTimestamp.sol';
 
 
 contract loyaltySettings is Ownable, ReentrancyGuard, ERC20 {
@@ -10,7 +11,7 @@ contract loyaltySettings is Ownable, ReentrancyGuard, ERC20 {
 using SafeMath for uint256;
 
 uint256 public currentMiners = 0;  // @dev a method to keep tract of current miners
-address public loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
+address private loyaltyfaucet; //@dev main token faucet address (for security reasons tokens are stored externally)
 
 
 constructor()
@@ -22,7 +23,7 @@ public {}
 mapping (address =>  ProofOfLoyalty) public loyaltyTimestamp; //@dev map loyalty hodlers call data
 
 
-struct ProofOfLoyalty{
+struct ProofOfLoyalty {
 
    address _miner;
    bool    _loyaltyNeeded;
@@ -38,10 +39,11 @@ struct ProofOfLoyalty{
 
 mapping (address =>  storageDump) public timestampRemoved; //@dev map timestamp removal
 
-struct storageDump{
+struct storageDump {
 
-   bool _timestampRemoved;
+  bool _timestampRemoved;
 }
+
 
 /**
 * @dev Contract owner sets ProofOfLoyalty token faucet address
@@ -71,9 +73,8 @@ address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0; //@dev (for s
 if (POL._miner == msg.sender){
   POL._multiplier = a;
   address(bonusAccount).transfer(etherAmount1);
-}
-else{
-  return false;
+} else{
+return false;
  }
 }
 
@@ -94,9 +95,8 @@ address bonusAccount = 0x0925f5c56A59f0A4B5F8Ae4812b68bBdB8CC7Ad0; //@dev (for s
 if (POL._miner == msg.sender){
   POL._multiplier = b;
   address(bonusAccount).transfer(etherAmount2);
- }
- else {
-  return false;
+ } else {
+return false;
  }
 }
 
@@ -107,19 +107,21 @@ if (POL._miner == msg.sender){
 */
 
 function verifyBlockLoyalty () external returns (bool verified) {
+VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
+  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require(POL._loyaltyNeeded == true, 'User is not a loyalty holder');
   require(block.timestamp > POL._rewardTime,'Users reward has not yet been approved');
   require(msg.sender == POL._miner,'Users has not deposited tokens');
 if (block.timestamp > POL._rewardTime) {
   POL._rewardApproved = true;
   dailyCounter();
+  time.checkTimestamp(POL._miner);
 }
 if (block.timestamp < POL._rewardTime) {
   revert("Loyalty age not accepted");
-}
-else{
-  return false;
+} else{
+return false;
  }
 }
 
@@ -142,9 +144,8 @@ if (msg.sender == POL._miner){
 }
 if (POL._loyaltyDays < 1){
   POL._loyaltyDays = 0;
-}
-else{
-  return POL._loyaltyDays;
+} else {
+return POL._loyaltyDays;
  }
 }
 
@@ -154,10 +155,12 @@ else{
 */
 
 function claimReward () external returns (bool transferComplete) {
+VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256  _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 timeLegnth = 60; //@dev exspected loyalty legnth (optional can be modified by contract owner only )  24 hrs = 86400 seconds
 uint256 _timeLegnth = timeLegnth;
+  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require (timeLegnth == 60, 'loyalty timeLegnths do not match');
   require (_timeLegnth == timeLegnth, 'loyalty timeLegnths do not match');
   require (_basePercentage == 0.00081967 * 10e7,'Base percentage is not allowed to be changed');
@@ -169,14 +172,14 @@ uint256 _timeLegnth = timeLegnth;
 if (POL._loyaltyDays >= 1) {
   POL._rewardAmount = ((POL._rewardAmount+(( _basePercentage * POL._value)*POL._multiplier)*POL._loyaltyDays)/10e7)/10e7 + POL._rewardAmount;
   POL._depositTime = block.timestamp;
-  POL._rewardTime = _timeLegnth+block.timestamp;
+  POL._rewardTime = POL._depositTime.add(_timeLegnth);
 }
 if (POL._rewardApproved = true){
   POL._loyaltyDays = 0;
   delete POL._rewardApproved;
-}
-else {
-  return false;
+  time.resetTimestamp(POL._miner);
+} else {
+return false;
  }
 }
 
@@ -187,11 +190,13 @@ else {
 
 function withdrawLoyalty () external nonReentrant() returns (bool withdrawComplete){
 Sparkle token = Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F);
+VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 address _recipiant = POL._miner;
 uint256 _amount = POL._value;
 uint256 _reward = POL._rewardAmount;
   require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
+  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require (POL._loyaltyNeeded == true, 'Please make a deposit before attempting a withdraw');
   require (POL._value == POL._value, 'Please user the same address used for loyalty deposit');
   require (POL._rewardAmount == POL._rewardAmount, 'Please use the same address used for loyalty deposit');
@@ -207,11 +212,11 @@ if (msg.sender == POL._miner) {
 }
 if (SD._timestampRemoved == true) {
 require (SD._timestampRemoved == true,'timestamp must be removed before tokens can be withdrawn');
+time.removeTimestamp(_recipiant);
 token.transferFrom(address(loyaltyfaucet),address(_recipiant),_reward);
 token.transfer(address(_recipiant),_amount);
-}
-else{
-  return false;
+} else{
+return false;
  }
 }
 
@@ -222,36 +227,39 @@ else{
 
 function depositLoyalty( address _miner,  uint256 _value) external nonReentrant() returns (bool LoyaltyAccepted){
 Sparkle token = Sparkle (0x9bb1E675CF9D585Cf615382959D74C337d50337F);
+VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256 _multiplier = 1.0000000 * 10e7;
 uint256 loyaltyRequired = 1000 * (10**8); // @dev token amount required for loyalty contract (optional can be modified)
 uint256 loyaltyNeeded = loyaltyRequired; // @dev modify required loyalty
 uint256 timeLegnth = 60; //@dev exspected loyalty legnth (optional can be modified by contract owner only )  24 hrs = 86400 seconds
 uint256 _timeLegnth = timeLegnth;
+uint256 _amount = _value;
+  require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
+  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require (timeLegnth == 60, 'loyalty timeLegnths do not match');
   require (_timeLegnth == timeLegnth, 'loyalty timeLegnths do not match');
   require (_multiplier == 1.0000000 * 10e7,'multiplier must not be tampered with');
   require(loyaltyRequired == 1000 * (10**8),'User did not send the minimum loyalty amount');
   require(loyaltyRequired == loyaltyNeeded,'User did not send the minimum loyalty amount');
-  require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
-  require(_value >= loyaltyNeeded,'User did not send the minimum loyalty amount');
-if ( _value >= loyaltyNeeded) {
+  require(_amount >= loyaltyNeeded,'User did not send the minimum loyalty amount');
+if ( _amount >= loyaltyNeeded) {
   currentMiners += 1;
   delete timestampRemoved[msg.sender];
   POL._miner = _miner;
   POL._loyaltyNeeded = true;
   POL._rewardApproved = false;
-  POL._value = POL._value + _value;
+  POL._value = POL._value + _amount;
   POL._rewardAmount = 0;
   POL._loyaltyDays = 0;
   POL._multiplier = _multiplier;
   POL._depositTime = block.timestamp;
-  POL._rewardTime = _timeLegnth+block.timestamp;
-  token.transferFrom(address(msg.sender), address(this), _value);
-}
-else {
-  revert ('Unexspected error ');
-  return false;
+  POL._rewardTime = POL._depositTime.add(_timeLegnth);
+time.setTimestamp(msg.sender);
+token.transferFrom(address(msg.sender), address(this), _value);
+} else {
+revert ('Unexspected error ');
+return false;
      }
    }
 }
