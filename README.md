@@ -12,19 +12,9 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 | ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
 | --- |
 
-### Definitions
+### Definition
 
-**Loyalty** - The quality or state or an instance of being loyal.
-
-**Devotion** - Love, loyalty, or enthusiasm for a person, activity, or cause.
-
-**State** - The particular condition that someone or something is in at a specific time.
-
-**Instance** - An example or single occurrence of something.
-
-**Synonyms for Loyalty** - FIDELITY, ALLEGIANCE, FEALTY, LOYALTY, DEVOTION, PIETY mean faithfulness to something to which one is bound by pledge or duty. FIDELITY implies strict and continuing faithfulness to an obligation, trust, or duty.
-
-**Proof Of loyalty** - To deter denial-of-service attacks and other service abuses by requiring the *devotion* of a *state* through an *instance* of being *loyal* for a predetermined period represented in *Unix time*.
+**Proof Of loyalty** - is an alternative consensus mechanism or series of smart contracts that can deter unknown service abuse by requiring an unchanged state or particular condition for a predetermined period.
 
 
 ### Sparkle Token Information 
