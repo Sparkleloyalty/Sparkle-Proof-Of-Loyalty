@@ -1,6 +1,6 @@
-# Sparkle-Proof-Of-Loyalty
+# Sparkle Proof Of Loyalty
 
-Proof of Loyalty smart contract built on Ethereum (Note this Contract should be considered an example of a basic framework for token loyalty based on block.timestamp)
+Proof of Loyalty smart contract built on Ethereum (Note this Contract should be considered an example of a basic framework for token loyalty based on block.timestamp). This contracts should be considered compatible with any [ERC-20 Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md). 
 
 * Development environment: Truffle 
 * Testing Framework: Truffle (recommended) Remix (optional) 
@@ -12,9 +12,26 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 | ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
 | --- |
 
+#### Definition
+
+**Loyalty** - The quality or state or an instance of being loyal.
+
+**Devotion** - Love, loyalty, or enthusiasm for a person, activity, or cause.
+
+**State** - The particular condition that someone or something is in at a specific time.
+
+**Instance** - An example or single occurrence of something.
+
+**Synonyms for Loyalty** - FIDELITY, ALLEGIANCE, FEALTY, LOYALTY, DEVOTION, PIETY mean faithfulness to something to which one is bound by pledge or duty. FIDELITY implies strict and continuing faithfulness to an obligation, trust, or duty.
+
+**Proof Of loyalty** - To deter denial-of-service attacks and other service abuses by requiring the *devotion* of a *state* through an *instance* of being *loyal* for a predetermined period represented in *Unix time*.
+
+
 ### Sparkle Token Information 
 
-**Note** *This token was developed to produce very finite supply similar to bitcon their will never be more than 70 million sparkle mined or in circulation*
+Sparkle (SPRKL) is a decentralized permissionless network, which means that no central entity has the authority to edit the ledger, shut down the chain, or change its protocols. Sparkle’s main use case act’s a digital asset that can be transferred, traded, bought and sold. Sparkle was built using [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) a library for secure smart contract development.
+
+**Note** This token was developed to produce very finite supply similar to Bitcoin their will never be more than 70 million sparkle mined or in circulation
 
 | **Field**          | **Type** | **value**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
@@ -30,7 +47,9 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Loyalty Information 
 
-**Note** *All rewards are distributed on a first com first serve basis, keep in mind Sparkles limited supply*
+This section can be used by developers as a glossary for variable definitions defined in [LoyaltySettings.sol](https://github.com/JonahGlasgow/Sparkle-Proof-Of-Loyalty/blob/document-updates-2/contracts/loyaltySettings.sol) for developer support or any additional questions about Proof Of Loyalty before contributing please join our [telegram](https://t.me/Sparklemobile).
+
+**Note** All rewards are distributed on a first com first serve basis, keep in mind Sparkles limited supply
 
 | **Field**       | **Type** | **Description**                                              |
 | :------------ | :-------- | :------------------------------------------------------------ |
@@ -47,6 +66,8 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Loyalty Reward Structure 
 
+This section should be used as a guide when entering Sparkle's Proof Of Loyalty reward system. The user acknowledges that potential risks or lost of tokens may occur with any use of the Sparkle Loyalty Platform and ETH and expressly agrees not to hold liable Sparkle Mobile Inc. or the Ethereum Team should any foreseen or unforeseen event occurs.  
+
 **Unix time** is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
 
 **Daily percentage** can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256.
@@ -54,7 +75,7 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 | **Field**          | **Type** | **Price**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
 | Minimum loyalty needed      | uint256  | 1000 SPRKL |
-| Maximum loyalty needed      | uint256  | N/a **Note** *Currently no limit set*|
+| Maximum loyalty needed      | uint256  | N/a |
 | Annual reward percentage    | uint256  | 30%  |
 | Daily reward percentage     | uint256  | 0.00081967 = 30% / (365+1) |
 | Minimum loyalty time length | uint256  | 86400 seconds |
