@@ -1,6 +1,6 @@
-# Sparkle-Proof-Of-Loyalty
+# Sparkle Proof Of Loyalty
 
-Proof of Loyalty smart contract built on Ethereum (Note this Contract should be considered an example of a basic framework for token loyalty based on block.timestamp)
+Proof of Loyalty smart contract built on Ethereum (Note this Contract should be considered an example of a basic framework for token loyalty based on block.timestamp). This contracts should be considered compatible with any [ERC-20 Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md). 
 
 * Development environment: Truffle 
 * Testing Framework: Truffle (recommended) Remix (optional) 
@@ -9,15 +9,101 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 * Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xb954c94ed1e96be6cc55d0b62a4089f610d8afea#code)
 * Ropsten TestNet Contract Address: 0xb954c94Ed1E96Be6cc55d0b62A4089f610d8aFEA
 
+| ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
+| --- |
+
+### Definitions
+
+**Loyalty** - The quality or state or an instance of being loyal.
+
+**Devotion** - Love, loyalty, or enthusiasm for a person, activity, or cause.
+
+**State** - The particular condition that someone or something is in at a specific time.
+
+**Instance** - An example or single occurrence of something.
+
+**Synonyms for Loyalty** - FIDELITY, ALLEGIANCE, FEALTY, LOYALTY, DEVOTION, PIETY mean faithfulness to something to which one is bound by pledge or duty. FIDELITY implies strict and continuing faithfulness to an obligation, trust, or duty.
+
+**Proof Of loyalty** - To deter denial-of-service attacks and other service abuses by requiring the *devotion* of a *state* through an *instance* of being *loyal* for a predetermined period represented in *Unix time*.
+
+
+### Sparkle Token Information 
+
+Sparkle (SPRKL) is a decentralized permissionless network, which means that no central entity has the authority to edit the ledger, shut down the chain, or change its protocols. Sparkle’s main use case act’s a digital asset that can be transferred, traded, bought and sold. Sparkle was built using [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) a library for secure smart contract development.
+
+**Note** This token was developed to produce very finite supply similar to Bitcoin their will never be more than 70 million sparkle mined or in circulation
+
+| **Field**          | **Type** | **value**                                              |
+| :--------------- | :-------- | :------------------------------------------------------ |
+| Name               | string   | Sparkle |
+| Symbol             | string   | SPRKL |
+| Total Supply       | uint256  | 70,000,000 |
+| Loyalty Supply     | uint256  | 35,000,000 |
+| Treasury Supply    | uint256  | 30,000,000 |
+| AirDrop Supply     | uint256  | 5,000,000 |
+| Circulating Supply | uint256  | 2,347,450|
+| Mintable           | Boolean  | False |
+
+
+### Loyalty Information 
+
+This section can be used by developers as a glossary for variable definitions defined in [LoyaltySettings.sol](https://github.com/JonahGlasgow/Sparkle-Proof-Of-Loyalty/blob/document-updates-2/contracts/loyaltySettings.sol) for developer support or any additional questions about Proof Of Loyalty before contributing please join our [telegram](https://t.me/Sparklemobile).
+
+**Note** All rewards are distributed on a first com first serve basis, keep in mind Sparkles limited supply
+
+| **Field**       | **Type** | **Description**                                              |
+| :------------ | :-------- | :------------------------------------------------------------ |
+| _miner          | address  | The address who owns and deposits Sparkle tokens |
+| _value          | uint256  | The amount sent to the loyalty contract |
+| _loyaltyNeeded  | Boolean  | The minimum amount needed to enter into a loyalty lifecycle |
+| _loyaltyDays    | uint256  | The amount of day since your initial deposit or previous reward date |
+| _multiplier     | uint256  | The uint used to calculate a multiplier bonus which can be added to any miners daily rewards lifecycle |
+| _timeLength     | uint256  | The minimum amount of time required before a loyalty reward can be calculated |
+| _depositTime    | uint256  | The recorded time of a miners deposit date |
+| _rewardTime     | uint256  | The minimum amount of time a miner must wait before claiming rewards |
+| _rewardApproved | Boolean  | A statement used to validate a miners has correctly calculated his loyalty days and is now ready to calculate their reward amount|
+| _rewardAmount   | uint256  | The amount calculated after a miners reward has been approved and before the final bonus multiplier calculation  |
+
+### Loyalty Reward Structure 
+
+This section should be used as a guide when entering Sparkle's Proof Of Loyalty reward system. The user acknowledges that potential risks or lost of tokens may occur with any use of the Sparkle Loyalty Platform and ETH and expressly agrees not to hold liable Sparkle Mobile Inc. or the Ethereum Team should any foreseen or unforeseen event occurs.  
+
+**Unix time** is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
+
+**Daily percentage** can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256.
+
+| **Field**          | **Type** | **Price**                                              |
+| :--------------- | :-------- | :------------------------------------------------------ |
+| Minimum loyalty needed      | uint256  | 1000 SPRKL |
+| Maximum loyalty needed      | uint256  | N/a |
+| Annual reward percentage    | uint256  | 30%  |
+| Daily reward percentage     | uint256  | 0.00081967 = 30% / (365+1) |
+| Minimum loyalty time length | uint256  | 86400 seconds |
+| Minimum loyalty days        | uint256  | 1 day = 86400 seconds |
+| Maximum loyalty days        | uint256  | 365 days |
+| Standard bonus multiplier   | uint256  | 1.00000000 * 10e7 |
+| Upgraded bonus multiplier 1 | uint256  | 1.25000000 * 10e7 |
+| Upgraded bonus multiplier 2 | uint256  | 1.50000000 * 10e7 |
+
+
+
+### Daily Bonus Multiplier
+
+Adding a **Bonus multiplier** will boost your daily rewards by up to 1.50x
+
+| **Field**          | **Type** | **Price**                                              |
+| :--------------- | :-------- | :------------------------------------------------------ |
+| Standard bonus multiplier   | uint256  | Free |
+| Upgraded bonus multiplier 1 | uint256  | 0.15 Ether |
+| Upgraded bonus multiplier 2 | uint256  | 0.20 Ether |
+
+
 ### Basic (UML) Diagram For Textual Description
 
 The Unified Modeling Language [(UML)](https://plantuml.com/) is a general-purpose, developmental, modeling language which quickly helps developers visualize their software designs. Please note this diagram is subject to change with on going development and should be interpreted as a preliminary example of a basic Proof of Loyalty lifecycle. 
 
 <img src= "https://plantuml-server.kkeisuke.app/png/nLVDRkCs43vRJq70XxO9RBS1MXG1ThiRfxieqFmWBden38EMHZ5h_WWaPLT8zn5wsUsfbxn27osFq27rOygHlSqYY_fWaD_yS6Q-uKXwPIpLDXSy-e8C1YHLcj3Sge46cO0cJAASyrEoj3OpfwEHe7e5DkCqXk6QcPnoO_E4gM6in8XP4EO7ztz91Rpu3HOBCqHTkJr0PPOfQN0PHP5PCPbHJGNHAfT9hBJ4Cq--9g4evjGOSXVrpcYyklMAOyKnpclAuQq6a2XI6gCjuKcccRmj1Uy2FyQ21cMB3CQxdiu1icicLr4PepyHgXYPHBiKqoK__NWpnjZk8e8_hyZa4ZIpLABKAJU2t608Rz1p2rrJRTg80BjKYGTxnm_tV_rf5PPxacSPBxxygi8MbBiJhj86GKRKnc4UiPfAauBs6vfbMgtRWZTQ2GIm6kv75mO5iIKJci85jSlFbb7VnIfoxeBnwuIjcxN95ysQ9acp5YgfOosP_rZLUtTrHkzAXlP47UWzt7_ukydUjVnqcYFF9zz-DvjrPDSRJAS22uk-28QgmPWNBoi3CfkHUSMGwTRSQ-fjFPUGUDCc238F6k7_wfVUCPEn1chWTSi-WGwqFm_TzkS2KobNYrpBxIhinO3VSx2KSKYUWUTk_j0ILLnb9Owc7SWKOg5uGy7t3iCicS3fjg_wHqVpUOoJpEeyjahFvqT7JRtT4SscTDviQx_j8bnj95rmU8Qhw9AeEisbeJOuKlVTpqCvUCDcnynLiyT70uvER327c2NBMitJGhTT4S91tXESpQk3UGUqLqKAeR8HTe6wc_vxqOx3Th1g1VBIjybZV5Brod7GArvmNZTCBMfkCWelwE-7BtCt5K6bViMYfCKlJ7nwiMxmaUZuY8ktETN9PvcJszR3RBoNroNYo_BnsNYjbKglKf-dcu_n4kALs-5xYCYUUXaDs74xZ1fkN7gWVKhLvO-qD0WSbI4MyCDLGRaj9c0j9cIUZQH7pVxihBNQDSurtczxmTnrtM6qIZ6bUGoscy-AlfzBJR8rsbBOQMUGDNeBvxd8d96jjMzyoPDFuBsCCcJzuVxzFrKqPqhcvfjEzCIZQt_RphYALrKkVfmbE5QACKu_Myr2v9w96zWWKtw_ONQPQBe9ZF1vcId3x1R2hddK5wCMc-Kxps0mxL_ITJ7xusNryba9XiDfltvdTSA6xLCo6ZaN5P-ZKTH-kdPuh2TmAAhRiakstwezUeDvrULwZtYt-mEr9oIzUnUx0ZYainl58Tso7hiQJmWsUeMVMlXzz2y0.png">
 
-
-| ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
-| --- |
 
 
 ### Quick Usage
