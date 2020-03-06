@@ -45,9 +45,10 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 | _rewardApproved | Boolean  | A statement used to validate a miners has correctly calculated his loyalty days and is now ready to calculate their reward amount|
 | _rewardAmount   | uint256  | The amount calculated after a miners reward has been approved and before the final bonus multiplier calculation  |
 
-#### Loyalty Reward Structure 
+### Loyalty Reward Structure 
 
-Unix time is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
+* Unix time is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
+* Daily percentage can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256.
 
 | **Field**          | **Type** | **Price**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
@@ -62,12 +63,11 @@ Unix time is the number of seconds that have elapsed since the Unix epoch, that 
 | Upgraded bonus multiplier 1 | uint256  | 1.25000000 * 10e7 |
 | Upgraded bonus multiplier 2 | uint256  | 1.50000000 * 10e7 |
 
-Daily percentage can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256
 
 
-#### Daily Bonus Multiplier
+### Daily Bonus Multiplier
 
-Adding a bonus multiplier will boost your daily rewards by up to 1.50x
+* Adding a bonus multiplier will boost your daily rewards by up to 1.50x
 
 | **Field**          | **Type** | **Price**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
