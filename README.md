@@ -14,7 +14,7 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Definition
 
-**Proof Of loyalty** - To prevent denial-of-service attacks and other service abuses by requiring an unchanged state or particular condition for a predetermined period of time.
+**Proof Of loyalty** - is an alternative consensus mechanism or series of smart contracts that can deter unknown service abuse by requiring an unchanged state or particular condition for a predetermined period.
 
 
 ### Sparkle Token Information 
