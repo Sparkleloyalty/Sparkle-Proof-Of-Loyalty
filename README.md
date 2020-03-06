@@ -47,8 +47,9 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Loyalty Reward Structure 
 
-* Unix time is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
-* Daily percentage can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256.
+**Unix time** is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
+
+**Daily percentage** can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256.
 
 | **Field**          | **Type** | **Price**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
@@ -67,7 +68,7 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Daily Bonus Multiplier
 
-* Adding a bonus multiplier will boost your daily rewards by up to 1.50x
+Adding a **Bonus multiplier** will boost your daily rewards by up to 1.50x
 
 | **Field**          | **Type** | **Price**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
