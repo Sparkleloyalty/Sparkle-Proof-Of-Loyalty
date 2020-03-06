@@ -14,12 +14,14 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Sparkle Token Information 
 
+**Note** *This token was developed to produce very finite supply similar to bitcon their will never be more than 70 million sparkle mined or in circulation*
+
 | **Field**          | **Type** | **value**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
 | Name               | string   | Sparkle |
 | Symbol             | string   | SPRKL |
-| Total Supply       | uint256  | 70,000,000 **Note** *This token was developed to produce very finite supply similar to bitcon their will never be more than 70 million sparkle mined or in circulation*|
-| Loyalty Supply     | uint256  | 35,000,000 **Note** *All rewards are distributed on a first com first serve basis, keep in mind Sparkles limited supply*|
+| Total Supply       | uint256  | 70,000,000 |
+| Loyalty Supply     | uint256  | 35,000,000 |
 | Treasury Supply    | uint256  | 30,000,000 |
 | AirDrop Supply     | uint256  | 5,000,000 |
 | Circulating Supply | uint256  | 2,347,450|
@@ -28,6 +30,7 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Loyalty Information 
 
+**Note** *All rewards are distributed on a first com first serve basis, keep in mind Sparkles limited supply*
 
 | **Field**       | **Type** | **Description**                                              |
 | :------------ | :-------- | :------------------------------------------------------------ |
@@ -42,19 +45,25 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 | _rewardApproved | Boolean  | A statement used to validate a miners has correctly calculated his loyalty days and is now ready to calculate their reward amount|
 | _rewardAmount   | uint256  | The amount calculated after a miners reward has been approved and before the final bonus multiplier calculation  |
 
+**Note** *Unix time is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.*
 
-| **Field**          | **Type** | **value**                                              |
+| **Field**          | **Type** | **Price**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
 | Minimum loyalty needed      | uint256  | 1000 SPRKL |
 | Maximum loyalty needed      | uint256  | N/a **Note** *Currently no limit set*|
-| Annual reward percentage    | uint256  | 30%  **Note** *APR is based on daily percentage calculation and is does not include daily compounding it's recommended one should claim rewards daily in order to exceed the expected annual APR calculation*|
-| Daily reward percentage     | uint256  | 0.00081967 = 30% / (365+1) **Note** *Daily percentage can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256* |
-| Minimum loyalty time length | uint256  | 86400 **Note** *It is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.* |
+| Annual reward percentage    | uint256  | 30%  |
+| Daily reward percentage     | uint256  | 0.00081967 = 30% / (365+1) |
+| Minimum loyalty time length | uint256  | 86400 seconds |
 | Minimum loyalty days        | uint256  | 1 day = 86400 seconds |
 | Maximum loyalty days        | uint256  | 365 days |
 | Standard bonus multiplier   | uint256  | 1.00000000 * 10e7 |
-| Upgraded bonus multiplier 1 | uint256  | 1.25000000 * 10e7  **Note** *Adding this bonus multiplier will boost your daily rewards by 1.25x*|
-| Upgraded bonus multiplier 2 | uint256  | 1.50000000 * 10e7  **Note** *Adding this bonus multiplier will boost your daily rewards by 1.50x*|
+| Upgraded bonus multiplier 1 | uint256  | 1.25000000 * 10e7 |
+| Upgraded bonus multiplier 2 | uint256  | 1.50000000 * 10e7 |
+
+**Note** *Daily percentage can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256*
+
+
+
 
 
 | **Field**          | **Type** | **Price**                                              |
@@ -63,6 +72,7 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 | Upgraded bonus multiplier 1 | uint256  | 0.15 Ether |
 | Upgraded bonus multiplier 2 | uint256  | 0.20 Ether |
 
+**Note** *Adding a bonus multiplier will boost your daily rewards by up to 1.50x*
 
 ### Basic (UML) Diagram For Textual Description
 
