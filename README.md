@@ -12,7 +12,7 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 | ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
 | --- |
 
-#### Definition
+### Definitions
 
 **Loyalty** - The quality or state or an instance of being loyal.
 
