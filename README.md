@@ -14,14 +14,14 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 
 ### Definition
 
-**Proof Of loyalty** - is an alternative consensus mechanism or series of smart contracts that can deter unknown service abuse by requiring an unchanged state or particular condition for a predetermined period.
+**Proof Of loyalty** - Is an alternative consensus mechanism or series of smart contracts that can deter unknown service abuse by requiring an unchanged state or particular condition of a token holder for a predetermined period.
 
 
 ### Sparkle Token Information 
 
 Sparkle (SPRKL) is a decentralized permissionless network, which means that no central entity has the authority to edit the ledger, shut down the chain, or change its protocols. Sparkle’s main use case act’s a digital asset that can be transferred, traded, bought and sold. Sparkle was built using [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) a library for secure smart contract development.
 
-**Note** This token was developed to produce very finite supply similar to Bitcoin their will never be more than 70 million sparkle mined or in circulation
+**Note** This token was developed to produce very finite supply similar to Bitcoin there will never be more than 70 million sparkle mined or in circulation
 
 | **Field**          | **Type** | **value**                                              |
 | :--------------- | :-------- | :------------------------------------------------------ |
@@ -37,9 +37,9 @@ Sparkle (SPRKL) is a decentralized permissionless network, which means that no c
 
 ### Loyalty Information 
 
-This section can be used by developers as a glossary for variable definitions defined in [LoyaltySettings.sol](https://github.com/JonahGlasgow/Sparkle-Proof-Of-Loyalty/blob/document-updates-2/contracts/loyaltySettings.sol) for developer support or any additional questions about Proof Of Loyalty before contributing please join our [telegram](https://t.me/Sparklemobile).
+This section can be used by developers as a glossary for variable definitions defined in [LoyaltySettings.sol](https://github.com/JonahGlasgow/Sparkle-Proof-Of-Loyalty/blob/document-updates-2/contracts/loyaltySettings.sol) for developer support or any additional questions about Proof Of Loyalty before contributing please join our [telegram group](https://t.me/Sparklemobile).
 
-**Note** All rewards are distributed on a first com first serve basis, keep in mind Sparkles limited supply
+**Note** All rewards are distributed on a first come first serve basis, keep in mind Sparkles limited supply
 
 | **Field**       | **Type** | **Description**                                              |
 | :------------ | :-------- | :------------------------------------------------------------ |
@@ -56,7 +56,7 @@ This section can be used by developers as a glossary for variable definitions de
 
 ### Loyalty Reward Structure 
 
-This section should be used as a guide when entering Sparkle's Proof Of Loyalty reward system. The user acknowledges that potential risks or lost of tokens may occur with any use of the Sparkle Loyalty Platform and ETH and expressly agrees not to hold liable Sparkle Mobile Inc. or the Ethereum Team should any foreseen or unforeseen event occurs.  
+This section should be used as a guide when entering Sparkle's Proof Of Loyalty reward system. The user acknowledges that potential risks or lost of tokens may occur with any use of the Sparkle Loyalty Platform or Ethereum as a whole and expressly agrees not to hold liable Sparkle Mobile Inc. or the Ethereum Team should any foreseen or unforeseen event occurs.  
 
 **Unix time** is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
 
