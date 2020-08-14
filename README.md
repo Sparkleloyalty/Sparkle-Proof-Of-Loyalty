@@ -6,8 +6,8 @@ Proof of Loyalty smart contract built on Ethereum (Note this Contract should be 
 * Testing Framework: Truffle (recommended) Remix (optional) 
 * Ethereum MainNet Contract  [MainNet Link](): Currently not for production
 * Ethereum MainNet Contract Address: Currently not for production
-* Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xb954c94ed1e96be6cc55d0b62a4089f610d8afea#code)
-* Ropsten TestNet Contract Address: 0xb954c94Ed1E96Be6cc55d0b62A4089f610d8aFEA
+* Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xc4ca8e37f8cc5fb9867c54d77aa6926f1397553e)
+* Ropsten TestNet Contract Address: 0xc4CA8e37f8Cc5fb9867c54d77aA6926f1397553E
 
 | ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
 | --- |
@@ -23,16 +23,15 @@ Sparkle (SPRKL) is a decentralized permissionless network, which means that no c
 
 **Note** This token was developed to produce very finite supply similar to Bitcoin their will never be more than 70 million sparkle mined or in circulation
 
-| **Field**          | **Type** | **value**                                              |
-| :--------------- | :-------- | :------------------------------------------------------ |
-| Name               | string   | Sparkle |
-| Symbol             | string   | SPRKL |
-| Total Supply       | uint256  | 70,000,000 |
-| Loyalty Supply     | uint256  | 35,000,000 |
-| Treasury Supply    | uint256  | 30,000,000 |
-| AirDrop Supply     | uint256  | 5,000,000 |
-| Circulating Supply | uint256  | 2,347,450|
-| Mintable           | Boolean  | False |
+| **Field**            | **Type** | **value**                                              |
+| :----------------- | :-------- | :------------------------------------------------------ |
+| Name                 | string   | Sparkle |
+| Symbol               | string   | SPRKL |
+| Total Supply         | uint256  | 70,000,000 |
+| Loyalty Supply       | uint256  | 35,000,000 |
+| Development Treasury | uint256  | 12,141,267.67 |
+| Circulating Supply   | uint256  | 22,858732.33|
+| Mintable             | Boolean  | False |
 
 
 ### Loyalty Information 
