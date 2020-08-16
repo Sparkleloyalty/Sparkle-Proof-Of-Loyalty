@@ -33,6 +33,11 @@ Sparkle (SPRKL) is a decentralized permissionless network, which means that no c
 | Circulating Supply   | uint256  | 22,858732.33|
 | Mintable             | Boolean  | False |
 
+* Sparkle Loyalty Treasury: [Loyalty Address](https://etherscan.io/token/0x4b7ad3a56810032782afce12d7d27122bdb96eff?a=0xa90c682f511b384706e592a8cad9121f1c17de86)
+* Sparkle Loyalty Address: 0xa90c682f511b384706e592a8cad9121f1c17de86
+
+* Sparkle Development Treasury: [Treasury Address](https://etherscan.io/token/0x4b7ad3a56810032782afce12d7d27122bdb96eff?a=0xbea52413e26c38b51cbcb0d3661a25f2097f8574)
+* Sparkle Loyalty Address: 0xbea52413e26c38b51cbcb0d3661a25f2097f8574
 
 ### Loyalty Information 
 
