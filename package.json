@@ -30,7 +30,7 @@
   "license": "MIT",
   "homepage": "https://github.com/Sparkleloyalty/Sparkle-Proof-Of-Loyalty",
   "dependencies": {
-    "openzeppelin-solidity": "^2.0.0"
+    "openzeppelin-solidity": "2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
