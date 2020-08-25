@@ -1,6 +1,6 @@
 const SparkleLoyalty = artifacts.require('./SparkleLoyalty');
-const SparkleLoyaltyTimestamp = artifacts.require('./SparkleLoyaltyTimestamp');
-const SparkleLoyaltyRewardTiers = artifacts.require('./SparkleLoyaltyRewardTiers');
+const SparkleTimestamp = artifacts.require('./SparkleTimestamp');
+const SparkleRewardTiers = artifacts.require('./SparkleRewardTiers');
 const assert = require('chai').assert;
 const truffleAssert = require('truffle-assertions');
 const helper = require("./helpers/truffle-time-helpers");
@@ -30,12 +30,13 @@ contract('SparkleLoyalty - Workflow @ Tier0(5%)', async accounts => {
     COLLECTION = accounts[4];
     // Initialize contracts
     pol = await SparkleLoyalty.deployed({ overwrite: true });
-    ts = await SparkleLoyaltyTimestamp.deployed({ overwrite: true });
+    ts = await SparkleTimestamp.deployed({ overwrite: true });
     await ts.setContractAddress(pol.address, { from: OWNER });
     await ts.setTimePeriod(60*60*24, {from: OWNER});
-    rt = await SparkleLoyaltyRewardTiers.deployed({ overwrite: true });
-    await rt.setContractAddress(pol.address, {from: OWNER});
-    return assert(await ts.getContractAddress({ from: OWNER }) == pol.address && await rt.getContractAddress({ from: OWNER }) == pol.address);
+    rt = await SparkleRewardTiers.deployed({ overwrite: true });
+    // await rt.setContractAddress(pol.address, {from: OWNER});
+    // return assert(await ts.getContractAddress({ from: OWNER }) == pol.address && await rt.getContractAddress({ from: OWNER }) == pol.address);
+    return assert(await ts.getContractAddress({ from: OWNER }) == pol.address);
   });
 
   describe('Step1: Approve Tokens', async() => {
@@ -75,1602 +76,2203 @@ contract('SparkleLoyalty - Workflow @ Tier0(5%)', async accounts => {
   // });
 
   describe('Step3: Claim loyalty for 365 days', async () => {
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 1', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 2', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 3', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 4', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 5', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 6', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 7', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 8', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
 
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 9', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 10', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 11', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 12', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 13', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 14', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 15', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 16', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 17', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 18', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 19', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 20', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 21', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 22', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 23', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 24', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 25', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 26', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 27', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 28', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 29', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 30', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 31', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 32', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 33', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 34', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 35', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 36', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 37', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 38', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 39', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 40', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 41', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 42', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 43', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 44', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 45', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 46', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 47', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 48', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 49', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 50', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 51', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 52', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 53', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 54', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 55', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 56', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 57', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 58', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 59', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 60', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 61', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 62', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 63', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 64', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 65', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 66', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 67', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 68', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 69', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 70', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 71', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 72', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 73', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 74', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 75', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 76', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 77', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 78', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 79', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 80', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 81', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 82', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 83', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 84', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 85', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 86', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 87', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 88', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 89', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 90', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 91', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 92', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 93', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 94', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 95', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 96', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 97', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 98', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 99', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 100', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 101', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 102', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 103', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 104', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 105', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 106', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 107', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 108', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 109', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 110', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 111', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 112', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 113', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 114', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 115', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 116', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 117', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 118', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 119', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 120', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 121', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 122', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 123', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 124', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 125', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 126', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 127', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 128', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 129', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 130', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 131', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 132', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 133', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 134', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 135', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 136', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 137', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 138', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 139', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 140', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 141', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 142', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 143', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 144', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 145', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 146', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 147', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 148', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 149', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 150', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 151', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 152', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 153', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 154', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 155', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 156', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 157', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 158', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 159', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 160', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 161', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 162', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 163', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 164', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 165', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 166', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 167', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 168', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 169', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 170', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 171', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 172', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 173', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 174', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 175', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 176', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 177', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 178', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 179', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 180', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 181', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 182', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 183', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 184', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 185', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 186', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 187', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 188', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 189', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 190', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 191', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 192', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 193', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 194', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 195', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 196', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 197', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 198', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 199', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 200', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 201', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 202', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 203', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 204', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 205', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 206', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 207', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 208', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 209', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 210', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 211', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 212', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 213', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 214', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 215', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 216', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 217', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 218', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 219', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 220', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 221', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 222', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 223', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 224', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 225', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 226', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 227', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 228', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 229', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 230', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 231', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 232', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 233', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 234', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 235', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 236', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 237', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 238', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 239', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 240', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 241', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 242', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 243', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 244', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 245', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 246', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 247', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 248', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 249', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 250', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 251', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 252', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 253', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 254', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 255', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 256', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 257', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 258', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 259', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 260', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 261', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 262', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 263', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 264', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 265', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 266', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 267', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 268', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 269', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 270', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 271', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 272', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 273', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 274', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 275', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 276', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 277', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 278', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 279', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 280', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 281', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 282', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 283', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 284', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 285', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 286', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 287', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 288', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 289', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 290', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 291', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 292', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 293', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 294', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 295', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 296', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 297', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 298', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 299', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 300', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 301', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 302', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 303', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 304', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 305', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 306', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 307', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 308', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 309', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 310', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 311', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 312', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 313', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 314', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 315', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 316', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 317', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 318', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 319', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 320', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 321', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 322', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 323', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 324', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 325', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 326', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 327', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 328', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 329', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 330', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 331', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 332', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 333', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 334', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 335', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 336', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 337', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 338', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 339', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 340', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 341', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 342', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 343', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 344', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 345', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 346', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 347', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 348', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 349', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 350', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 351', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 352', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 353', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 354', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 355', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 356', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 357', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 358', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 359', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 360', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 361', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 362', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 363', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 364', async () => {
       await helper.advanceTimeAndBlock(86401);
       truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
         from: USER1
       }), 'RewardClaimedEvent');
     });
-    it('Loyalty claim @ ~24h should pass', async () => {
+    it('Day 365', async () => {
       await helper.advanceTimeAndBlock(86401);
-      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
+      truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
+        from: USER1
+      }), 'RewardClaimedEvent');
     });
   });
 
@@ -1684,12 +2286,12 @@ contract('SparkleLoyalty - Workflow @ Tier0(5%)', async accounts => {
       assert.equal(await pol.getDepositBalance(USER1) / 10e7, 1000);
     });
 
-    it('Currrent collected rewards should equal 221.17397882 tokens', async () => {
-      assert.equal(await pol.getTokensCollected(USER1) / 10e7, 221.17397882);
+    it('Currrent collected rewards should equal 61.79117892 tokens', async () => {
+      assert.equal(await pol.getTokensCollected(USER1) / 10e7, 61.79117892);
     });
 
-    it('Total withdraw amount should equal 1221.17397882 tokens', async () => {
-      assert.equal(await pol.getTotalBalance(USER1) / 10e7, 1221.17397882);
+    it('Total withdraw amount should equal 1061.79117892 tokens', async () => {
+      assert.equal(await pol.getTotalBalance(USER1) / 10e7, 1061.79117892);
     });
 
     let preBalanceTreasury, preBalancePol;
@@ -1728,7 +2330,7 @@ contract('SparkleLoyalty - Workflow @ Tier0(5%)', async accounts => {
 
   describe('Finalize: Return any tokens deposited', async() => {
     it('Return tokens to Accounts[2]', async() => {
-      await st.methods.transfer(accounts[1], 221.17397882 * 10e7).send({
+      await st.methods.transfer(accounts[1], 61.79117892 * 10e7).send({
         from: accounts[2]
       });
     });
