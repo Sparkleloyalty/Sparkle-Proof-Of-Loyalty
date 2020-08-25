@@ -7,6 +7,7 @@
   },
   "scripts": {
     "ganache:cli": "ganache-cli -d -m 'eternal logic alarm impose play scissors climb must ecology belt jungle salt' -e 1000000000 -a 5 --db ./.ganachedb/ -i 31621",
+    "ganache:cli:verbose": "ganache-cli -d -m 'eternal logic alarm impose play scissors climb must ecology belt jungle salt' -e 1000000000 -a 5 --db ./.ganachedb/ -i 31621 -v",
     "truffle:con": "truffle console",
     "test:all": "npm run test:rewardtiers && npm run test:timestamp && npm run test:loyalty",
     "test:loyalty": "truffle test ./test/TestSparkleLoyalty.js && exit 1",
@@ -17,20 +18,20 @@
     "test:tier1rewards": "truffle test ./test/TestSparkleLoyalty-Tier1.js",
     "test:tier2rewards": "truffle test ./test/TestSparkleLoyalty-Tier2.js",
     "test:tier3rewards": "truffle test ./test/TestSparkleLoyalty-Tier3.js",
-    "audit:mythx:quick": "mythx --format json --yes analyze --wait --mode quick --create-group --group-name SparkleLoyaltyQuick --solc-version 0.4.25 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116",
-    "audit:mythx:standard": "mythx --format json --yes analyze --wait --mode standard --create-group --group-name SparkleLoyaltyStandard --solc-version 0.4.25 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116",
-    "audit:mythx:deep": "mythx --format json --yes analyze --wait --mode deep --create-group --group-name SparkleLoyaltyDeep --solc-version 0.4.25 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116"
+    "audit:mythx:v6:quick": "mythx --format json --yes analyze --wait --mode quick --create-group --group-name SparkleLoyaltyQuickV6 --solc-version 0.6.12 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116,123",
+    "audit:mythx:v6:standard": "mythx --format json --yes analyze --wait --mode standard --create-group --group-name SparkleLoyaltyStandardV6 --solc-version 0.6.12 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116,123",
+    "audit:mythx:v6:deep": "mythx --format json --yes analyze --wait --mode deep --create-group --group-name SparkleLoyaltyDeepV6 --solc-version 0.6.12 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116,123"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:Sparkleloyalty/Sparkle-Proof-Of-Loyalty.git"
+    "url": "git+ssh://git@bitbucket.org/sparkledevelopers/sparkle-pol.git"
   },
   "keywords": [],
   "author": "SparkleLoyalty Inc. (c) 2018 - 2020",
   "license": "MIT",
-  "homepage": "https://github.com/Sparkleloyalty/Sparkle-Proof-Of-Loyalty",
+  "homepage": "https://bitbucket.org/sparkledevelopers/sparkle-pol#readme",
   "dependencies": {
-    "openzeppelin-solidity": "2.0.0"
+    "@openzeppelin/contracts": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
