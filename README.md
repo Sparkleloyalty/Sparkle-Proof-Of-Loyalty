@@ -1,219 +1,326 @@
 # Sparkle Proof Of Loyalty
 
-Proof of Loyalty smart contract built on Ethereum (Note this Contract should be considered an example of a basic framework for token loyalty based on block.timestamp). This contracts should be considered compatible with any [ERC-20 Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md). 
+>The SparkleLoyalty program is built on Ethereum and is comprised of a set specialized contracts that provide the functionality required by the program and should be considered compatible with any [ERC-20 Token Standard](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
 
-* Development environment: Truffle 
-* Testing Framework: Truffle (recommended) Remix (optional) 
-* Ethereum MainNet Contract  [MainNet Link](): Currently not for production
-* Ethereum MainNet Contract Address: Currently not for production
-* Ropsten TestNet Contract: [TestNet Link](https://ropsten.etherscan.io/address/0xc4ca8e37f8cc5fb9867c54d77aa6926f1397553e)
-* Ropsten TestNet Contract Address: 0xc4CA8e37f8Cc5fb9867c54d77aA6926f1397553E
-
-| ℹ️ **Contributors**: Please see the [Development](#development) section of this README. |
-| --- |
+* Development/Testing environment: Truffle
+* MainNet Contract([Link]()): Currently not available
+* Ropsten Contract([Link]()): Currently not available
 
 ### Definition
 
-**Proof Of loyalty** - Is an alternative consensus mechanism or series of smart contracts that can deter unknown service abuse by requiring an unchanged state or particular condition of a token holder for a predetermined period.
+>**Proof Of loyalty** - As a consensus mechanism SparkleLoyalty provides rewards to users through a series of smart contracts that deter service abuse through the use of verified and trusted addressing. The SparkeLoyalty program rewards users for simply holding thier Sparkle for a predetermined time period currently set at ~24h.
 
 
-### Sparkle Token Information 
+### Sparkle Token Information
 
-Sparkle (SPRKL) is a decentralized permissionless network, which means that no central entity has the authority to edit the ledger, shut down the chain, or change its protocols. Sparkle’s main use case act’s a digital asset that can be transferred, traded, bought and sold. Sparkle was built using [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) a library for secure smart contract development.
+>Sparkle token (SPRKL) is an ERC20 token built on the Ethereum network. The Sparkle token use case is similar to other digital assets and can be bought, sold and traded. Sparkle's use case however diverges from this standard expectation through it's main purpose being to support the SparkleLoyalty program and all program users. Sparkle token was built using the [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) secure contract library for contract development.
 
-**Note** This token was developed to produce very finite supply similar to Bitcoin there will never be more than 70 million sparkle mined or in circulation
-
-| **Field**            | **Type** | **value**                                              |
-| :----------------- | :-------- | :------------------------------------------------------ |
-| Name                 | string   | Sparkle |
-| Symbol               | string   | SPRKL |
-| Total Supply         | uint256  | 70,000,000 |
-| Loyalty Supply       | uint256  | 35,000,000 |
-| Development Treasury | uint256  | 12,141,267.67 |
-| Circulating Supply   | uint256  | 22,858732.33|
-| Mintable             | Boolean  | False |
-
-* Sparkle Loyalty Treasury: [Loyalty Address](https://etherscan.io/token/0x4b7ad3a56810032782afce12d7d27122bdb96eff?a=0xa90c682f511b384706e592a8cad9121f1c17de86)
-* Sparkle Loyalty Address: 0xa90c682f511b384706e592a8cad9121f1c17de86
-* Sparkle Development Treasury: [Treasury Address](https://etherscan.io/token/0x4b7ad3a56810032782afce12d7d27122bdb96eff?a=0xbea52413e26c38b51cbcb0d3661a25f2097f8574)
-* Sparkle Loyalty Address: 0xbea52413e26c38b51cbcb0d3661a25f2097f8574
-
-### Loyalty Information 
-
-This section can be used by developers as a glossary for variable definitions defined in [LoyaltySettings.sol](https://github.com/JonahGlasgow/Sparkle-Proof-Of-Loyalty/blob/document-updates-2/contracts/loyaltySettings.sol) for developer support or any additional questions about Proof Of Loyalty before contributing please join our [telegram group](https://t.me/Sparklemobile).
-
-**Note** All rewards are distributed on a first come first serve basis, keep in mind Sparkles limited supply
-
-| **Field**       | **Type** | **Description**                                              |
-| :------------ | :-------- | :------------------------------------------------------------ |
-| _miner          | address  | The address who owns and deposits Sparkle tokens |
-| _value          | uint256  | The amount sent to the loyalty contract |
-| _loyaltyNeeded  | Boolean  | The minimum amount needed to enter into a loyalty lifecycle |
-| _loyaltyDays    | uint256  | The amount of day since your initial deposit or previous reward date |
-| _multiplier     | uint256  | The uint used to calculate a multiplier bonus which can be added to any miners daily rewards lifecycle |
-| _timeLength     | uint256  | The minimum amount of time required before a loyalty reward can be calculated |
-| _depositTime    | uint256  | The recorded time of a miners deposit date |
-| _rewardTime     | uint256  | The minimum amount of time a miner must wait before claiming rewards |
-| _rewardApproved | Boolean  | A statement used to validate a miners has correctly calculated his loyalty days and is now ready to calculate their reward amount|
-| _rewardAmount   | uint256  | The amount calculated after a miners reward has been approved and before the final bonus multiplier calculation  |
-
-### Loyalty Reward Structure 
-
-This section should be used as a guide when entering Sparkle's Proof Of Loyalty reward system. The user acknowledges that potential risks or lost of tokens may occur with any use of the Sparkle Loyalty Platform or Ethereum as a whole and expressly agrees not to hold liable Sparkle Mobile Inc. or the Ethereum Team should any foreseen or unforeseen event occurs.  
-
-**Unix time** is the number of seconds that have elapsed since the Unix epoch, that is the time 00:00:00 UTC on 1 January 1970, minus leap seconds. Leap seconds are ignored, with a leap second having the same Unix time as the second before it, and every day is treated as if it contains exactly 86400 seconds.
-
-**Daily percentage** can only have a maximum of 8 digits of decimal and is boosted by 10e7 in order to store as uint256.
-
-| **Field**          | **Type** | **Price**                                              |
+| **Field**        | **Type**  | **Value**                                               |
 | :--------------- | :-------- | :------------------------------------------------------ |
-| Minimum loyalty needed      | uint256  | 1000 SPRKL |
-| Maximum loyalty needed      | uint256  | N/a |
-| Annual reward percentage    | uint256  | 30%  |
-| Daily reward percentage     | uint256  | 0.00081967 = 30% / (365+1) |
-| Minimum loyalty time length | uint256  | 86400 seconds |
-| Minimum loyalty days        | uint256  | 1 day = 86400 seconds |
-| Maximum loyalty days        | uint256  | 365 days |
-| Standard bonus multiplier   | uint256  | 1.00000000 * 10e7 |
-| Upgraded bonus multiplier 1 | uint256  | 1.25000000 * 10e7 |
-| Upgraded bonus multiplier 2 | uint256  | 1.50000000 * 10e7 |
+| Name             | string    | Sparkle |
+| Symbol           | string    | SPRKL |
+| Decimals         | uint256   | 8 |
+| Total Supply     | uint256   | 70,000,000 |
+| Mintable         | Boolean   | False |
+
+**Note** Sparkle (SPRKL) was designed with a finite supply of tokens and as such there will never be more than 70 million tokens in circulation.
 
 
+### Sparkle Token Metrics
 
-### Daily Bonus Multiplier
+>Through various campaigns and give-aways, Sparkle token (SPRKL) has been distributed to introduce new users to the SparkleLoyalty program. Following is a brief table of known Sparkle token current distribution metrics.
 
-Adding a **Bonus multiplier** will boost your daily rewards by up to 1.50x
-
-| **Field**          | **Type** | **Price**                                              |
+| **Field**        | **Type**  | **Value**                                               |
 | :--------------- | :-------- | :------------------------------------------------------ |
-| Standard bonus multiplier   | uint256  | Free |
-| Upgraded bonus multiplier 1 | uint256  | 0.15 Ether |
-| Upgraded bonus multiplier 2 | uint256  | 0.20 Ether |
+| AirDrop          | uint256   | TBD |
+| Campaigns        | uint256   | TBD |
+| Give-Aways       | uint256   | TBD |
+| In Circulation   | uint256   | 2,347,450 SPRKL |
+
+**Note** The list is not exaustive and represents a generalized view at the time of writing.
 
 
-### Basic (UML) Diagram For Textual Description
+### SparkleLoyalty Information
 
-The Unified Modeling Language [(UML)](https://plantuml.com/) is a general-purpose, developmental, modeling language which quickly helps developers visualize their software designs. Please note this diagram is subject to change with on going development and should be interpreted as a preliminary example of a basic Proof of Loyalty lifecycle. 
+>SparkleLoyalty is a loyalty reward program designed and developed from the ground up to provide users a secure and robust program that rewards them for simply holding their Sparkle tokens. The SparkleLoyalty program operates similar to a traditional savings account in that it provides users with a consistant rate of return on their deposits that start out at 5%. Unlike a traditional savings account however, SparkleLoyalty program users get to choose the rate in which they claim thier rewards and in addition may choose to purchase a reward upgrade in the form of a Tier1(10%), Tier2(20%), or Tier3(30%) rate boost.
 
-<img src= "https://plantuml-server.kkeisuke.app/png/nLVDRkCs43vRJq70XxO9RBS1MXG1ThiRfxieqFmWBden38EMHZ5h_WWaPLT8zn5wsUsfbxn27osFq27rOygHlSqYY_fWaD_yS6Q-uKXwPIpLDXSy-e8C1YHLcj3Sge46cO0cJAASyrEoj3OpfwEHe7e5DkCqXk6QcPnoO_E4gM6in8XP4EO7ztz91Rpu3HOBCqHTkJr0PPOfQN0PHP5PCPbHJGNHAfT9hBJ4Cq--9g4evjGOSXVrpcYyklMAOyKnpclAuQq6a2XI6gCjuKcccRmj1Uy2FyQ21cMB3CQxdiu1icicLr4PepyHgXYPHBiKqoK__NWpnjZk8e8_hyZa4ZIpLABKAJU2t608Rz1p2rrJRTg80BjKYGTxnm_tV_rf5PPxacSPBxxygi8MbBiJhj86GKRKnc4UiPfAauBs6vfbMgtRWZTQ2GIm6kv75mO5iIKJci85jSlFbb7VnIfoxeBnwuIjcxN95ysQ9acp5YgfOosP_rZLUtTrHkzAXlP47UWzt7_ukydUjVnqcYFF9zz-DvjrPDSRJAS22uk-28QgmPWNBoi3CfkHUSMGwTRSQ-fjFPUGUDCc238F6k7_wfVUCPEn1chWTSi-WGwqFm_TzkS2KobNYrpBxIhinO3VSx2KSKYUWUTk_j0ILLnb9Owc7SWKOg5uGy7t3iCicS3fjg_wHqVpUOoJpEeyjahFvqT7JRtT4SscTDviQx_j8bnj95rmU8Qhw9AeEisbeJOuKlVTpqCvUCDcnynLiyT70uvER327c2NBMitJGhTT4S91tXESpQk3UGUqLqKAeR8HTe6wc_vxqOx3Th1g1VBIjybZV5Brod7GArvmNZTCBMfkCWelwE-7BtCt5K6bViMYfCKlJ7nwiMxmaUZuY8ktETN9PvcJszR3RBoNroNYo_BnsNYjbKglKf-dcu_n4kALs-5xYCYUUXaDs74xZ1fkN7gWVKhLvO-qD0WSbI4MyCDLGRaj9c0j9cIUZQH7pVxihBNQDSurtczxmTnrtM6qIZ6bUGoscy-AlfzBJR8rsbBOQMUGDNeBvxd8d96jjMzyoPDFuBsCCcJzuVxzFrKqPqhcvfjEzCIZQt_RphYALrKkVfmbE5QACKu_Myr2v9w96zWWKtw_ONQPQBe9ZF1vcId3x1R2hddK5wCMc-Kxps0mxL_ITJ7xusNryba9XiDfltvdTSA6xLCo6ZaN5P-ZKTH-kdPuh2TmAAhRiakstwezUeDvrULwZtYt-mEr9oIzUnUx0ZYainl58Tso7hiQJmWsUeMVMlXzz2y0.png">
+**Note** Rewards are distributed in a, "first come, first served," basis gactored bythe user's claiming and loyalty withdraw habits.
 
 
+#### Loyalty Treasury Metrics
 
-### Quick Usage
+>Following are the current SparkleLoyalty operations and development treasury address information.
 
-* External script runner that executes scripts within a Truffle environment.
+* SparkleLoyalty Treasury: [Loyalty Address](https://etherscan.io/token/0x4b7ad3a56810032782afce12d7d27122bdb96eff?a=0xa90c682f511b384706e592a8cad9121f1c17de86)
+* SparkleLoyalty DevTreasury: [Treasury Address](https://etherscan.io/token/0x4b7ad3a56810032782afce12d7d27122bdb96eff?a=0xbea52413e26c38b51cbcb0d3661a25f2097f8574)
 
-Developers who want to set up there own project directory:
 
-```
-$ truffle init
-```
+#### Loyalty Reward Structure
 
-### Solc Compiler 
+>The following tables are provided as a guide to new and existing users when desciding to join or remain in the SparkleLoyalty program. The following tables are a reflection of the current program settings at the time of writing.
 
-Make sure Docker is installed on your machine so truffle can obtain the proper solc compiler version:
 
-```
-$ truffle compile 
-```
+#### Deposit Specifications
 
-Verify contract was compiled successful using:
-   
-```  
-- solc: 0.4.25+commit.59dbf8f1.Linux.g++
+>Following are the minimum/maximum allowed deposit values per address to join the SparkleLoyalty program.
 
-```
+| **Field**        | **Type**  | **Value**                                              |
+| :--------------- | :-------- | :----------------------------------------------------- |
+| Minimum deposit  | uint256   | 1,000 SPRKL |
+| Maximum deposit  | uint256   | 250,000 SPRKL |
 
-From there, you can run `truffle compile`, `truffle migrate` and `truffle test` to compile your contracts, deploy those contracts to the network, and run their associated unit tests.
 
-### Development
+#### Maturity Specifications
 
-We welcome pull requests. To get started, just fork this repo and clone it locally
+>Following are the maturity and minimum/maximum allowed days a SparkleLoyalty prgram user may earn on thier deposit over a given period of time.
 
-```  
-$ git clone https://github.com/YOURFORKEDPROJECT
-```
+| **Field**        | **Type**  | **Value**                                              |
+| :--------------- | :-------- | :----------------------------------------------------- |
+| Maturity Period  | uint256   | 86400 seconds (~24h) |
+| Min. Period      | uint256   | 86400 seconds (~24) |
+| Max. Period      | uint256   | 31,536,000 seconds (~365d) |
 
-To get started please see the [Quick Usage](#QuickUsage) section of this README.
 
-### Security Considerations While Using block.timestamp
+#### Reward/Bonus Specification
 
-There are three main considerations when using a timestamp to execute a critical function in a contract, especially when actions involve fund transfer.
+>Following are the rates of return available to SparkleLoyalty program members including the available rate boost tiers and thier current pricing.
 
-#### 1.Timestamp Manipulation
+| **Field**     | **Type**  | **Value**    | **Price**                                 |
+| :------------ | :-------- | :----------- | :---------------------------------------- |
+| Base Rate     | uint256   | 5% APR       | Free (Default) |
+| Tier1 Rate    | uint256   | 10% APR      | 0.10 Ethereum |
+| Tier2 Rate    | uint256   | 20% APR      | 0.20 Ethereum |
+| Tier3 Rate    | uint256   | 30% APR      | 0.30 Ethereum |
 
-Be aware that the timestamp of the block can be manipulated by a miner up to 15 seconds. 
+**NOTICE** Users of the SparkleLoyalty program acknowledge that potential risks and/or the loss of tokens may occur through their use of the SparkleLoyalty platform. By joining users of the SparkleLoyalty program agree to not hold SparkleLoyalty Inc, and any and all subsiduaries therein owned wholy or in part liable.
 
-```  
-uint256 constant private salt =  block.timestamp;
 
-function random(uint Max) constant private returns (uint256 result){
-    //get the best seed for randomness
-    uint256 x = salt * 100/Max;
-    uint256 y = salt * block.number/(salt % 5) ;
-    uint256 seed = block.number/3 + (salt % 300) + Last_Payout + y;
-    uint256 h = uint256(block.blockhash(seed));
+### Security Considerations & Specifications
 
-    return uint256((h / x)) % Max + 1; //random number between 1 and Max
-}
-```
+#### Considerations
 
-When a contract uses the timestamp to seed a random number, the miner can actually post a timestamp within 15 seconds of the block being validated, effectively allowing the miner to precompute an option more favorable to their chances in the lottery. Timestamps are not random and should not be used in that context. To clear the consensus is block.timestamp should never be used as a source of randomness but rather a source of accuracy.
+>There are three main considerations when using a timestamp to execute a critical function in a contract, especially when actions involve fund transfer.
 
-#### 2.The 15-second Rule
-The [Yellow Paper](https://ethereum.github.io/yellowpaper/paper.pdf) (Ethereum's reference specification) does not specify a constraint on how much blocks can drift in time, but it does specify that each timestamp should be bigger than the timestamp of its parent. Popular Ethereum protocol implementations [Geth](https://github.com/ethereum/go-ethereum/blob/4e474c74dc2ac1d26b339c32064d0bac98775e77/consensus/ethash/consensus.go#L45) and [Parity](https://github.com/OpenEthereum/open-ethereum/blob/73db5dda8c0109bb6bc1392624875078f973be14/ethcore/src/verification/verification.rs#L296-L307) both reject blocks with timestamp more than 15 seconds in future. Therefore, a good rule of thumb in evaluating timestamp usage is:
+##### 1. Timestamp Manipulation
 
-| ℹ️ **Note**: If the scale of your time-dependent event can vary by 15 seconds and maintain integrity, it is safe to use a block.timestamp. |
-| --- |
+>On the Etereum network a malicious miner can manulate the blockchains block timestamp by up to ~15 seconds. While not specific to the SparkleLoyalty program the following snippet of code demonstrates how a malicious miner could manipulate the blocktime stamp to thier advantage.
 
-#### 3.Avoid using block.number as a timestamp
 
-It is possible to estimate a time delta using the block.number property and [average block time](https://etherscan.io/chart/blocktime), however this is not future proof as block times may change (such as [fork reorganizations and the difficulty bomb](https://github.com/ethereum/EIPs/issues/649)). In a sale spanning days, the 15-second rule allows one to achieve a more reliable estimate of time.
+    ```
+    uint256 constant private salt =  block.timestamp;
+
+    function random(uint Max) constant private returns (uint256 result){
+        //get the best seed for randomness
+        uint256 x = salt * 100/Max;
+        uint256 y = salt * block.number/(salt % 5) ;
+        uint256 seed = block.number/3 + (salt % 300) + Last_Payout + y;
+        uint256 h = uint256(block.blockhash(seed));
+
+        return uint256((h / x)) % Max + 1; //random number between 1 and Max
+    }
+    ```
+
+>When a contract uses the timestamp to seed a random number, the miner can actually post a timestamp within 15 seconds of the block being validated, effectively allowing the miner to precompute an option more favorable to them. Timestamps are not random and should not be used in that context. The consensus is the block timestamp should never be used as a source of randomness but rather a source of accuracy.
+
+
+##### 2. The 15-second Rule
+
+>The Ethereum [Yellow Paper](https://ethereum.github.io/yellowpaper/paper.pdf) does not specify a constraint on how many blocks can drift in time. However it does implement protections against publishing a block to the Ethereum network before the current block timestamp. Ethereum protocol implementations such as [Geth](https://github.com/ethereum/go-ethereum/blob/4e474c74dc2ac1d26b339c32064d0bac98775e77/consensus/ethash/consensus.go#L45) and [Parity](https://github.com/OpenEthereum/open-ethereum/blob/73db5dda8c0109bb6bc1392624875078f973be14/ethcore/src/verification/verification.rs#L296-L307) both reject blocks as described previous but also reject blocks with a timestamp more than 15 seconds into the future.
+
+**Note**: If the resolution of your time-dependent event can vary by 15 seconds, then it may be safe to use a block.timestamp.
+
+
+##### 3. Avoid using block.number like a block timestamp
+
+>It is possible to estimate a time delta using the block.number property and [average block time](https://etherscan.io/chart/blocktime), however this is not future proof as block times may change (such as [fork reorganizations and the difficulty bomb](https://github.com/ethereum/EIPs/issues/649)). In a sale spanning days, the 15-second rule allows one to achieve a more reliable estimate of time.
 
 See [SWC-116](https://swcregistry.io/docs/SWC-116)
 
 
-### Security Measures In The Event of Malicious Actors 
+#### Response Expectations
 
-#### Pause Contract
-* LoyaltySettings.sol can be paused by using the setFaucetAddress function to remove the declared faucet address. Note this will also prevent anyone from withdrawing tokens which were previously sent to the contract along with any expected rewards. 
+##### Contract Pause
+>SparkleLoyalty and the contracts that comprise the program have been designed so they can be paused at any time by SparkleLoyalty Inc. staff. When a serious issue or malicious attack is detected the first action will be to pause the SparkleLoyalty program immediately to prevent any further losses or damange from occurring.
 
-#### Redeploy Contract
-* In the most extreme measures the contract owner can pause the contract then remove all tokens from the faucet address. After the contract has been successfully paused we can manually send tokens back to their respected owners and redeploy a new contract with the required changes that need to be done.    
+**Note** When paused, all functions and features of the SparkleLoyalty program will be unavailable to users. This includes the ability to claim any additional rewards or withdraw existing loyalty rewards until the SparkleLoyalty program has been re-started or a suitable alternative solution has been implemented.
 
 
-### Proof Of Loyalty *Pros* 
+##### Contract Re-Deployment
+>In the extreme case where the SparkleLoyalty program cannot be restarted due to a malicious attack the staff at SparkleLoyalty Inc. reserve the right to re-deploy an updated loyalty contract to the Ethereum block chain and implement a process in which users can transfer theri loyalty balances to the new program and continue operation of the loyalty reward program.
 
-* Block.timestamp event can vary by 15 seconds and maintain integrity
-* Lightweight contract resulting in low gas execution calls
-* User friendly for large communities 
-* No randomized reward process, everyone will be rewarded based on token loyalty 
-* Day Multiplier is executed with limited gas cost (no forloops are used for this function)
-* Compounding interest can be included or removed depending on reward amount calculations (only during contract development cannot be changed after the contract is deployed)
-* Interest Multiplier allows for multi tier rewards based on the conditions set during development (ie bob hold 1000 tokens he gets 10% APR sara holds 2000 tokens and she gets 20% APR ) 
-* Loyalty tokens are stored at an external address to prevent such attacks 
-* Loyalty rewards are given at the end of the loyalty cycle when the user calls withdraw loyalty to prevent malicious spending during supposed token loyalty 
+**Note** Our objective is to provide users with the most secure experience when earning loyalty rewards and while this is our driving goal this is not always possible. Should there be some kind of problem with the SparkleLoyalty program we will do our best to corredct the issues as soon as possible with the least amount of distruption to users as possible.
 
-### Proof of Loyalty *Cons/Issues* 
 
-Unknown storage growth over long periods of time with extremely large communities. Even tho the msg.senders strut mapping is deleted upon withdrawal, if the mapping exceeds 10000 addresses its hard to say the rewards values wouldn't be eaten by the gas cost to map over the array and execute the transaction. (this is why we recommend setting a required loyalty amount. Keep in mind to make this amount fair)
-One could assume due to a community actively trading this issue may not occur for a long period of time which a new contract can be redeployed. 
+### Developers
 
-### Known Issues 
- Known issues can be viewed publicly using pre audit reports compiled by [Chainsecurity](https://securify.chainsecurity.com/)
+#### Getting Started
 
-### Bug Bounty
+>Getting started with the SparkleLoyalty program developers will need the following software tools.
 
-Bug bounties are subject to approved pull request or users bugs found by interactions with our TestNet contract. Both will result in a bounty reward
+##### Requirements
 
-### Test File
+* [NodeJS](https://nodejs.org/en/) (v10.11.0)
+* [Docker](https://www.docker.com/) (v19.03.8)
+* [TruffleSuite](https://www.trufflesuite.com/) (v5.1.23)
+* [Ganache-Cli](https://www.npmjs.com/package/ganache-cli) (v6.9.1)
 
-Please add all bugs found with the appropriate test.js file alongside your purposed contract solutions.
 
-### Contributors
+##### NodeJS Packages
 
-If you wish to learn more about the project please join our [telegram](https://t.me/Sparklemobile) with your github username and ask our admins how to start earning rewards.
+* [OpenZeppelin](https://openzeppelin.com/contracts/) (v2.0)
+* [Babel/Core](https://www.npmjs.com/package/@babel/core) (v7.10.4)
+* [Truffle/HDWallet](https://www.npmjs.com/package/@truffle/hdwallet-provider/v/1.0.37) (v1.0.37)
+* [Truffle-Assertions](https://www.npmjs.com/package/truffle-assertions) (v0.9.2)
+* [Chai](https://www.npmjs.com/package/chai) (v4.2.0)
+* [DotEnv](https://www.npmjs.com/package/dotenv) (v8.2.0)
 
+
+##### Install NodeJS
+
+>Please see the link provided above to download and install the NodeJS version appropriate for your development environment and operating system.
+
+**Note** It is beyond the scope of this document to provide the NodeJS installation process as there are many tutorials and content already available that describe the process in detail.
+
+
+##### Install Docker
+
+>Please see the link provided above to download and install the Docker version appropriate for your development environment and operating system.
+
+**Note** It is beyond the scope of this document to provide the Docker or DockerDesktop installation process as there are many tutorials and content already available that describe the process in detail.
+
+
+##### Install TruffleSuite
+
+>Developers interested in working with the SparkleLoyalty program repository will need to install the TruffleSuite set of smart contract tools including contract deployment and contract unit testing. To install TruffleSuite please follow the following step.
+
+```
+$ npm install -g truffle@5.1.23
+```
+
+##### Install Ganache-CLI
+
+>Development of the SparkleLoyalty program was initially performed and deployed to a local Ethereum blockchain provided by Ganache-CLI. To install Ganach-CLI please follow the following step.
+
+```
+$ npm install -g ganache-cli
+```
+
+##### Clone The SparkeLoyalty Repository
+
+>To begin developing with the SparkleLoyalty program developers will need to clone the source code repository for the project into a folder or directory on their computer to work from. To clone the SparkleLoyalty repository please create a working folder on your computer.
+
+>Once a working folder has been created please navigate into the newly created directory perform one of the following commands from the command line of your development enviroment to clone the repository.
+
+Using SSH:
+```
+$ git clone git@github.com:Sparklemobile/Sparkle-Proof-Of-Loyalty.git
+```
+
+Using: HTTPS
+
+```
+$ git clone https://github.com/Sparklemobile/Sparkle-Proof-Of-Loyalty.git
+```
+
+
+##### Initialize Local NodeJS Project
+
+>Now that the SparkleLoyalty program source code has been cloned or downloaded the next step is to initalize the project. This step will install any required dependancies required that were not installed in a previous step. To initialize the newly download SparkleLoyalty repository please enter the following command from the command line of your development environment.
+
+```
+$ npm init
+```
+
+
+##### Starting Your Local Blockchain
+
+>Before the contracts are compiled and migrated, a local Ethereum blockchain will be required to deploy the compiled contracts to. This step is being performed now as it seems most logical to have the running development blockchain up before the contracts are compiled and migrated. To start the Ganache-CLI local Ethereum blockchain please enter the following command from the command line of your development environment.
+
+```
+$ npm run ganache:cli
+```
+
+**Note** Starting the Ganache-CLI local blockchain is not required if the intention is to just compile the contracts in the project.
+
+**Note** The Ganache-CLI local blockchain has been configured to preserve it's data and to be persistant between executions. This means that the local server may be shutdown and restarted while preserving the blockchain state.
+
+
+##### Compile SparkleLoyalty
+
+>The next step is to compile the SparkleLoyalty program contracts. Currently everything neede to accomplish this task should be installed and ready. To compile the SparkleLoyalty program contract please enter the following command from the command line of your development enviroment.
+
+```
+$ truffle compile --all
+```
+
+
+##### Migrate SparkleLoyalty To Local Blockchain
+
+>After the SparkleLoyalty program contracts have been successfully compiled the next step is to deploy or migrate them to the local Ethereum blockchain provided by Ganache-CLI as outlined above. To migrate the compiled SparkleLoyalty contracts to the local blockchain enter the following command from the command line of your development environment.
+
+```
+$ truffle migrate --reset
+```
+
+**Note** The use of the --reset parameter is intentional and forces Truffle to migrate or deploy all contracts again. Without this parameter Truffle will attempt tp reuse contracts that have already been deployed to the blockchain it has recorded in it's migration file. The use of this parameter here is expressly to force Truffle to migrate all contracts regardless of being modified or not.
+
+
+##### Run The Tests
+
+>For developers interested in ensuring they have a working version of the SparkleLoyalty program should consider running the provided tests. Running the provided test not only familiarlize teh developer with the functionality of the project but also ensure that eveything is working as expected out of the box.
+
+>A number of solidity contract tests have been provided that cover most if not all of the expected funcationality of the SparkleLoyalty program to ensure that the expected behaviour is intact. To run the tests simple enter the following command from the command line of your development environment.
+
+Test: All:
+```
+$ npm run test:all
+```
+
+Test: RewardTiers:
+```
+$ npm run test:rewardtiers
+```
+
+Test: Timestamp:
+```
+$ npm run test:timestamp
+```
+
+Test: Loyalty:
+```
+$ npm run test:loyalty
+```
+
+
+**Note** Tests relying on specific timing expectations occasionally fail the testing sequence. This is due to fluctuations in time and load on the system running the local blockchain. Often re-running the tests or running the specific test on its own fixes this problem.
+
+
+### Additional Developer Information
+
+>Following are some additional points of information developers interested in SparkleLoyalty program development.
+
+#### Basic (UML) Diagram For Textual Description
+
+>The following [(UML)](https://plantuml.com/) diagram visualy demonstrates the inter-contract relationship of the SparkleLoyalty program and how the various contracts work together to provide functionality to the SparkleLoyalty program and its operational life cycle.
+
+<img src= "https://plantuml-server.kkeisuke.app/png/nLVDRkCs43vRJq70XxO9RBS1MXG1ThiRfxieqFmWBden38EMHZ5h_WWaPLT8zn5wsUsfbxn27osFq27rOygHlSqYY_fWaD_yS6Q-uKXwPIpLDXSy-e8C1YHLcj3Sge46cO0cJAASyrEoj3OpfwEHe7e5DkCqXk6QcPnoO_E4gM6in8XP4EO7ztz91Rpu3HOBCqHTkJr0PPOfQN0PHP5PCPbHJGNHAfT9hBJ4Cq--9g4evjGOSXVrpcYyklMAOyKnpclAuQq6a2XI6gCjuKcccRmj1Uy2FyQ21cMB3CQxdiu1icicLr4PepyHgXYPHBiKqoK__NWpnjZk8e8_hyZa4ZIpLABKAJU2t608Rz1p2rrJRTg80BjKYGTxnm_tV_rf5PPxacSPBxxygi8MbBiJhj86GKRKnc4UiPfAauBs6vfbMgtRWZTQ2GIm6kv75mO5iIKJci85jSlFbb7VnIfoxeBnwuIjcxN95ysQ9acp5YgfOosP_rZLUtTrHkzAXlP47UWzt7_ukydUjVnqcYFF9zz-DvjrPDSRJAS22uk-28QgmPWNBoi3CfkHUSMGwTRSQ-fjFPUGUDCc238F6k7_wfVUCPEn1chWTSi-WGwqFm_TzkS2KobNYrpBxIhinO3VSx2KSKYUWUTk_j0ILLnb9Owc7SWKOg5uGy7t3iCicS3fjg_wHqVpUOoJpEeyjahFvqT7JRtT4SscTDviQx_j8bnj95rmU8Qhw9AeEisbeJOuKlVTpqCvUCDcnynLiyT70uvER327c2NBMitJGhTT4S91tXESpQk3UGUqLqKAeR8HTe6wc_vxqOx3Th1g1VBIjybZV5Brod7GArvmNZTCBMfkCWelwE-7BtCt5K6bViMYfCKlJ7nwiMxmaUZuY8ktETN9PvcJszR3RBoNroNYo_BnsNYjbKglKf-dcu_n4kALs-5xYCYUUXaDs74xZ1fkN7gWVKhLvO-qD0WSbI4MyCDLGRaj9c0j9cIUZQH7pVxihBNQDSurtczxmTnrtM6qIZ6bUGoscy-AlfzBJR8rsbBOQMUGDNeBvxd8d96jjMzyoPDFuBsCCcJzuVxzFrKqPqhcvfjEzCIZQt_RphYALrKkVfmbE5QACKu_Myr2v9w96zWWKtw_ONQPQBe9ZF1vcId3x1R2hddK5wCMc-Kxps0mxL_ITJ7xusNryba9XiDfltvdTSA6xLCo6ZaN5P-ZKTH-kdPuh2TmAAhRiakstwezUeDvrULwZtYt-mEr9oIzUnUx0ZYainl58Tso7hiQJmWsUeMVMlXzz2y0.png">
+
+
+#### Known Issues
+
+>Known issues can be found on the SparkleLoyalty Program's GitHub Issue tracker as well as viewed publicly using pre-audit reports compiled by [Chainsecurity](https://securify.chainsecurity.com/)
+
+
+#### When Making Pull Requests a Test File is Required
+
+>When submitting a pull request that attempts to fix an existing bug or is meant to demonstrate the existence of a bug please provide a fully operational test that demonstrates and recreates the issue beineg described.
+
+**Note** Pull requests submitted not accompanied by a working test will be ignored and/or deleted.
+
+
+### Looking For More Information
+
+>To learn more about the SparkleLoyalty program please join our [telegram](https://t.me/Sparklemobile) and speak with any of our admins regarding how to get started earning rewards.
 
 
 ### Sources
