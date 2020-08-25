@@ -1,5 +1,7 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /// SWC-103:  Floating Pragma
-pragma solidity 0.4.25;
+pragma solidity 0.6.12;
 
 // import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 // import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
@@ -43,7 +45,6 @@ interface ISparkleTimestamp {
    */
   function getAddress(address _rewardAddress)
   external
-  view
   returns(address);
 
   /**
@@ -52,7 +53,6 @@ interface ISparkleTimestamp {
    */
   function getJoinedTimestamp(address _rewardAddress)
   external
-  view
   returns(uint256);
 
   /**
@@ -61,7 +61,6 @@ interface ISparkleTimestamp {
    */
   function getDepositTimestamp(address _rewardAddress)
   external
-  view
   returns(uint256);
 
   /**
@@ -70,7 +69,6 @@ interface ISparkleTimestamp {
    */
   function getRewardTimestamp(address _rewardAddress)
   external
-  view
   returns(uint256);
 
   /**
@@ -79,7 +77,6 @@ interface ISparkleTimestamp {
    */
   function hasTimestamp(address _rewardAddress)
   external
-  view
   returns(bool);
 
   /**
@@ -88,7 +85,6 @@ interface ISparkleTimestamp {
    */
   function getTimeRemaining(address _rewardAddress)
   external
-  view
   returns(uint256, bool, uint256);
 
   /**
@@ -97,7 +93,6 @@ interface ISparkleTimestamp {
    */
   function isRewardReady(address _rewardAddress)
   external
-  view
   returns(bool);
 
   /**
@@ -113,7 +108,6 @@ interface ISparkleTimestamp {
    */
   function getContractAddress()
   external
-  view
   returns(address);
 
   /**
@@ -129,7 +123,6 @@ interface ISparkleTimestamp {
    */
   function getTimePeriod()
   external
-  view
   returns(uint256);
 
 	/**

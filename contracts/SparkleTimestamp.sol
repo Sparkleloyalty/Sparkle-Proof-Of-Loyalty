@@ -1,10 +1,12 @@
-/// SWC-103:  Floating Pragma
-pragma solidity 0.4.25;
+// SPDX-License-Identifier: UNLICENSED
 
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
-import "../node_modules/openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol";
+/// SWC-103:  Floating Pragma
+pragma solidity 0.6.12;
+
+import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import './ISparkleTimestamp.sol';
 
 /**
@@ -69,6 +71,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
   external
   whenNotPaused
   nonReentrant
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
@@ -80,7 +83,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address does not have a timestamp
     require(g_timestamps[msg.sender][_rewardAddress]._address == address(0x0), 'Timestamp exists');
     /// Initialize timestamp structure with loyalty users data
-    g_timestamps[msg.sender][_rewardAddress]._address = _rewardAddress;
+    g_timestamps[msg.sender][_rewardAddress]._address = address(_rewardAddress);
     g_timestamps[msg.sender][_rewardAddress]._deposit = block.timestamp;
     g_timestamps[msg.sender][_rewardAddress]._joined = block.timestamp;
     /// Calculate the time in the future reward will mature
@@ -99,6 +102,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
   external
   whenNotPaused
   nonReentrant
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
@@ -110,7 +114,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'Invalid timestamp');
     /// Re-initialize timestamp structure with updated time data
     g_timestamps[msg.sender][_rewardAddress]._deposit = block.timestamp;
-    g_timestamps[msg.sender][_rewardAddress]._reward = block.timestamp + timePeriod;
+    g_timestamps[msg.sender][_rewardAddress]._reward = uint256(block.timestamp).add(timePeriod);
     /// Return success
     return true;
   }
@@ -124,6 +128,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
   external
   whenNotPaused
   nonReentrant
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
@@ -133,10 +138,18 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address (_rewardAddress)
     require(_rewardAddress != address(0), "Invalid reward address ");
     /// Validate specified address has a timestamp
-    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp1');
-    /// Zero out the collection storage for this reward address
-    delete g_timestamps[msg.sender][_rewardAddress];
+    if(g_timestamps[msg.sender][_rewardAddress]._address != address(_rewardAddress)) {
+      emit TimestampDeleted( false );
+      return false;
+    }
+
+    // Zero out address as delete does nothing with structure elements
+    Timestamp storage ts = g_timestamps[msg.sender][_rewardAddress];
+    ts._address = address(0x0);
+    ts._deposit = 0;
+    ts._reward = 0;
     /// Return success
+    emit TimestampDeleted( true );
     return true;
   }
 
@@ -146,8 +159,8 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function getAddress(address _rewardAddress)
   external
-  view
   whenNotPaused
+  override
   returns(address)
   {
     /// Validate calling address (msg.sender)
@@ -157,7 +170,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address (_rewardAddress)
     require(_rewardAddress != address(0), 'Invalid reward address');
     /// Validate specified address has a timestamp
-    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp2');
+    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp b');
     /// Return address indicating success
     return address(g_timestamps[msg.sender][_rewardAddress]._address);
   }
@@ -168,8 +181,8 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function getJoinedTimestamp(address _rewardAddress)
   external
-  view
   whenNotPaused
+  override
   returns(uint256)
   {
     /// Validate calling address (msg.sender)
@@ -179,7 +192,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address (_rewardAddress)
     require(_rewardAddress != address(0), 'Invalid reward address');
     /// Validate specified address has a timestamp
-    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp3');
+    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp c');
     /// Return deposit timestamp indicating success
     return g_timestamps[msg.sender][_rewardAddress]._joined;
   }
@@ -190,8 +203,8 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function getDepositTimestamp(address _rewardAddress)
   external
-  view
   whenNotPaused
+  override
   returns(uint256)
   {
     /// Validate calling address (msg.sender)
@@ -201,7 +214,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address (_rewardAddress)
     require(_rewardAddress != address(0), 'Invalid reward address');
     /// Validate specified address has a timestamp
-    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp3');
+    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp d');
     /// Return deposit timestamp indicating success
     return g_timestamps[msg.sender][_rewardAddress]._deposit;
   }
@@ -212,8 +225,8 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function getRewardTimestamp(address _rewardAddress)
   external
-  view
   whenNotPaused
+  override
   returns(uint256)
   {
     /// Validate calling address (msg.sender)
@@ -226,14 +239,15 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     return g_timestamps[msg.sender][_rewardAddress]._reward;
   }
 
+
   /**
    * @dev Determine if address specified has a timestamp record
    * @param _rewardAddress being queried for timestamp existance
    */
   function hasTimestamp(address _rewardAddress)
   external
-  view
   whenNotPaused
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
@@ -243,13 +257,19 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address (_rewardAddress)
     require(_rewardAddress != address(0), 'Invalid reward address');
     /// Determine if timestamp record matches reward address
-    if(g_timestamps[msg.sender][_rewardAddress]._address == _rewardAddress) {
-      /// yes, then return success
-      return true;
+    // if(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress)) {
+    //   /// yes, then return success
+    //   return true;
+    // }
+    if(g_timestamps[msg.sender][_rewardAddress]._address != address(_rewardAddress))
+    {
+      emit TimestampHasTimestamp(false);
+      return false;
     }
 
-    /// Return failure
-    return false;
+    /// Return success
+    emit TimestampHasTimestamp(true);
+    return true;
   }
 
   /**
@@ -258,8 +278,8 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function getTimeRemaining(address _rewardAddress)
   external
-  view
   whenNotPaused
+  override
   returns(uint256, bool, uint256)
   {
     /// Validate calling address (msg.sender)
@@ -269,7 +289,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address (_rewardAddress)
     require(_rewardAddress != address(0), 'Invalid reward address');
     /// Validate specified address has a timestamp
-    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp6');
+    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp f');
     /// Deterimine if reward address timestamp record has matured
     if(g_timestamps[msg.sender][_rewardAddress]._reward > block.timestamp) {
       /// No, then return indicating remaining time and false to indicate failure
@@ -286,8 +306,8 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function isRewardReady(address _rewardAddress)
   external
-  view
   whenNotPaused
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
@@ -297,7 +317,7 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Validate specified address (_rewardAddress)
     require(_rewardAddress != address(0), 'Invalid reward address');
     /// Validate specified address has a timestamp
-    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp7');
+    require(g_timestamps[msg.sender][_rewardAddress]._address == address(_rewardAddress), 'No timestamp g');
     /// Deterimine if reward address timestamp record has matured
     if(g_timestamps[msg.sender][_rewardAddress]._reward > block.timestamp) {
       /// No, then return false to indicate failure
@@ -316,12 +336,12 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
   external
   onlyOwner
   nonReentrant
+  override
   {
     /// Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}j');
     /// Validate specified address (_newAddress)
     require(_newAddress != address(0), 'Invalid contract address');
-    /// Obtain current address value before change
     address currentAddress = contractAddress;
     /// Set current address to new controller contract address
     contractAddress = _newAddress;
@@ -335,12 +355,12 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function getContractAddress()
   external
-  view
   whenNotPaused
+  override
   returns(address)
   {
     /// Return current controller contract address
-    return contractAddress;
+    return address(contractAddress);
   }
 
   /**
@@ -351,14 +371,13 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
   external
   onlyOwner
   nonReentrant
+  override
   {
     /// Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}k');
     /// Validate specified time period
     require(_newTimePeriod >= 60 seconds, 'Time period < 60s');
-    /// Obtain current time period
     uint256 currentTimePeriod = timePeriod;
-    /// Set current time period
     timePeriod = _newTimePeriod;
     /// Emit event log to the block chain for future web3 use
     emit TimePeriodChanged(currentTimePeriod, _newTimePeriod);
@@ -370,8 +389,8 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
    */
   function getTimePeriod()
   external
-  view
   whenNotPaused
+  override
   returns(uint256)
   {
     /// Return current time period
@@ -401,11 +420,16 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
 	/**
 	 * @dev Event signal: Loyalty reward timestamp was removed
 	 */
-	event TimestampDeleted( address indexed _newTimestampAddress );
+	event TimestampDeleted( bool indexed _timestampDeleted );
 
   /**
    * @dev Event signal: Timestamp for address was reset
    */
   event TimestampReset(address _rewardAddress);
+
+  /**
+   * @dev Event signal: Current hasTimestamp value
+   */
+  event TimestampHasTimestamp(bool _hasTimestamp);
 
 }
