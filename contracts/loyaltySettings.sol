@@ -107,9 +107,9 @@ return false;
 */
 
 function verifyBlockLoyalty () external returns (bool verified) {
-VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
+TimestampValidator time = TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
-  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
+  require(time == TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require(POL._loyaltyNeeded == true, 'User is not a loyalty holder');
   require(block.timestamp > POL._rewardTime,'Users reward has not yet been approved');
   require(msg.sender == POL._miner,'Users has not deposited tokens');
@@ -155,12 +155,12 @@ return POL._loyaltyDays;
 */
 
 function claimReward () external returns (bool transferComplete) {
-VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
+TimestampValidator time = TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256  _basePercentage = 0.00081967 * 10e7; // @dev annual percentage calculation (30/100) / (365 + 1) =  0.00081967
 uint256 timeLegnth = 60; //@dev exspected loyalty legnth (optional can be modified by contract owner only )  24 hrs = 86400 seconds
 uint256 _timeLegnth = timeLegnth;
-  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
+  require(time == TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require (timeLegnth == 60, 'loyalty timeLegnths do not match');
   require (_timeLegnth == timeLegnth, 'loyalty timeLegnths do not match');
   require (_basePercentage == 0.00081967 * 10e7,'Base percentage is not allowed to be changed');
@@ -190,13 +190,13 @@ return false;
 
 function withdrawLoyalty () external nonReentrant() returns (bool withdrawComplete){
 Sparkle token = Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F);
-VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
+TimestampValidator time = TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 address _recipiant = POL._miner;
 uint256 _amount = POL._value;
 uint256 _reward = POL._rewardAmount;
   require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
-  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
+  require(time == TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require (POL._loyaltyNeeded == true, 'Please make a deposit before attempting a withdraw');
   require (POL._value == POL._value, 'Please user the same address used for loyalty deposit');
   require (POL._rewardAmount == POL._rewardAmount, 'Please use the same address used for loyalty deposit');
@@ -227,7 +227,7 @@ return false;
 
 function depositLoyalty( address _miner,  uint256 _value) external nonReentrant() returns (bool LoyaltyAccepted){
 Sparkle token = Sparkle (0x9bb1E675CF9D585Cf615382959D74C337d50337F);
-VerifyTime time = VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
+TimestampValidator time = TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C);
 ProofOfLoyalty storage POL = loyaltyTimestamp[msg.sender];
 uint256 _multiplier = 1.0000000 * 10e7;
 uint256 loyaltyRequired = 1000 * (10**8); // @dev token amount required for loyalty contract (optional can be modified)
@@ -236,7 +236,7 @@ uint256 timeLegnth = 60; //@dev exspected loyalty legnth (optional can be modifi
 uint256 _timeLegnth = timeLegnth;
 uint256 _amount = _value;
   require(token == Sparkle(0x9bb1E675CF9D585Cf615382959D74C337d50337F),'Please use the correct token contract');
-  require(time == VerifyTime (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
+  require(time == TimestampValidator (0x6006fea8d63f329ffb265c0907699457f9a1f52C),'Please use the correct validator address');
   require (timeLegnth == 60, 'loyalty timeLegnths do not match');
   require (_timeLegnth == timeLegnth, 'loyalty timeLegnths do not match');
   require (_multiplier == 1.0000000 * 10e7,'multiplier must not be tampered with');
