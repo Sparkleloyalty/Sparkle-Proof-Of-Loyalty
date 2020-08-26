@@ -1,11 +1,13 @@
-/// SWC-103:  Floating Pragma
-pragma solidity 0.4.25;
+// SPDX-License-Identifier: UNLICENSED
 
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol";
-import '../node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
-import '../node_modules/openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol';
-import '../node_modules/openzeppelin-solidity/contracts/token/ERC20/IERC20.sol';
+/// SWC-103:  Floating Pragma
+pragma solidity 0.6.12;
+
+import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import '@openzeppelin/contracts/utils/Pausable.sol';
+import '@openzeppelin/contracts/utils/ReentrancyGuard.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 import './ISparkleTimestamp.sol';
 import './ISparkleRewardTiers.sol';
 
@@ -20,73 +22,53 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    */
   using SafeMath for uint256;
 
-  uint256 private gasToSendWithTX = 21317;
-  // uint256 private baseRate = 0.00082137 * 10e7; // A full year is 365.2422 gregorian days
+  // Gas to send with certain transations that may cost more in the future due to chain growth
+  uint256 private gasToSendWithTX = 25317;
+  // Base rate APR (5%) factored to 365.2422 gregorian days
   uint256 private baseRate = 0.00013690 * 10e7; // A full year is 365.2422 gregorian days (5%)
 
+  // Account data structure
   struct Account {
-    address _address; // Address of loyalty earner
-    uint256 _balance; // Balance of tokens physically deposited
-    uint256 _collected; // Collected value of token rewards
-    uint256 _claimed; // Total number of times a reward has been claimed
-    uint256 _joined; // Total number of times this address has joined the program
-    uint256 _tier; // Tier index of reward tier for this loyaly earner
-    bool _isLocked; // This is the locked record status. (true = no deposits, withdraws, claims)
+    address _address; // Loyalty reward address
+    uint256 _balance; // Total tokens deposited
+    uint256 _collected; // Total tokens collected
+    uint256 _claimed; // Total succesfull reward claims
+    uint256 _joined; // Total times address has joined
+    uint256 _tier; // Tier index of reward tier
+    bool _isLocked; // Is the account locked
   }
 
-  /**
-   * @param tokenAddress of erc20 token used for rewards
-   */
+  // tokenAddress of erc20 token address
   address private tokenAddress;
 
-  /**
-   * @param timestampAddress of erc20 token used for rewards
-   */
+  // timestampAddress of time stamp contract address
   address private timestampAddress;
 
-  /**
-   * @param treasuryAddress of token reeasury used for earned rewards
-   */
+  // treasuryAddress of token treeasury address
   address private treasuryAddress;
 
-  /**
-   * @param collectionAddress of ethereum account used for tier upgrade collection
-   */
+  // collectionAddress to receive eth payed for tier upgrades
   address private collectionAddress;
 
-  /**
-   * @param rewardTiersAddress of smart contractused for tier resolution
-   */
+  // rewardTiersAddress to resolve reward tier specifications
   address private tiersAddress;
 
-  /**
-   * @param minProofRequired to deposit for rewards eligibility at any tier
-   */
+  // minProofRequired to deposit of rewards to be eligibile
   uint256 private minRequired;
 
-  /**
-   * @param maxProofAllowed allowed for deposit for rewards eligibility at any tier
-   */
+  // maxProofAllowed for deposit to be eligibile
   uint256 private maxAllowed;
 
-  /**
-   * @param totalTokensClaimed of all rewards awarded
-   */
+  // totalTokensClaimed of all rewards awarded
   uint256 private totalTokensClaimed;
 
-  /**
-   * @param totalTimesClaimed
-   */
+  // totalTimesClaimed of all successfully claimed rewards
   uint256 private totalTimesClaimed;
 
-  /**
-   * @param totalActiveAccounts count
-   */
+  // totalActiveAccounts count of all currently active addresses
   uint256 private totalActiveAccounts;
 
-  /**
-   * @param Accounts mapping of user loyalty records
-   */
+  // Accounts mapping of user loyalty records
   mapping(address => Account) private accounts;
 
   /**
@@ -97,9 +79,13 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _tiersAddress of the proof of loyalty tier rewards support contract
    * @param _timestampAddress of the proof of loyalty timestamp support contract
   */
-  constructor(address _tokenAddress, address _treasuryAddress, address _collectionAddress, address _tiersAddress, address _timestampAddress) public Ownable() Pausable() ReentrancyGuard() {
-
-    // Initialize contract internal addresse(s)
+  constructor(address _tokenAddress, address _treasuryAddress, address _collectionAddress, address _tiersAddress, address _timestampAddress)
+  public
+  Ownable()
+  Pausable()
+  ReentrancyGuard()
+  {
+    // Initialize contract internal addresse(s) from params
     tokenAddress = _tokenAddress;
     treasuryAddress = _treasuryAddress;
     collectionAddress = _collectionAddress;
@@ -111,14 +97,16 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     maxAllowed = uint256(250000).mul(10e7);
   }
 
-  event DepositLoyaltyEvent(address, uint256, bool);
-
   /**
    * @dev Deposit additional tokens to a reward address loyalty balance
    * @param _depositAmount of tokens to deposit into  a reward address balance
    * @return bool indicating the success of the deposit operation (true == success)
    */
-  function depositLoyalty(uint _depositAmount) public whenNotPaused nonReentrant returns (bool)
+  function depositLoyalty(uint _depositAmount)
+  public
+  whenNotPaused
+  nonReentrant
+  returns (bool)
   {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}1');
@@ -126,7 +114,7 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     require(_depositAmount >= minRequired, 'Minimum required');
 
     // Determine if caller has approved enough allowance for this deposit
-    if(IERC20(tokenAddress).allowance(msg.sender, this) < _depositAmount) {
+    if(IERC20(tokenAddress).allowance(msg.sender, address(this)) < _depositAmount) {
       // No, rever informing that deposit amount exceeded allownce amount
       revert('Exceeds allowance');
     }
@@ -151,7 +139,7 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     }
 
     // Determine of transfer from caller has succeeded
-    if(IERC20(tokenAddress).transferFrom(msg.sender, this, _depositAmount)) {
+    if(IERC20(tokenAddress).transferFrom(msg.sender, address(this), _depositAmount)) {
       // Yes, thend determine if the specified address has a timestamp record
       if(ISparkleTimestamp(timestampAddress).hasTimestamp(msg.sender)) {
         // Yes, update callers account balance by deposit amount
@@ -171,11 +159,11 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
       }
 
       // Prepare loyalty account record
-      loyaltyAccount._address = msg.sender;
+      loyaltyAccount._address = address(msg.sender);
       loyaltyAccount._balance = _depositAmount;
-      loyaltyAccount._joined = 1;
+      loyaltyAccount._joined = loyaltyAccount._joined.add(1);
       // Update global account counter
-      totalActiveAccounts += 1;
+      totalActiveAccounts = totalActiveAccounts.add(1);
       //
       emit DepositLoyaltyEvent(msg.sender, _depositAmount, false);
       // Return success
@@ -189,7 +177,11 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
   /**
    * @dev Claim Sparkle Loyalty reward
    */
-  function claimLoyaltyReward() public whenNotPaused nonReentrant returns(bool)
+  function claimLoyaltyReward()
+  public
+  whenNotPaused
+  nonReentrant
+  returns(bool)
   {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}');
@@ -233,12 +225,15 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
   /**
    * @dev Withdraw the current deposit balance + any earned loyalty rewards
    */
-  function withdrawLoyalty() public whenNotPaused nonReentrant()
+  function withdrawLoyalty()
+  public
+  whenNotPaused
+  nonReentrant
   {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}');
     // validate that caller has a loyalty timestamp
-    require(ISparkleTimestamp(timestampAddress).hasTimestamp(msg.sender), 'No timestamp');
+    require(ISparkleTimestamp(timestampAddress).hasTimestamp(msg.sender), 'No timestamp2');
 
     // Determine if the account has been locked
     if(accounts[msg.sender]._isLocked) {
@@ -250,12 +245,19 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     uint256 joinCount = accounts[msg.sender]._joined;
     uint256 collected = accounts[msg.sender]._collected;
     uint256 deposit = accounts[msg.sender]._balance;
+    bool isLocked = accounts[msg.sender]._isLocked;
     // Zero out the callers account record
-    delete accounts[msg.sender];
-    // Carry callers program joined count over to cleared record
-    accounts[msg.sender]._joined = joinCount;
-    // Decement the totak number of active accounts
-    totalActiveAccounts -= 1;
+    Account storage account = accounts[msg.sender];
+    account._address = address(0x0);
+    account._balance = 0x0;
+    account._collected = 0x0;
+    account._joined = joinCount;
+    account._claimed = 0x0;
+    account._tier = 0x0;
+    // Preserve account lock even after withdraw (account always locked)
+    account._isLocked = isLocked;
+    // Decement the total number of active accounts
+    totalActiveAccounts = totalActiveAccounts.sub(1);
 
     // Delete the callers timestamp record
     _deleteTimestamp(msg.sender);
@@ -276,16 +278,106 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     emit LoyaltyWithdrawnEvent(msg.sender, deposit.add(collected));
   }
 
+  function returnLoyaltyDeposit(address _rewardAddress)
+  public
+  whenNotPaused
+  onlyOwner
+  nonReentrant
+  {
+    // Validate calling address (msg.sender)
+    require(msg.sender != address(0), 'Invalid {from}');
+    // validate that caller has a loyalty timestamp
+    require(ISparkleTimestamp(timestampAddress).hasTimestamp(_rewardAddress), 'No timestamp2');
+    // Validate that reward address is locked
+    require(accounts[_rewardAddress]._isLocked, 'Lock account first');
+    uint256 deposit = accounts[_rewardAddress]._balance;
+    Account storage account = accounts[_rewardAddress];
+    account._balance = 0x0;
+    // Determine if transfer from contract address is a sucess
+    if(!IERC20(tokenAddress).transfer(_rewardAddress, deposit)) {
+      // No, revert indicating that the treansfer and withdraw has failed
+      revert('Withdraw failed');
+    }
+
+    // Emit event log to the block chain for future web3 use
+    emit LoyaltyDepositWithdrawnEvent(_rewardAddress, deposit);
+  }
+
+  function returnLoyaltyCollected(address _rewardAddress)
+  public
+  whenNotPaused
+  onlyOwner
+  nonReentrant
+  {
+    // Validate calling address (msg.sender)
+    require(msg.sender != address(0), 'Invalid {from}');
+    // validate that caller has a loyalty timestamp
+    require(ISparkleTimestamp(timestampAddress).hasTimestamp(_rewardAddress), 'No timestamp2b');
+    // Validate that reward address is locked
+    require(accounts[_rewardAddress]._isLocked, 'Lock account first');
+    uint256 collected = accounts[_rewardAddress]._collected;
+    Account storage account = accounts[_rewardAddress];
+    account._collected = 0x0;
+    // Determine if transfer from treasury address is a success
+    if(!IERC20(tokenAddress).transferFrom(treasuryAddress, _rewardAddress, collected)) {
+      // No, revert indicating that the transfer and wisthdraw has failed
+      revert('Withdraw failed');
+    }
+
+    // Emit event log to the block chain for future web3 use
+    emit LoyaltyCollectedWithdrawnEvent(_rewardAddress, collected);
+  }
+
+  function removeLoyaltyAccount(address _rewardAddress)
+  public
+  whenNotPaused
+  onlyOwner
+  nonReentrant
+  {
+    // Validate calling address (msg.sender)
+    require(msg.sender != address(0), 'Invalid {from}');
+    // validate that caller has a loyalty timestamp
+    require(ISparkleTimestamp(timestampAddress).hasTimestamp(_rewardAddress), 'No timestamp2b');
+    // Validate that reward address is locked
+    require(accounts[_rewardAddress]._isLocked, 'Lock account first');
+    uint256 joinCount = accounts[_rewardAddress]._joined;
+    Account storage account = accounts[_rewardAddress];
+    account._address = address(0x0);
+    account._balance = 0x0;
+    account._collected = 0x0;
+    account._joined = joinCount;
+    account._claimed = 0x0;
+    account._tier = 0x0;
+    account._isLocked = false;
+    // Decement the total number of active accounts
+    totalActiveAccounts = totalActiveAccounts.sub(1);
+
+    // Delete the callers timestamp record
+    _deleteTimestamp(_rewardAddress);
+
+    emit LoyaltyAccountRemovedEvent(_rewardAddress);
+  }
+
   /**
    * @dev Gets the locked status of the specified address
    * @param _loyaltyAddress of account
    * @return (bool) indicating locked status
    */
-  function isLocked(address _loyaltyAddress) public view whenNotPaused returns (bool) {
+  function isLocked(address _loyaltyAddress)
+  public
+  view
+  whenNotPaused
+  returns (bool)
+  {
     return accounts[_loyaltyAddress]._isLocked;
   }
 
-  function lockAccount(address _rewardAddress, bool _value) public onlyOwner whenNotPaused nonReentrant {
+  function lockAccount(address _rewardAddress, bool _value)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {from}');
     require(_rewardAddress != address(0x0), 'Invalid {reward}');
@@ -302,7 +394,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _loyaltyAddress of account
    * @return (address) indicating the address stored calls account record
    */
-  function getLoyaltyAddress(address _loyaltyAddress) public view whenNotPaused returns(address) {
+  function getLoyaltyAddress(address _loyaltyAddress)
+  public
+  view
+  whenNotPaused
+  returns(address)
+  {
     return accounts[_loyaltyAddress]._address;
   }
 
@@ -311,7 +408,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _loyaltyAddress of account
    * @return (uint256) indicating the balance value
    */
-  function getDepositBalance(address _loyaltyAddress) public view whenNotPaused returns(uint256) {
+  function getDepositBalance(address _loyaltyAddress)
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     return accounts[_loyaltyAddress]._balance;
   }
 
@@ -320,7 +422,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _loyaltyAddress of account
    * @return (uint256) indicating the tokens collected
    */
-  function getTokensCollected(address _loyaltyAddress) public view whenNotPaused returns(uint256) {
+  function getTokensCollected(address _loyaltyAddress)
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     return accounts[_loyaltyAddress]._collected;
   }
 
@@ -329,7 +436,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _loyaltyAddress of account
    * @return (uint256) indicating total balance
    */
-  function getTotalBalance(address _loyaltyAddress) public view whenNotPaused returns(uint256) {
+  function getTotalBalance(address _loyaltyAddress)
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     return accounts[_loyaltyAddress]._balance.add(accounts[_loyaltyAddress]._collected);
   }
 
@@ -338,7 +450,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _loyaltyAddress of account
    * @return (uint256) indicating total time claimed
    */
-  function getTimesClaimed(address _loyaltyAddress) public view whenNotPaused returns(uint256) {
+  function getTimesClaimed(address _loyaltyAddress)
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     return accounts[_loyaltyAddress]._claimed;
   }
 
@@ -347,7 +464,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _loyaltyAddress of account
    * @return (uint256)
    */
-  function getTimesJoined(address _loyaltyAddress) public view whenNotPaused returns(uint256) {
+  function getTimesJoined(address _loyaltyAddress)
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     return accounts[_loyaltyAddress]._joined;
   }
 
@@ -356,8 +478,13 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _loyaltyAddress of account
    * @return (uint256, bool) Indicating time remaining/past and boolean indicating maturity
    */
-  function getTimeRemaining(address _loyaltyAddress) public view whenNotPaused returns (uint256, bool, uint256) {
-    return ISparkleTimestamp(timestampAddress).getTimeRemaining(_loyaltyAddress);
+  function getTimeRemaining(address _loyaltyAddress)
+  public
+  whenNotPaused
+  returns (uint256, bool, uint256)
+  {
+    (uint256 remaining, bool status, uint256 deposit) = ISparkleTimestamp(timestampAddress).getTimeRemaining(_loyaltyAddress);
+    return (remaining, status, deposit);
   }
 
   /**
@@ -366,7 +493,11 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @return Total number of tokens that have been claimed by users
    * @notice Test(s) Not written
    */
-  function getRewardTier(address _loyaltyAddress) public view whenNotPaused returns(uint256) {
+  function getRewardTier(address _loyaltyAddress)
+  public
+  view whenNotPaused
+  returns(uint256)
+  {
     return accounts[_loyaltyAddress]._tier;
   }
 
@@ -375,11 +506,17 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _tierSelected id of the reward tier interested in purchasing
    * @return (bool) indicating failure/success
    */
-  function selectRewardTier(uint256 _tierSelected) public payable whenNotPaused nonReentrant returns(bool) {
+  function selectRewardTier(uint256 _tierSelected)
+  public
+  payable
+  whenNotPaused
+  nonReentrant
+  returns(bool)
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {From}');
     // Validate specified address has a timestamp
-    require(accounts[msg.sender]._address == address(msg.sender), 'No timestamp');
+    require(accounts[msg.sender]._address == address(msg.sender), 'No timestamp3');
     // Validate tier selection
     require(accounts[msg.sender]._tier != _tierSelected, 'Already selected');
     // Validate that ether was sent with the call
@@ -392,10 +529,8 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     }
 
     // Determine if ether transfer for tier upgrade has completed successfully
-    if(!address(collectionAddress).call.value(ISparkleRewardTiers(tiersAddress).getPrice(_tierSelected)).gas(gasToSendWithTX)('')) {
-      // No, revert indicating reward rate is unchanged
-      revert('Rate unchanged');
-    }
+    (bool success, ) = address(collectionAddress).call{value: ISparkleRewardTiers(tiersAddress).getPrice(_tierSelected), gas: gasToSendWithTX}('');
+    require(success, 'Rate unchanged');
 
     // Update callers rate with the new selected rate
     accounts[msg.sender]._tier = _tierSelected;
@@ -404,7 +539,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     return true;
   }
 
-  function getRewardTiersAddress() public view whenNotPaused returns(address) {
+  function getRewardTiersAddress()
+  public
+  view
+  whenNotPaused
+  returns(address)
+  {
     return tiersAddress;
   }
 
@@ -413,7 +553,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _newAddress of new collection address
    * @notice Test(s) not written
    */
-  function setRewardTiersAddress(address _newAddress) public whenNotPaused onlyOwner nonReentrant {
+  function setRewardTiersAddress(address _newAddress)
+  public
+  whenNotPaused
+  onlyOwner
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {From}');
     // Validate specified address is valid
@@ -423,7 +568,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     emit TiersAddressChanged(_newAddress);
   }
 
-  function getCollectionAddress() public view whenNotPaused returns(address) {
+  function getCollectionAddress()
+  public
+  view
+  whenNotPaused
+  returns(address)
+  {
     return collectionAddress;
   }
 
@@ -431,7 +581,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @dev Set tier collectionm address
    * @param _newAddress of new collection address
    */
-  function setCollectionAddress(address _newAddress) public whenNotPaused onlyOwner nonReentrant {
+  function setCollectionAddress(address _newAddress)
+  public
+  whenNotPaused
+  onlyOwner
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {From}');
     // Validate specified address is valid
@@ -441,7 +596,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     emit CollectionAddressChanged(_newAddress);
   }
 
-  function getTreasuryAddress() public view whenNotPaused returns(address) {
+  function getTreasuryAddress()
+  public
+  view
+  whenNotPaused
+  returns(address)
+  {
     return treasuryAddress;
   }
 
@@ -450,7 +610,11 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _newAddress of the treasury address
    * @notice Test(s) passed
    */
-  function setTreasuryAddress(address _newAddress) public onlyOwner whenNotPaused nonReentrant
+  function setTreasuryAddress(address _newAddress)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
   {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), "Invalid {from}");
@@ -461,7 +625,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     emit TreasuryAddressChanged(_newAddress);
   }
 
-  function getTimestampAddress() public view whenNotPaused returns(address) {
+  function getTimestampAddress()
+  public
+  view
+  whenNotPaused
+  returns(address)
+  {
     return timestampAddress;
   }
 
@@ -470,7 +639,11 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _newAddress of timestamp address
    * @notice Test(s) passed
    */
-  function setTimestampAddress(address _newAddress) public onlyOwner whenNotPaused nonReentrant
+  function setTimestampAddress(address _newAddress)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
   {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), "Invalid {from}");
@@ -479,7 +652,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     emit TimestampAddressChanged(_newAddress);
   }
 
-  function getTokenAddress() public view whenNotPaused returns(address) {
+  function getTokenAddress()
+  public
+  view
+  whenNotPaused
+  returns(address)
+  {
     return tokenAddress;
   }
 
@@ -488,7 +666,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _newAddress of the new token address
    * @notice Test(s) passed
    */
-  function setTokenAddress(address _newAddress) public onlyOwner whenNotPaused nonReentrant {
+  function setTokenAddress(address _newAddress)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), "Invalid {from}");
     // Set current token contract address
@@ -496,11 +679,20 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     emit TokenAddressChangedEvent(_newAddress);
   }
 
-  function getSentGasAmount() public view whenNotPaused returns(uint256) {
+  function getSentGasAmount()
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     return gasToSendWithTX;
   }
 
-  function setSentGasAmount(uint256 _amount) public onlyOwner whenNotPaused { //nonReentrant {
+  function setSentGasAmount(uint256 _amount)
+  public
+  onlyOwner
+  whenNotPaused
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}');
     // Set the current minimum deposit allowed
@@ -513,7 +705,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @param _minProof amount for new minimum accepted loyalty reward deposit
    * @notice _minProof value is multiplied internally by 10e7. Do not multiply before calling!
    */
-  function setMinProof(uint256 _minProof) public onlyOwner whenNotPaused nonReentrant {
+  function setMinProof(uint256 _minProof)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}');
     // Validate specified minimum is not lower than 1000 tokens
@@ -529,7 +726,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @return Amount of tokens required for Proof Of Loyalty Rewards
    * @notice Test(s) passed
    */
-  function getMinProof() public view whenNotPaused returns(uint256) {
+  function getMinProof()
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     // Return indicating minimum deposit allowed
     return minRequired;
   }
@@ -540,7 +742,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @notice _maxProof value is multiplied internally by 10e7. Do not multiply before calling!
    * @notice Smallest maximum value is 1000 + _minProof amount. (Ex: If _minProof == 1000 then smallest _maxProof possible is 2000)
    */
-  function setMaxProof(uint256 _maxProof) public onlyOwner whenNotPaused nonReentrant {
+  function setMaxProof(uint256 _maxProof)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0), 'Invalid {from}');
     require(_maxProof >= 2000, 'Invalid amount');
@@ -553,7 +760,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @return Maximum amount of tokens allowed for Proof Of Loyalty deposit
    * @notice Test(s) passed
    */
-  function getMaxProof() public view whenNotPaused returns(uint256) {
+  function getMaxProof()
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     // Return indicating current allowed maximum deposit
     return maxAllowed;
   }
@@ -563,7 +775,12 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    * @return Total number of tokens that have been claimed by users
    * @notice Test(s) Not written
    */
-  function getTotalTokensClaimed() public view whenNotPaused returns(uint256) {
+  function getTotalTokensClaimed()
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     // Return indicating total number of tokens that have been claimed by all
     return totalTokensClaimed;
   }
@@ -571,18 +788,26 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
   /**
    * @dev Get total number of times rewards have been claimed for all users
    * @return Total number of times rewards have been claimed
-   * @notice Test(s) Not written
    */
-  function getTotalTimesClaimed() public view whenNotPaused returns(uint256) {
+  function getTotalTimesClaimed()
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
     // Return indicating total number of tokens that have been claimed by all
     return totalTimesClaimed;
   }
 
   /**
    * @dev Withdraw any ether that has been sent directly to the contract
-   * @notice  Tests not written
    */
-  function withdrawEth(address _toAddress) public onlyOwner whenNotPaused nonReentrant {
+  function withdrawEth(address _toAddress)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {from}');
     // Validate specified address
@@ -590,68 +815,89 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     // Validate there is ether to withdraw
     require(address(this).balance > 0, 'No ether');
     // Determine if ether transfer of stored ether has completed successfully
-    require(address(_toAddress).call.value(address(this).balance).gas(gasToSendWithTX)(), 'Withdraw failed');
+    // require(address(_toAddress).call.value(address(this).balance).gas(gasToSendWithTX)(), 'Withdraw failed');
+    (bool success, ) = address(_toAddress).call{value:address(this).balance, gas: gasToSendWithTX}('');
+    require(success, 'Withdraw failed');
   }
 
   /**
    * @dev Withdraw any ether that has been sent directly to the contract
    * @param _toAddress to receive any stored token balance
-   * @notice Test(s) incomplete
    */
-  function withdrawTokens(address _toAddress) public onlyOwner whenNotPaused nonReentrant {
+  function withdrawTokens(address _toAddress)
+  public
+  onlyOwner
+  whenNotPaused
+  nonReentrant
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {from}');
     // Validate specified address
     require(_toAddress != address(0), "Invalid {to}");
     // Validate there are tokens to withdraw
-    require(IERC20(tokenAddress).balanceOf(this) > 0, "No tokens");
+    uint256 balance = IERC20(tokenAddress).balanceOf(address(this));
+    require(balance != 0, "No tokens");
+
     // Validate the transfer of tokens completed successfully
-    IERC20(tokenAddress).transfer(_toAddress, IERC20(tokenAddress).balanceOf(this));
+    if(IERC20(tokenAddress).transfer(_toAddress, balance)) {
+      emit TokensWithdrawn(_toAddress, balance);
+    }
   }
 
-  function _resetTimestamp(address _rewardAddress) internal {
+  /**
+   * @dev Override loyalty account tier by contract owner
+   * @param _loyaltyAccount loyalty account address to tier override
+   * @param _tierSelected reward tier to override current tier value
+   * @return (bool) indicating success status
+   */
+  function overrideRewardTier(address _loyaltyAccount, uint256 _tierSelected)
+  public
+  whenNotPaused
+  onlyOwner
+  nonReentrant
+  returns(bool)
+  {
+    // Validate calling address (msg.sender)
+    require(msg.sender != address(0x0), 'Invalid {from}');
+    require(_loyaltyAccount != address(0x0), 'Invalid {account}');
+    // Validate specified address has a timestamp
+    require(accounts[_loyaltyAccount]._address == address(_loyaltyAccount), 'No timestamp4');
+    // Update the specified loyalty address tier reward index
+    accounts[_loyaltyAccount]._tier = _tierSelected;
+    emit RewardTierChanged(_loyaltyAccount, _tierSelected);
+  }
+
+  /**
+   * @dev Reset the specified loyalty account timestamp
+   * @param _rewardAddress of the loyalty account to perfornm a reset
+   */
+  function _resetTimestamp(address _rewardAddress)
+  internal
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {from}');
     // Validate specified address
     require(_rewardAddress != address(0), "Invalid {reward}");
     // Reset callers timestamp for specified address
-    ISparkleTimestamp(timestampAddress).resetTimestamp(_rewardAddress);
+    require(ISparkleTimestamp(timestampAddress).resetTimestamp(_rewardAddress), 'Reset failed');
+    emit ResetTimestampEvent(_rewardAddress);
   }
 
-  function _deleteTimestamp(address _rewardAddress) internal {
+  /**
+   * @dev Delete the specified loyalty account timestamp
+   * @param _rewardAddress of the loyalty account to perfornm the delete
+   */
+  function _deleteTimestamp(address _rewardAddress)
+  internal
+  {
     // Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {from}16');
     // Validate specified address
     require(_rewardAddress != address(0), "Invalid {reward}");
     // Delete callers timestamp for specified address
     require(ISparkleTimestamp(timestampAddress).deleteTimestamp(_rewardAddress), 'Delete failed');
+    emit DeleteTimestampEvent(_rewardAddress);
   }
-
-  function overrideRewardTier(address _loyaltyAccount, uint256 _tierSelected) public whenNotPaused onlyOwner nonReentrant returns(bool)
-  {
-    // Validate calling address (msg.sender)
-    require(msg.sender != address(0x0), 'Invalid {from}');
-    // Validate specified address has a timestamp
-    require(accounts[_loyaltyAccount]._address == address(msg.sender), 'No timestamp');
-    // Update the specified loyalty address tier reward index
-    accounts[msg.sender]._tier = _tierSelected;
-    emit RewardTierChanged(_loyaltyAccount, _tierSelected);
-  }
-
-  /**
-   * @dev Event signal: Reward tiers address updated
-   */
-  event TierSelectedEvent(address, uint256);
-
-  /**
-   * @dev Event signal: Reward tiers address updated
-   */
-  event TiersAddressChanged(address);
-
-  /**
-   * @dev Event signal: Collection address updated
-   */
-  event CollectionAddressChanged(address);
 
   /**
    * @dev Event signal: Treasury address updated
@@ -669,14 +915,19 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
   event TokenAddressChangedEvent(address);
 
   /**
-   * @dev Event signal: Account locked/unlocked
+   * @dev Event signal: Timestamp reset
    */
-  event LockedAccountEvent(address _rewardAddress, bool _locked);
+  event ResetTimestampEvent(address _rewardAddress);
 
   /**
    * @dev Event signal: Timestamp deleted
    */
   event DeleteTimestampEvent(address _rewardAddress);
+
+  /**
+   * @dev Event signal: Loyalty deposited event
+   */
+  event DepositLoyaltyEvent(address, uint256, bool);
 
   /**
    * @dev Event signal: Reward claimed successfully for address
@@ -689,12 +940,51 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
   event LoyaltyWithdrawnEvent(address, uint256);
 
   /**
-   * @dev Event signal: Gas sent with call.value amount changed
+   * @dev Event signal: Account locked/unlocked
    */
-  event GasSentChanged(uint256);
+  event LockedAccountEvent(address _rewardAddress, bool _locked);
 
   /**
-   * @dev Event signal:
+   * @dev Event signal: Loyalty deposit balance withdrawn
+   */
+  event LoyaltyDepositWithdrawnEvent(address, uint256);
+
+  /**
+   * @dev Event signal: Loyalty collected balance withdrawn
+   */
+  event LoyaltyCollectedWithdrawnEvent(address, uint256);
+
+  /**
+   * @dev Event signal: Loyalty account removed
+   */
+  event LoyaltyAccountRemovedEvent(address);
+
+  /**
+   * @dev Event signal: Gas sent with call.value amount updated
+   */
+  event GasSentChanged(uint256);
+  /**
+   * @dev Event signal: Reward tiers address updated
+   */
+  event TierSelectedEvent(address, uint256);
+
+  /**
+   * @dev Event signal: Reward tiers address updated
+   */
+  event TiersAddressChanged(address);
+
+   /**
+   * @dev Event signal: Reward tier has been updated
    */
   event RewardTierChanged(address, uint256);
+
+ /**
+   * @dev Event signal: Collection address updated
+   */
+  event CollectionAddressChanged(address);
+
+ /**
+   * @dev Event signal: All stored tokens have been removed
+   */
+  event TokensWithdrawn(address, uint256);
 }

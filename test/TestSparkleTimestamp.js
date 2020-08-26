@@ -41,7 +41,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getContractAddress() should equal controller address', async () => {
       /// Return success if addresses match
-      return assert.equal(await tsi.getContractAddress(), pol.address);
+      return assert.equal(await tsi.getContractAddress.call(), pol.address);
     });
 
     /**
@@ -49,7 +49,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('setContractAddress(0x0, {from: owner}) should fail', async () => {
       /// Attempt to set controller address
-      await tsi.setContractAddress(0x0, { from: OWNER })
+      await tsi.setContractAddress.call(0x0, { from: OWNER })
       .then(() => {
         /// Should not make it here, return failure
         return assert(false);
@@ -67,7 +67,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('setContractAddress(SUDOPOL, {from: 0x0}) should fail', async () => {
       /// Attempt to set controller address from invalid address
-      await tsi.setContractAddress(SUDOPOL, { from: 0x0 })
+      await tsi.setContractAddress.call(SUDOPOL, { from: 0x0 })
       .then(() => {
         /// Should not make it here, return failure
         assert(false);
@@ -85,7 +85,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('setContractAddress(SUDOPOL, {from: OWNER}) should pass', async () => {
       /// Attempt to set controller address from invalid address
-      let tx = await tsi.setContractAddress(SUDOPOL, { from: OWNER });
+      let tx = await tsi.setContractAddress/*.call*/(SUDOPOL, { from: OWNER });
       /// Return success if expected event was emitted from transaction
       truffleAssert.eventEmitted(tx, 'ContractAddressChanged');
     });
@@ -95,7 +95,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("setContractAddress(SUDOPOL, {from: non-owner}) should fail", async () => {
       /// Attempt to set controller address from non-owner address
-      await tsi.setContractAddress(SUDOPOL, { from: USER1 })
+      await tsi.setContractAddress.call(SUDOPOL, { from: USER1 })
       .then(() => {
         /// Should not make it here, return failure
         return assert(false);
@@ -113,7 +113,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getContractAddress() should equal SUDOPOL', async () => {
       /// Attempt to get controller address
-      await tsi.getContractAddress()
+      await tsi.getContractAddress.call()
       .then((address) => {
         /// Return success if expected address is returned
         assert.equal(address, SUDOPOL);
@@ -135,7 +135,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("getTimePeriod() should equal 180 seconds", async () => {
       /// Attempt to get current time period value
-      await tsi.getTimePeriod()
+      await tsi.getTimePeriod.call()
       .then((period) => {
         /// Return success if expected value is returned
         return assert.equal(period, 180);
@@ -151,7 +151,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('setTimePeriod(42, {from: OWNER}) should fail', async () => {
       /// Attempt to set current time period value
-      await tsi.setTimePeriod(42, { from: OWNER })
+      await tsi.setTimePeriod.call(42, { from: OWNER })
       .then(() => {
         /// Should not make it here, return failure
         assert(false);
@@ -168,7 +168,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('setTimePeriod(3600, {from: 0x0}) should fail', async () => {
       /// Attempt to set current time period value
-      await tsi.setTimePeriod(3600, { from: 0x0 })
+      await tsi.setTimePeriod.call(3600, { from: 0x0 })
       .then(() => {
         /// Should not make it here, return failure
         assert(false);
@@ -186,7 +186,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('setTimePeriod(3600, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to set current time period value
-      tsi.setTimePeriod(3600, { from: SUDOPOL })
+      tsi.setTimePeriod.call(3600, { from: SUDOPOL })
       .then(() => {
         /// Should not make it here, return failure
         assert(false);
@@ -212,7 +212,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("getTimePeriod() should equal 3600 seconds", async () => {
       /// Attempt to get current time period value
-      tsi.getTimePeriod()
+      tsi.getTimePeriod.call()
         .then((period) => {
           /// Return success if expected value is returned
           return assert.equal(period, 3600);
@@ -234,7 +234,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("addTimestamp(USER2, {from: 0x0}) should fail", async () => {
       /// Attempt to add timestamp for USER2
-      tsi.addTimestamp(USER2, { from: 0x0 })
+      tsi.addTimestamp.call(USER2, { from: 0x0 })
       .then((response) => {
         /// Should not make it here, return failure
         assert(false);
@@ -252,7 +252,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("addTimestamp(0x0, {from: OWNER}) should fail", async () => {
       /// Attempt to add timestamp for invalid address by valid owner address
-      tsi.addTimestamp(0x0, { from: OWNER })
+      tsi.addTimestamp.call(0x0, { from: OWNER })
       .then((response) => {
         /// Should not make it here, return failure
         assert(false);
@@ -272,8 +272,8 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
       /// Attempt to add timestamp for invalid address by valid owner address
       let tx = await tsi.addTimestamp(USER2, { from: SUDOPOL });
       /// Obtain the joined and deposited timestamp for USER2
-      lastJoined = await tsi.getJoinedTimestamp(USER2, { from: SUDOPOL });
-      lastDeposited = await tsi.getDepositTimestamp(USER2, { from: SUDOPOL });
+      lastJoined = await tsi.getJoinedTimestamp.call(USER2, { from: SUDOPOL });
+      lastDeposited = await tsi.getDepositTimestamp.call(USER2, { from: SUDOPOL });
       /// Return success if expected event emitted from transaction
       truffleAssert.eventEmitted(tx, 'TimestampAdded');
     });
@@ -283,7 +283,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("addTimestamp(USER2, {from: OWNER}) should fail", async () => {
       /// Attempt to add timestamp for invalid address by valid owner address
-      tsi.addTimestamp(USER2, { from: OWNER })
+      tsi.addTimestamp.call(USER2, { from: OWNER })
       .then((response) => {
         /// Should not make it here, return failure
         assert(false);
@@ -308,7 +308,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('Should have timestamp fror USER2 should pass', async () => {
       /// Return success if expected value is returned
-      assert.equal(await tsi.hasTimestamp(USER2, { from: SUDOPOL }), true);
+      assert.equal(await tsi.hasTimestamp.call(USER2, { from: SUDOPOL }), true);
     });
 
     /**
@@ -316,8 +316,8 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getTimeRemaining(USER2, {from: 0x0}) should fail', async () => {
       /// Attempt to get time remaining until reward maturity
-      await tsi.getTimeRemaining(USER2, { from: 0x0 })
-      .then((reaming) => {
+      await tsi.getTimeRemaining.call(USER2, { from: 0x0 })
+      .then((remaining) => {
         /// Should not make it here, return failure
         return assert(false);
       })
@@ -334,7 +334,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("isRewardReady(USER2, {from: 0x0}) failed", async () => {
       /// Attempt to determine if reward is ready for USER2 from invalid address
-      await tsi.isRewardReady(USER2, { from: 0x0 })
+      await tsi.isRewardReady.call(USER2, { from: 0x0 })
       .then(() => {
         /// Should not make it here, return failure
         return assert(false)
@@ -352,7 +352,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getTimeRemaining(0x0, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get time remaining until reward maturity
-      await tsi.getTimeRemaining(0x0, { from: SUDOPOL })
+      await tsi.getTimeRemaining.call(0x0, { from: SUDOPOL })
       .then((reaming) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -370,7 +370,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("isRewardReady(0x0, {from: SUDOPOL}) failed", async () => {
       /// Attempt to determine if reward is ready for USER2 from invalid address
-      await tsi.isRewardReady(0x0, { from: SUDOPOL })
+      await tsi.isRewardReady.call(0x0, { from: SUDOPOL })
       .then(() => {
         /// Should not make it here, return failure
         return assert(false)
@@ -388,7 +388,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getTimeRemaining(USER1, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get time remaining until reward maturity
-      await tsi.getTimeRemaining(USER1, { from: SUDOPOL })
+      await tsi.getTimeRemaining.call(USER1, { from: SUDOPOL })
       .then((reaming) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -406,7 +406,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("isRewardReady(USER1, {from: SUDOPOL}) failed", async () => {
       /// Attempt to determine if reward is ready for USER1 from vali address
-      await tsi.isRewardReady(USER1, { from: SUDOPOL })
+      await tsi.isRewardReady.call(USER1, { from: SUDOPOL })
       .then(() => {
         /// Should not make it here, return failure
         return assert(false)
@@ -424,7 +424,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it("Premature (0s) isRewardReady(USER2, {from: SUDOPOL}) should fail", async () => {
       /// Attempt to determine if reward is ready for USER2 from vali address
-      await tsi.isRewardReady(USER2, { from: SUDOPOL })
+      await tsi.isRewardReady.call(USER2, { from: SUDOPOL })
       .then((result) => {
         /// Return success if expected value is returned
         return assert.equal(result, false);
@@ -440,7 +440,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getTimeRemaining(0x0, {from: SUDOPOL}) should fail', async() => {
       /// Attempt to detremine how many seconds are remaining
-      await tsi.getTimeRemaining(0x0, { from: SUDOPOL })
+      await tsi.getTimeRemaining.call(0x0, { from: SUDOPOL })
       .then((reaming) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -458,7 +458,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getTimeRemaining(USER2, {from: SUDOPOL}) should be >= 3500 and not mature', async () => {
       /// Attempt to detremine how many seconds are remaining
-      await tsi.getTimeRemaining(USER2, { from: SUDOPOL })
+      await tsi.getTimeRemaining.call(USER2, { from: SUDOPOL })
       .then((remaining) => {
         /// Return success if expected value is returned
         return assert(remaining[0]>=3500 && !remaining[1]);
@@ -476,7 +476,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
       // Advance ganache/ganachecli an hour (Previously test set to 3600)
       await helper.advanceTimeAndBlock(1800);
       /// Attempt to determine if reward is ready for USER2 from vali address
-      await tsi.isRewardReady(USER2, { from: SUDOPOL })
+      await tsi.isRewardReady.call(USER2, { from: SUDOPOL })
       .then((result) => {
         /// Return success if expected value is returned
         return assert.equal(result, false);
@@ -492,7 +492,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getTimeRemaining(USER2, {from: SUDOPOL}) should be >= 1750 and not mature', async () => {
       /// Attempt to determine how many seconds are remaining
-      await tsi.getTimeRemaining(USER2, { from: SUDOPOL })
+      await tsi.getTimeRemaining.call(USER2, { from: SUDOPOL })
       .then((remaining) => {
         /// Return success if expected value is returned
         return assert(remaining[0] >= 1750 && !remaining[1]);
@@ -510,7 +510,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
       // Advance ganache/ganachecli an hour (Previously test set to 3600)
       await helper.advanceTimeAndBlock(1820);
       /// Attempt to determine if reward is ready for USER2 from vali address
-      await tsi.isRewardReady(USER2, { from: SUDOPOL })
+      await tsi.isRewardReady.call(USER2, { from: SUDOPOL })
       .then((result) => {
         /// Return success if expected value is returned
         return assert.equal(result, true);
@@ -526,7 +526,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getTimeRemaining(USER2, {from: SUDOPOL}) should be >= 0 and be mature', async () => {
       /// Attempt to obtain the timestamp of user's reward maturity
-      await tsi.getRewardTimestamp(USER2, { from: SUDOPOL })
+      await tsi.getRewardTimestamp.call(USER2, { from: SUDOPOL })
       .then((timestamp) => {
         /// Set local test variable to reward timestamp
         lastReward = timestamp;
@@ -537,7 +537,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
       });
 
       /// Attempt to detremine how many seconds are remaining
-      await tsi.getTimeRemaining(USER2, { from: SUDOPOL })
+      await tsi.getTimeRemaining.call(USER2, { from: SUDOPOL })
       .then((remaining) => {
         /// Set local test variables to repective timestamp values
         // lastRemainging = remaining[0];
@@ -564,7 +564,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getAddress(0x0, {from: SUDOPOL}) should fail', async() => {
       /// Attempt to get users loyalty address
-      await tsi.getAddress(0x0, {from: SUDOPOL})
+      await tsi.getAddress.call(0x0, {from: SUDOPOL})
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -581,7 +581,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getAddress(USER1, {from: SUDOPOL}) should fail', async() => {
       /// Attempt to get users loyalty address
-      await tsi.getAddress(USER1, {from: SUDOPOL})
+      await tsi.getAddress.call(USER1, {from: SUDOPOL})
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -598,7 +598,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getAddress(USER2, {from: 0x0}) should fail', async() => {
       /// Attempt to get users loyalty address
-      await tsi.getAddress(USER2, {from: 0x0})
+      await tsi.getAddress.call(USER2, {from: 0x0})
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -615,7 +615,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getAddress(USER2, {from: USER1}) should fail', async() => {
       /// Attempt to get users loyalty address
-      await tsi.getAddress(USER2, {from: USER1})
+      await tsi.getAddress.call(USER2, {from: USER1})
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -632,7 +632,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getAddress(USER2, {from: SUDOPOL}) should pass', async() => {
       /// Attempt to get users loyalty address
-      await tsi.getAddress(USER2, {from: SUDOPOL})
+      await tsi.getAddress.call(USER2, {from: SUDOPOL})
       .then((address) => {
         /// Return success if expected value is returned
         return assert.equal(address, USER2);
@@ -654,7 +654,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getJoinedTimestamp(0x0, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get users joined timestamp
-      await tsi.getJoinedTimestamp(0x0, { from: SUDOPOL })
+      await tsi.getJoinedTimestamp.call(0x0, { from: SUDOPOL })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -671,7 +671,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getJoinedTimestamp(USER1, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get users joined timestamp
-      await tsi.getJoinedTimestamp(USER1, { from: SUDOPOL })
+      await tsi.getJoinedTimestamp.call(USER1, { from: SUDOPOL })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -688,7 +688,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getJoinedTimestamp(USER2, {from: 0x0}) should fail', async () => {
       /// Attempt to get users joined timestamp
-      await tsi.getJoinedTimestamp(USER2, { from: 0x0 })
+      await tsi.getJoinedTimestamp.call(USER2, { from: 0x0 })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -705,7 +705,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getJoinedTimestamp(USER2, {from: USER1}) should fail', async () => {
       /// Attempt to get users joined timestamp
-      await tsi.getJoinedTimestamp(USER2, { from: USER1 })
+      await tsi.getJoinedTimestamp.call(USER2, { from: USER1 })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -722,7 +722,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getJoinedTimestamp(USER2, {from: SUDOPOL}) should pass', async () => {
       /// Attempt to get users joined timestamp
-      await tsi.getJoinedTimestamp(USER2, { from: SUDOPOL })
+      await tsi.getJoinedTimestamp.call(USER2, { from: SUDOPOL })
       .then((timestamp) => {
         /// Return success if expected value is returned
         return assert.equal(timestamp.toString(), lastJoined.toString());
@@ -744,7 +744,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getDepositTimestamp(0x0, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get users current deposit timestamp
-      await tsi.getDepositTimestamp(0x0, { from: SUDOPOL })
+      await tsi.getDepositTimestamp.call(0x0, { from: SUDOPOL })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -761,7 +761,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getDepositTimestamp(USER1, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get users current deposit timestamp
-      await tsi.getDepositTimestamp(USER1, { from: SUDOPOL })
+      await tsi.getDepositTimestamp.call(USER1, { from: SUDOPOL })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -778,7 +778,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getDepositTimestamp(USER2, {from: 0x0}) should fail', async () => {
       /// Attempt to get users current deposit timestamp
-      await tsi.getDepositTimestamp(USER2, { from: 0x0 })
+      await tsi.getDepositTimestamp.call(USER2, { from: 0x0 })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -795,7 +795,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getDepositTimestamp(USER2, {from: USER1}) should fail', async () => {
       /// Attempt to get users current deposit timestamp
-      await tsi.getDepositTimestamp(USER2, { from: USER1 })
+      await tsi.getDepositTimestamp.call(USER2, { from: USER1 })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -812,7 +812,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getDepositTimestamp(USER2, {from: SUDOPOL}) should pass', async () => {
       /// Attempt to get users current deposit timestamp
-      await tsi.getDepositTimestamp(USER2, { from: SUDOPOL })
+      await tsi.getDepositTimestamp.call(USER2, { from: SUDOPOL })
       .then((timestamp) => {
         /// Return success if expected value is returned
         return assert.equal(timestamp.toString(), lastDeposited.toString());
@@ -834,7 +834,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getRewardTimestamp(0x0, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get users current reward matiruty timestamp
-      await tsi.getRewardTimestamp(0x0, { from: SUDOPOL })
+      await tsi.getRewardTimestamp.call(0x0, { from: SUDOPOL })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -851,7 +851,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getRewardTimestamp(USER1, {from: SUDOPOL}) should fail', async () => {
       /// Attempt to get users current reward matiruty timestamp
-      let rewardTimestamp = await tsi.getRewardTimestamp(USER1, { from: SUDOPOL });
+      let rewardTimestamp = await tsi.getRewardTimestamp.call(USER1, { from: SUDOPOL });
       /// Return success if expected value is returned
       return assert.equal(rewardTimestamp, 0);
     });
@@ -861,7 +861,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getRewardTimestamp(USER2, {from: 0x0}) should fail', async () => {
       /// Attempt to get users current reward matiruty timestamp
-      await tsi.getRewardTimestamp(USER2, { from: 0x0 })
+      await tsi.getRewardTimestamp.call(USER2, { from: 0x0 })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -878,7 +878,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getRewardTimestamp(USER2, {from: USER1}) should fail', async () => {
       /// Attempt to get users current reward matiruty timestamp
-      await tsi.getRewardTimestamp(USER2, { from: USER1 })
+      await tsi.getRewardTimestamp.call(USER2, { from: USER1 })
       .then((address) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -895,7 +895,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('getRewardTimestamp(USER2, {from: SUDOPOL}) should pass', async () => {
       /// Attempt to get users current reward matiruty timestamp
-      await tsi.getRewardTimestamp(USER2, { from: SUDOPOL })
+      await tsi.getRewardTimestamp.call(USER2, { from: SUDOPOL })
       .then((timestamp) => {
         /// Return success if expected value is returned
         return assert.equal(timestamp.toString(), lastReward.toString());
@@ -916,14 +916,15 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      * @dev deleteTimestamp(0x0) from controller address
      */
     it("deleteTimestamp(0x0, {from: SUDOPOL}) failed", async () => {
-      await tsi.deleteTimestamp(0x0, { from: SUDOPOL })
+      await tsi.deleteTimestamp.call(0x0, { from: SUDOPOL })
       .then((response) => {
+        // console.log('response:', response);
         /// Should not make it here, return failure
         return assert(false);
       })
       .catch((error) => {
         let err = new String(error);
-        return assert(err.includes(''));
+        return assert(err.includes('Error:'));
       });
     });
 
@@ -931,23 +932,26 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      * @dev deleteTimestamp(UESR1) from controller address
      */
     it("deleteTimestamp(USER1, {from: SUDOPOL}) failed", async () => {
-      await tsi.deleteTimestamp(USER1, { from: SUDOPOL })
-      .then((response) => {
-        /// Should not make it here, return failure
-        return assert(false);
-      })
-      .catch ((error) => {
-        let err = new String(error);
-        /// Return success if expected event emitted from transaction
-        return assert(err.includes('revert'));
-      });
+      let result = await tsi.deleteTimestamp.call(USER1, { from: SUDOPOL });
+      // console.log('result:', result);
+      assert.equal(result, false);
+      // .then((response) => {
+      //   /// Should not make it here, return failure
+      //   return assert(false);
+      // })
+      // .catch ((error) => {
+      //   let err = new String(error);
+      //   console.log('err:', err);
+      //   /// Return success if expected event emitted from transaction
+      //   return assert(err.includes('revert'));
+      // });
     });
 
     /**
      * @dev deleteTimestamp(USER2) from invalid address
      */
     it("deleteTimestamp(USER2, {from: 0x0}) failed", async () => {
-      await tsi.deleteTimestamp(USER2, { from: 0x0 })
+      await tsi.deleteTimestamp.call(USER2, { from: 0x0 })
       .then((response) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -963,7 +967,7 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      * @dev deleteTimestamp(USER2) from non-controller address
      */
     it("deleteTimestamp(USER2, {from: USER1}) failed", async () => {
-      await tsi.deleteTimestamp(USER2, { from: USER1 })
+      await tsi.deleteTimestamp.call(USER2, { from: USER1 })
       .then((response) => {
         /// Should not make it here, return failure
         return assert(false);
@@ -979,15 +983,9 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      * @dev deleteTimestamp() from address
      */
     it("deleteTimestamp(USER2, {from: SUDOPOL}) should pass", async () => {
-      await tsi.deleteTimestamp(USER2, { from: SUDOPOL })
-      .then(async (response) => {
-        /// Only a tx receipt will be returned, so ensure timestamp deleted in next test
-        return assert(true);
-      })
-      .catch ((error) => {
-        /// Should not make it here, return failure
-        return assert(false);
-      });
+      let result = await tsi.deleteTimestamp(USER2, { from: SUDOPOL });
+      let txr = await truffleAssert.createTransactionResult(tsi, result.tx);
+      return assert.equal(txr.logs[0].returnValues[0], true);
     });
 
     /**
@@ -996,7 +994,9 @@ contract('SparkleTimestamp - Test coverage', async accounts => {
      */
     it('hasTimestamp for USER2 should fail', async () => {
       /// Return success if expected value is returned
-      assert.equal(await tsi.hasTimestamp(USER2, { from: SUDOPOL }), false);
+      let result = await tsi.hasTimestamp(USER2, { from: SUDOPOL });
+      let txr = await truffleAssert.createTransactionResult(tsi, result.tx);
+      return assert.equal(txr.logs[0].returnValues[0], false);
     });
   });
 });

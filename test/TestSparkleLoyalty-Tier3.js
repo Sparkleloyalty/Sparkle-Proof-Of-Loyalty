@@ -25,7 +25,7 @@ contract('SparkleLoyalty - Test coverage: Tier3(30%) Workflow', async accounts =
   /**
    * @dev Initialize contracts used throughout this set of tests
    */
-  it('Initialize contract(s)', async() =>{
+  it('Initialize contract(s)', async() => {
     // Set account literals
     OWNER = accounts[0];
     TREASURY = accounts[1];
@@ -42,7 +42,7 @@ contract('SparkleLoyalty - Test coverage: Tier3(30%) Workflow', async accounts =
     tier2eth = web3.utils.toWei("0.20", "ether");
     tier3eth = web3.utils.toWei("0.30", "ether");
     /// Return success if controller address sucessfully configured
-    return assert(await tsi.getContractAddress({ from: OWNER }) == pol.address);
+    return assert(await tsi.getContractAddress.call({ from: OWNER }) == pol.address);
   });
 
   /**
@@ -432,7 +432,7 @@ contract('SparkleLoyalty - Test coverage: Tier3(30%) Workflow', async accounts =
      */
     it('getTimeRemaining(USER1) should be >= 43150', async () => {
       /// Attermp to obtain the current time remaining until reward maturity
-      await pol.getTimeRemaining(USER1)
+      await pol.getTimeRemaining.call(USER1)
       .then((response) => {
         /// Return success if expected value returned
         return assert(response[0] >= 43150);

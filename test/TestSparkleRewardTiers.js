@@ -42,7 +42,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      * @dev Test getEnabled(tier0)
      */
     it('getEnabled(Tier0) is enabled', async () => {
-      await rti.getEnabled(0)
+      await rti.getEnabled.call(0)
       .then((response) => {
         /// Attempt to get enabled status of tier0
         assert.equal(response, true, 'Not enabled');
@@ -57,7 +57,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getRate(Tier0) should return 1.0', async () => {
       /// Attempt to get current tier0 rate
-      let rate = await rti.getRate(0);
+      let rate = await rti.getRate.call(0);
       /// Return success if expected address is returned
       assert.equal(rate.toString(), '100000000', 'Not enabled');
     });
@@ -67,7 +67,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getPrice(Tier0) should return 0eth', async () => {
       /// Return success if expected address is returned
-      assert.equal(await rti.getPrice(0), tier0eth, 'Not enabled');
+      assert.equal(await rti.getPrice.call(0), tier0eth, 'Not enabled');
     });
 
     /**
@@ -92,7 +92,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('updateTier(Tier0, 200000000, tier1eth, false, { from: USER1 }) should fail', async () => {
       /// Attemp to update Tier0 data
-      await rti.updateTier(0, 200000000, tier1eth, false, { from: USER1 })
+      await rti.updateTier.call(0, 200000000, tier1eth, false, { from: USER1 })
       .then((response) => {
         /// Should not get here, return failure
         console.log('response:', response);
@@ -122,7 +122,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('deleteTier(Tier0, { from: 0x0 }) should fail', async () => {
       /// Attemps to delete Tier0 record
-      await rti.deleteTier(0, { from: 0x0 })
+      await rti.deleteTier.call(0, { from: 0x0 })
       .then((response) => {
         /// Should not make it here, return failure
         return false;
@@ -139,7 +139,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('deleteTier(Tier0, { from: USER1 }) should fail', async () => {
       /// Attemps to delete Tier0 record
-      await rti.deleteTier(0, { from: USER1 })
+      await rti.deleteTier.call(0, { from: USER1 })
       .then((response) => {
         /// Should not make it here, return failure
         return false;
@@ -156,7 +156,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('deleteTier(Tier0, { from: OWNER }) should fail', async () => {
       /// Attemps to delete Tier0 record
-      await rti.deleteTier(0, { from: OWNER })
+      await rti.deleteTier.call(0, { from: OWNER })
       .then((response) => {
         /// Should not make it here, return failure
         return false;
@@ -180,7 +180,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getEnabled(Tier1) is enabled', async () => {
       /// Attempt to get enabled status of tier0
-      assert.equal(await rti.getEnabled(1), true, 'Not enabled');
+      assert.equal(await rti.getEnabled.call(1), true, 'Not enabled');
     });
 
     /**
@@ -188,7 +188,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getRate(Tier1) should return 1.1', async () => {
       /// Attempt to get current tier0 rate
-      let rate = await rti.getRate(1);
+      let rate = await rti.getRate.call(1);
       /// Return success if expected address is returned
       assert.equal(rate.toString(), '110000000', 'Not enabled');
     });
@@ -198,7 +198,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getPrice(Tier1) should return 0.10eth', async () => {
       /// Return success if expected address is returned
-      assert.equal(await rti.getPrice(1), tier1eth, 'Not enabled');
+      assert.equal(await rti.getPrice.call(1), tier1eth, 'Not enabled');
     });
 
     /**
@@ -309,7 +309,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getEnabled(Tier2) is enabled', async () => {
       /// Attempt to get enabled status of tier2
-      assert.equal(await rti.getEnabled(2), true, 'Not enabled');
+      assert.equal(await rti.getEnabled.call(2), true, 'Not enabled');
     });
 
     /**
@@ -317,7 +317,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getRate(Tier1) should return 1.2', async () => {
       /// Attempt to get current tier2 rate
-      let rate = await rti.getRate(2);
+      let rate = await rti.getRate.call(2);
       /// Return success if expected address is returned
       assert.equal(rate.toString(), '120000000', 'Not enabled');
     });
@@ -327,7 +327,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getPrice(Tier2) should return 0.20eth', async () => {
       /// Return success if expected address is returned
-      assert.equal(await rti.getPrice(2), tier2eth, 'Not enabled');
+      assert.equal(await rti.getPrice.call(2), tier2eth, 'Not enabled');
     });
 
     /**
@@ -438,7 +438,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getEnabled(Tier3) is enabled', async () => {
       /// Attempt to get enabled status of tier2
-      assert.equal(await rti.getEnabled(3), true, 'Not enabled');
+      assert.equal(await rti.getEnabled.call(3), true, 'Not enabled');
     });
 
     /**
@@ -446,7 +446,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getRate(Tier3) should return 1.3', async () => {
       /// Attempt to get current tier3 rate
-      let rate = await rti.getRate(3);
+      let rate = await rti.getRate.call(3);
       /// Return success if expected address is returned
       assert.equal(rate.toString(), '130000000', 'Not enabled');
     });
@@ -456,7 +456,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getPrice(Tier3) should return 0.30eth', async () => {
       /// Return success if expected address is returned
-      assert.equal(await rti.getPrice(3), tier3eth, 'Not enabled');
+      assert.equal(await rti.getPrice.call(3), tier3eth, 'Not enabled');
     });
 
     /**
@@ -606,7 +606,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getEnabled(Tier4) is enabled', async () => {
       /// Attempt to get enabled status of tier4
-      assert.equal(await rti.getEnabled(4), true, 'Not enabled');
+      assert.equal(await rti.getEnabled.call(4), true, 'Not enabled');
     });
 
     /**
@@ -614,7 +614,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getRate(Tier4) should return 1.4', async () => {
       /// Attempt to get current tier4 rate
-      let rate = await rti.getRate(4);
+      let rate = await rti.getRate.call(4);
       /// Return success if expected address is returned
       assert.equal(rate.toString(), '140000000', 'Not enabled');
     });
@@ -624,7 +624,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getPrice(Tier4) should return 0.40eth', async () => {
       /// Return success if expected address is returned
-      assert.equal(await rti.getPrice(4), tier4eth, 'Not enabled');
+      assert.equal(await rti.getPrice.call(4), tier4eth, 'Not enabled');
     });
 
     /**
@@ -727,7 +727,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getEnabled(Tier4) is disabled', async () => {
       /// Attempt to get enabled status of tier4
-      assert.equal(await rti.getEnabled(4), false, 'Not enabled');
+      assert.equal(await rti.getEnabled.call(4), false, 'Not enabled');
     });
 
     /**
@@ -735,7 +735,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getRate(Tier4) should fail', async () => {
       /// Attempt to get current tier4 rate
-      let rate = await rti.getRate(4);
+      let rate = await rti.getRate.call(4);
       /// Return success if expected address is returned
       assert.equal(rate.toString(), '0', 'Not enabled');
     });
@@ -745,7 +745,7 @@ contract('SparkleRewardTiers - Tier0 thru Tier3 test coverage', async accounts =
      */
     it('getPrice(Tier4) should fail', async () => {
       /// Return success if expected address is returned
-      assert.equal(await rti.getPrice(4), tier0eth, 'Not enabled');
+      assert.equal(await rti.getPrice.call(4), tier0eth, 'Not enabled');
     });
 
   });

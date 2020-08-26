@@ -1,5 +1,7 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /// SWC-103:  Floating Pragma
-pragma solidity 0.4.25;
+pragma solidity 0.6.12;
 
 // import '../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol';
 // import '../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol';
@@ -23,7 +25,7 @@ interface ISparkleRewardTiers {
     */
   function addTier(uint256 _index, uint256 _rate, uint256 _price, bool _enabled)
   external
-  view
+  // view
   // onlyOwner
   // whenNotPaused
   // nonReentrant
@@ -40,7 +42,7 @@ interface ISparkleRewardTiers {
     */
   function updateTier(uint256 _index, uint256 _rate, uint256 _price, bool _enabled)
   external
-  view
+  // view
   // onlyOwner
   // whenNotPaused
   // nonReentrant
@@ -53,7 +55,7 @@ interface ISparkleRewardTiers {
     */
   function deleteTier(uint256 _index)
   external
-  view
+  // view
   // onlyOwner
   // whenNotPaused
   // nonReentrant
@@ -67,7 +69,7 @@ interface ISparkleRewardTiers {
     */
   function getRate(uint256 _index)
   external
-  view
+  // view
   // whenNotPaused
   returns(uint256);
 
@@ -79,7 +81,7 @@ interface ISparkleRewardTiers {
     */
   function getPrice(uint256 _index)
   external
-  view
+  // view
   // whenNotPaused
   returns(uint256);
 
@@ -91,7 +93,7 @@ interface ISparkleRewardTiers {
     */
   function getEnabled(uint256 _index)
   external
-  view
+  // view
   // whenNotPaused
   returns(bool);
 

@@ -1,10 +1,12 @@
-/// SWC-103:  Floating Pragma
-pragma solidity 0.4.25;
+// SPDX-License-Identifier: UNLICENSED
 
-import '../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol';
-import '../node_modules/openzeppelin-solidity/contracts/ownership/Ownable.sol';
-import '../node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol';
-import '../node_modules/openzeppelin-solidity/contracts/utils/ReentrancyGuard.sol';
+/// SWC-103:  Floating Pragma
+pragma solidity 0.6.12;
+
+import '@openzeppelin/contracts/math/SafeMath.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
+import '@openzeppelin/contracts/utils/Pausable.sol';
+import '@openzeppelin/contracts/utils/ReentrancyGuard.sol';
 import './ISparkleRewardTiers.sol';
 
 /**
@@ -30,9 +32,7 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
     bool _enabled;
   }
 
-  /**
-    * @param tiers mapping of available reward tiers
-    */
+  // tiers mapping of available reward tiers
   mapping(uint256 => Tier) private g_tiers;
 
   /**
@@ -45,32 +45,32 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
   Pausable()
   ReentrancyGuard()
   {
-    /// Initialize default reward tier
     Tier memory tier0;
     tier0._rate = uint256(1.00000000 * 10e7);
     tier0._price = 0 ether;
     tier0._enabled = true;
+    /// Initialize default reward tier
     g_tiers[0] = tier0;
 
-    /// Initialize reward tier 1
     Tier memory tier1;
     tier1._rate = uint256(1.10000000 * 10e7);
     tier1._price = 0.10 ether;
     tier1._enabled = true;
+    /// Initialize reward tier 1
     g_tiers[1] = tier1;
 
-    /// Initialize reward tier 2
     Tier memory tier2;
     tier2._rate = uint256(1.20000000 * 10e7);
     tier2._price = 0.20 ether;
     tier2._enabled = true;
+    /// Initialize reward tier 2
     g_tiers[2] = tier2;
 
-    /// Initialize reward tier 3
     Tier memory tier3;
     tier3._rate = uint256(1.30000000 * 10e7);
     tier3._price = 0.30 ether;
     tier3._enabled = true;
+    /// Initialize reward tier 3
     g_tiers[3] = tier3;
   }
 
@@ -87,13 +87,13 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
   onlyOwner
   whenNotPaused
   nonReentrant
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
     require(msg.sender != address(0x0), 'Invalid {From}');
     /// Validate that tier does not already exist
     require(g_tiers[_index]._enabled == false, 'Tier exists');
-    /// Instantiate memory only tier structure
     Tier memory newTier;
     /// Initialize structure to specified data
     newTier._rate = _rate;
@@ -121,6 +121,7 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
   onlyOwner
   whenNotPaused
   nonReentrant
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
@@ -149,6 +150,7 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
   onlyOwner
   whenNotPaused
   nonReentrant
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
@@ -171,8 +173,8 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
     */
   function getRate(uint256 _index)
   public
-  view
   whenNotPaused
+  override
   returns(uint256)
   {
     /// Return reward rate for specified tier
@@ -187,8 +189,8 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
     */
   function getPrice(uint256 _index)
   public
-  view
   whenNotPaused
+  override
   returns(uint256)
   {
     /// Return reward purchase price in ether for tier
@@ -203,8 +205,8 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
     */
   function getEnabled(uint256 _index)
   public
-  view
   whenNotPaused
+  override
   returns(bool)
   {
     /// Return reward tier enabled status for specified tier
@@ -221,6 +223,7 @@ contract SparkleRewardTiers is ISparkleRewardTiers, Ownable, Pausable, Reentranc
   onlyOwner
   whenNotPaused
   nonReentrant
+  override
   returns(bool)
   {
     /// Validate calling address (msg.sender)
