@@ -1,0 +1,42 @@
+{
+  "name": "sparkle-pol",
+  "version": "1.0.0",
+  "description": "SparkleLoyalty, ProofOfLoyalty Contract Project",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "ganache:cli": "ganache-cli -d -m 'eternal logic alarm impose play scissors climb must ecology belt jungle salt' -e 1000000000 -a 5 --db ./.ganachedb/ -i 31621",
+    "truffle:con": "truffle console",
+    "test:all": "npm run test:rewardtiers && npm run test:timestamp && npm run test:loyalty",
+    "test:loyalty": "truffle test ./test/TestSparkleLoyalty.js && exit 1",
+    "test:timestamp": "truffle test ./test/TestSparkleTimestamp.js && exit 1",
+    "test:rewardtiers": "truffle test ./test/TestSparkleRewardTiers.js && exit 1",
+    "test:alltierrewards": "npm run test:tier0rewards && npm run test:tier1rewards && npm run test:tier2rewards && npm run test:tier3rewards",
+    "test:tier0rewards": "truffle test ./test/TestSparkleLoyalty-Tier0.js",
+    "test:tier1rewards": "truffle test ./test/TestSparkleLoyalty-Tier1.js",
+    "test:tier2rewards": "truffle test ./test/TestSparkleLoyalty-Tier2.js",
+    "test:tier3rewards": "truffle test ./test/TestSparkleLoyalty-Tier3.js",
+    "audit:mythx:quick": "mythx --format json --yes analyze --wait --mode quick --create-group --group-name SparkleLoyaltyQuick --solc-version 0.4.25 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116",
+    "audit:mythx:standard": "mythx --format json --yes analyze --wait --mode standard --create-group --group-name SparkleLoyaltyStandard --solc-version 0.4.25 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116",
+    "audit:mythx:deep": "mythx --format json --yes analyze --wait --mode deep --create-group --group-name SparkleLoyaltyDeep --solc-version 0.4.25 --include SparkleTimestamp --include SparkleRewardTiers --include SparkleLoyalty --swc-blacklist 102,107,116"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:Sparkleloyalty/Sparkle-Proof-Of-Loyalty.git"
+  },
+  "keywords": [],
+  "author": "SparkleLoyalty Inc. (c) 2018 - 2020",
+  "license": "MIT",
+  "homepage": "https://github.com/Sparkleloyalty/Sparkle-Proof-Of-Loyalty",
+  "dependencies": {
+    "openzeppelin-solidity": "2.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@truffle/hdwallet-provider": "^1.0.37",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "truffle-assertions": "^0.9.2"
+  }
+}

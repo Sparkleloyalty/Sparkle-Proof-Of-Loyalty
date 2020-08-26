@@ -1,1 +1,22 @@
-node_modules
+# Ignored files
+#---------------
+.DS_Store
+.env
+*.sh
+*.txt
+*.flat
+
+# Ignore folders
+#----------------
+Documents/
+build/
+scripts/
+.ganachedb/
+
+# Ignore node_modules but include OpenZeppelin
+#----------------------------------------------
+!node_modules/
+node_modules/*
+!node_modules/openzeppelin-solidity/
+node_modules/openzeppelin-solidity/*
+!node_modules/openzeppelin-solidity/contracts/
