@@ -3,7 +3,7 @@ pragma solidity 0.4.25;
 
 import './ReentrancyGuard.sol';
 import './SparkleToken.sol';
-import './VerifyTimestamp.sol';
+import './TimestampValidator.sol';
 
 
 contract loyaltySettings is Ownable, ReentrancyGuard, ERC20 {

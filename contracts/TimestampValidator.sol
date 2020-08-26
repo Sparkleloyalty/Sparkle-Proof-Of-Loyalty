@@ -3,7 +3,7 @@ pragma solidity 0.4.25;
 import './ReentrancyGuard.sol';
 import './SparkleToken.sol';
 
-contract VerifyTime is Ownable, ReentrancyGuard{
+contract TimestampValidator is Ownable, ReentrancyGuard{
 
 using SafeMath for uint256;
 
