@@ -271,6 +271,11 @@ $ truffle migrate --reset
 
 >A number of solidity contract tests have been provided that cover most if not all of the expected funcationality of the SparkleLoyalty program to ensure that the expected behaviour is intact. To run the tests simple enter the following command from the command line of your development environment.
 
+**Note** For successfull operation of the provided tests users must transfer tokens into the correct account addresses created by ganache-cli. It is left up to the reader to transfer the approriate tokens to the TREASURY and USER1 accounts addresses as specified in the respective test file. For the tests to function it is expected that USER1 address have at least a 1000*10e7 TOKEN balance. The TREASURY address should have at least a 5000*10e7 TOKEN balance.
+
+**Note** Additionally the provided tests assume the Sparkle Token Contract has been previously deployed to the local blockchain or testnet. This project does not include nor migrate the Sparkle Token contract to the target blockchain. Readers interested in executing the tests are required to change the 'onchainSparkleToken' variable to point to their deployed Sparkle Token instance address before performing the tests.
+
+
 Test: All:
 ```
 $ npm run test:all
@@ -295,6 +300,11 @@ $ npm run test:loyalty
 **Note** Tests relying on specific timing expectations occasionally fail the testing sequence. This is due to fluctuations in time and load on the system running the local blockchain. Often re-running the tests or running the specific test on its own fixes this problem.
 
 
+#### MythX Audits
+
+>The provided npm scripts that perform MythX Smart Contract Auditing are bound to information not provided in this repository. Readers interested in executing the provided MythX audits will be required to create their own MythX account, setup a MythX api/secret and configure thier development environmemnt to use this information. Once configured the MythX audit scripts should execute without issue.
+
+
 ### Additional Developer Information
 
 >Following are some additional points of information developers interested in SparkleLoyalty program development.
@@ -303,7 +313,7 @@ $ npm run test:loyalty
 
 >The following [(UML)](https://plantuml.com/) diagram visualy demonstrates the inter-contract relationship of the SparkleLoyalty program and how the various contracts work together to provide functionality to the SparkleLoyalty program and its operational life cycle.
 
-<img src= "https://plantuml-server.kkeisuke.app/png/nLVDRkCs43vRJq70XxO9RBS1MXG1ThiRfxieqFmWBden38EMHZ5h_WWaPLT8zn5wsUsfbxn27osFq27rOygHlSqYY_fWaD_yS6Q-uKXwPIpLDXSy-e8C1YHLcj3Sge46cO0cJAASyrEoj3OpfwEHe7e5DkCqXk6QcPnoO_E4gM6in8XP4EO7ztz91Rpu3HOBCqHTkJr0PPOfQN0PHP5PCPbHJGNHAfT9hBJ4Cq--9g4evjGOSXVrpcYyklMAOyKnpclAuQq6a2XI6gCjuKcccRmj1Uy2FyQ21cMB3CQxdiu1icicLr4PepyHgXYPHBiKqoK__NWpnjZk8e8_hyZa4ZIpLABKAJU2t608Rz1p2rrJRTg80BjKYGTxnm_tV_rf5PPxacSPBxxygi8MbBiJhj86GKRKnc4UiPfAauBs6vfbMgtRWZTQ2GIm6kv75mO5iIKJci85jSlFbb7VnIfoxeBnwuIjcxN95ysQ9acp5YgfOosP_rZLUtTrHkzAXlP47UWzt7_ukydUjVnqcYFF9zz-DvjrPDSRJAS22uk-28QgmPWNBoi3CfkHUSMGwTRSQ-fjFPUGUDCc238F6k7_wfVUCPEn1chWTSi-WGwqFm_TzkS2KobNYrpBxIhinO3VSx2KSKYUWUTk_j0ILLnb9Owc7SWKOg5uGy7t3iCicS3fjg_wHqVpUOoJpEeyjahFvqT7JRtT4SscTDviQx_j8bnj95rmU8Qhw9AeEisbeJOuKlVTpqCvUCDcnynLiyT70uvER327c2NBMitJGhTT4S91tXESpQk3UGUqLqKAeR8HTe6wc_vxqOx3Th1g1VBIjybZV5Brod7GArvmNZTCBMfkCWelwE-7BtCt5K6bViMYfCKlJ7nwiMxmaUZuY8ktETN9PvcJszR3RBoNroNYo_BnsNYjbKglKf-dcu_n4kALs-5xYCYUUXaDs74xZ1fkN7gWVKhLvO-qD0WSbI4MyCDLGRaj9c0j9cIUZQH7pVxihBNQDSurtczxmTnrtM6qIZ6bUGoscy-AlfzBJR8rsbBOQMUGDNeBvxd8d96jjMzyoPDFuBsCCcJzuVxzFrKqPqhcvfjEzCIZQt_RphYALrKkVfmbE5QACKu_Myr2v9w96zWWKtw_ONQPQBe9ZF1vcId3x1R2hddK5wCMc-Kxps0mxL_ITJ7xusNryba9XiDfltvdTSA6xLCo6ZaN5P-ZKTH-kdPuh2TmAAhRiakstwezUeDvrULwZtYt-mEr9oIzUnUx0ZYainl58Tso7hiQJmWsUeMVMlXzz2y0.png">
+*NEEDS UPDATE*
 
 
 #### Known Issues
