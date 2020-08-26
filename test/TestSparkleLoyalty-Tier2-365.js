@@ -9,7 +9,7 @@ const onchainSparkleToken = '0x14d8d4e089a4ae60f315be178434c651d11f9b9a';
 
 const BN = web3.utils.BN;
 
-contract('SparkleLoyalty - Workflow @ Tier0(5%)', async accounts => {
+contract('SparkleLoyalty - Workflow @ Tier2(20%)', async accounts => {
   let pol, st, ts, rt;
   let OWNER, USER1, USER2, COLLECTION, TREASURY;
 

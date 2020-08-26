@@ -46,7 +46,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
     tier2eth = web3.utils.toWei("0.20", "ether");
     tier3eth = web3.utils.toWei("0.30", "ether");
     /// Return success if controller address sucessfully configured
-    return assert(await tsi.getContractAddress({ from: OWNER }) == pol.address);
+    return assert(await tsi.getContractAddress.call({ from: OWNER }) == pol.address);
   });
 
   /**
@@ -59,9 +59,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('SparkleToken.approve(pol.address, 1000 * 10e7) should pass', async () => {
       /// Attempt to approve 1000 tokens
-      await st.methods.approve(pol.address, 1000 * 10e7).send({
-        from: USER1
-      });
+      await st.methods.approve(pol.address, 1000 * 10e7).send({ from: USER1 });
       /// Return success if expected values are returned
       return assert.equal(await st.methods.allowance(USER1, pol.address).call(), 1000 * 10e7);
     });
@@ -78,9 +76,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('depositLoyalty(1000 * 10e7, { from:USER1 }) should pass', async () => {
       /// Return success if expected values are returned
-      return truffleAssert.eventEmitted(await pol.depositLoyalty(1000 * 10e7, {
-        from: USER1
-      }), 'DepositLoyaltyEvent');
+      return truffleAssert.eventEmitted(await pol.depositLoyalty(1000 * 10e7, { from: USER1 }), 'DepositLoyaltyEvent');
     });
 
     /**
@@ -105,19 +101,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('selectRewardTier(2, { from: USER1, value: tier1eth }) should fail  failed', async () => {
       /// Attempt to select a new reward tier
-      await pol.selectRewardTier(2, {
-          from: USER1,
-          value: tier1eth
-        })
-        .then((tx) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if experect error returned
-          return assert(err.includes('Rate unchanged'));
-        });
+      await pol.selectRewardTier(2, { from: USER1, value: tier1eth })
+      .then((tx) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if experect error returned
+        return assert(err.includes('Rate unchanged'));
+      });
     });
 
     /**
@@ -126,39 +119,33 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('Increase reward tier to Tier2 (20%) (Sent: 0.20eth) passed', async () => {
       /// Attempt to select tier2 reward boost(20%)
-      await pol.selectRewardTier(2, {
-          from: USER1,
-          value: tier2eth
+      await pol.selectRewardTier(2, { from: USER1, value: tier2eth })
+      .then((tx) => {
+        truffleAssert.eventEmitted(tx, 'TierSelectedEvent', (event) => {
+          /// Return success if expected values returned
+          return (event[1].eq(new BN(2)));
         })
-        .then((tx) => {
-          truffleAssert.eventEmitted(tx, 'TierSelectedEvent', (event) => {
-            /// Return success if expected values returned
-            return (event[1].eq(new BN(2)));
-          })
-        })
-        .catch((error) => {
-          /// Should not get here, return failure
-          return assert(false);
-        });
+      })
+      .catch((error) => {
+        /// Should not get here, return failure
+        return assert(false);
+      });
     });
 
     /**
      * @dev Test purchase of tier1 reward boost(10%)
      */
     it('selectRewardTier(1, { from: USER1, value: tier1eth }) should fail', async () => {
-      await pol.selectRewardTier(1, {
-          from: USER1,
-          value: tier1eth
-        })
-        .then((tx) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error value returned
-          return assert(err.includes('Invalid tier'));
-        });
+      await pol.selectRewardTier(1, { from: USER1, value: tier1eth })
+      .then((tx) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error value returned
+        return assert(err.includes('Invalid tier'));
+      });
     });
 
   });
@@ -175,18 +162,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -196,18 +181,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -217,18 +200,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -238,10 +219,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21601);
       /// Return success if expected event was emitted from transaction
-      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
-        from: USER1
-      }), 'RewardClaimedEvent');
-
+      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
     });
 
     /**
@@ -265,18 +243,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -286,18 +262,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -307,18 +281,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -328,9 +300,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21601);
       /// Return success if expected event was emitted from transaction
-      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
-        from: USER1
-      }), 'RewardClaimedEvent');
+      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
     });
 
     /**
@@ -355,18 +325,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -376,18 +344,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -397,18 +363,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -418,9 +382,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21601);
       /// Return success if expected event was emitted from transaction
-      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
-        from: USER1
-      }), 'RewardClaimedEvent');
+      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
     });
 
     /**
@@ -444,18 +406,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -465,12 +425,10 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .catch((err) => {
-          assert.equal(err.reason, 'Not mature');
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .catch((err) => {
+        assert.equal(err.reason, 'Not mature');
+      });
     });
 
     /**
@@ -478,15 +436,15 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('getTimeRemaining(USER1) should be >= 43150', async () => {
       /// Attermp to obtain the current time remaining until reward maturity
-      await pol.getTimeRemaining(USER1)
-        .then((response) => {
-          /// Return success if expected value returned
-          return assert(response[0] >= 43150);
-        })
-        .catch((error) => {
-          /// Should not make it here, return failure
-          return assert(false);
-        });
+      await pol.getTimeRemaining.call(USER1)
+      .then((response) => {
+        /// Return success if expected value returned
+        return assert(response[0] >= 43150);
+      })
+      .catch((error) => {
+        /// Should not make it here, return failure
+        return assert(false);
+      });
     });
 
     /**
@@ -496,18 +454,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -517,9 +473,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21601);
       /// Return success if expected event was emitted from transaction
-      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
-        from: USER1
-      }), 'RewardClaimedEvent');
+      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
     });
 
     /**
@@ -544,18 +498,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -565,18 +517,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -586,18 +536,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21600);
       /// Attempt to claim loyalty rewards for USER1
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected error values returned
-          return assert(err.includes('Not mature'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected error values returned
+        return assert(err.includes('Not mature'));
+      });
     });
 
     /**
@@ -607,9 +555,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~6h
       await helper.advanceTimeAndBlock(21601);
       /// Return success if expected event was emitted from transaction
-      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
-        from: USER1
-      }), 'RewardClaimedEvent');
+      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
     });
 
     /**
@@ -634,9 +580,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       /// Advance blockchain by ~360d
       await helper.advanceTimeAndBlock(31104000);
       /// Return success if expected event was emitted from transaction
-      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({
-        from: USER1
-      }), 'RewardClaimedEvent');
+      return truffleAssert.eventEmitted(await pol.claimLoyaltyReward({ from: USER1 }), 'RewardClaimedEvent');
     });
 
     /**
@@ -667,9 +611,7 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('Approve 10,000 tokens to SparkleLoyalty by TREASURY', async () => {
       /// Attempt to approve 10,000 tokens
-      await st.methods.approve(pol.address, 10000 * 10e7).send({
-        from: TREASURY
-      });
+      await st.methods.approve(pol.address, 10000 * 10e7).send({ from: TREASURY });
       /// Return success if expected values are returned
       assert.equal(await st.methods.allowance(TREASURY, pol.address).call(), 10000 * 10e7);
     });
@@ -704,14 +646,14 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
     it('getLoyaltyAddress(USER1) should equal USER1', async () => {
       /// Attempt to obtain USER1's loyalty address
       await pol.getLoyaltyAddress(USER1)
-        .then((response) => {
-          /// Return success is expected value returned
-          return assert.equal(response, USER1);
-        })
-        .catch((error) => {
-          /// Should never get here, return failure
-          return assert(false);
-        })
+      .then((response) => {
+        /// Return success is expected value returned
+        return assert.equal(response, USER1);
+      })
+      .catch((error) => {
+        /// Should never get here, return failure
+        return assert(false);
+      })
     });
 
     /**
@@ -720,14 +662,14 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
     it('getRewardTier(USER1) should equal Tier2', async () => {
       /// Attempt to obtain USER1's tier reward index
       await pol.getRewardTier(USER1)
-        .then((response) => {
-          /// Return success is expected value returned
-          return assert.equal(response, 2);
-        })
-        .catch((error) => {
-          /// Should never get here, return failure
-          return assert(false);
-        })
+      .then((response) => {
+        /// Return success is expected value returned
+        return assert.equal(response, 2);
+      })
+      .catch((error) => {
+        /// Should never get here, return failure
+        return assert(false);
+      })
     });
 
     /**
@@ -736,14 +678,14 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
     it('isLocked(USER1) should return false', async () => {
       /// Attempt to determine if USER1's account has been locked
       await pol.isLocked(USER1)
-        .then((response) => {
-          /// Return success is expected value returned
-          assert.equal(response, false);
-        })
-        .catch((error) => {
-          /// Should never get here, return failure
-          return assert(false);
-        });
+      .then((response) => {
+        /// Return success is expected value returned
+        assert.equal(response, false);
+      })
+      .catch((error) => {
+        /// Should never get here, return failure
+        return assert(false);
+      });
     });
 
     /**
@@ -751,19 +693,17 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('lockAccount(USER1, true, { from: OWNER }) should pass', async () => {
       /// Attempt to lock USER1's account
-      await pol.lockAccount(USER1, true, {
-          from: OWNER
-        })
-        .then((response) => {
-          truffleAssert.eventEmitted(response, 'LockedAccountEvent', (event) => {
-            /// Return success is expected value returned
-            return (event[0] == USER1 && event[1] == true);
-          });
-        })
-        .catch((error) => {
-          /// Should never get here, return failure
-          return assert(false);
+      await pol.lockAccount(USER1, true, { from: OWNER })
+      .then((response) => {
+        truffleAssert.eventEmitted(response, 'LockedAccountEvent', (event) => {
+          /// Return success is expected value returned
+          return (event[0] == USER1 && event[1] == true);
         });
+      })
+      .catch((error) => {
+        /// Should never get here, return failure
+        return assert(false);
+      });
     });
 
     /**
@@ -772,14 +712,14 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
     it('isLocked(USER1) should return true', async () => {
       /// Attempt to determine if USER1's account has been locked
       await pol.isLocked(USER1)
-        .then((response) => {
-          /// Return success is expected value returned
-          return assert.equal(response, true);
-        })
-        .catch((error) => {
-          /// Should never get here, return failure
-          return assert(false);
-        });
+      .then((response) => {
+        /// Return success is expected value returned
+        return assert.equal(response, true);
+      })
+      .catch((error) => {
+        /// Should never get here, return failure
+        return assert(false);
+      });
     });
 
     /// Declare scratch variables
@@ -798,23 +738,21 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       deposit = await pol.getDepositBalance(USER1);
       collected = await pol.getTokensCollected(USER1);
       /// Attempt to perform loyalty withdrawl for USER1
-      await pol.withdrawLoyalty({
-          from: USER1
-        })
-        .then(async (tx) => {
-          /// Attempt to obtain balances of treasury and SparkleLoyalty addresses
-          postBalanceTreasury = await st.methods.balanceOf(TREASURY).call();
-          postBalancePol = await st.methods.balanceOf(pol.address).call();
-          truffleAssert.eventEmitted(tx, 'LoyaltyWithdrawnEvent', (event) => {
-            /// Return success is expected value returned
-            return (event[0] == USER1 && event[2].eq(deposit.add(collected)));
-          });
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if expected event was emitted from transaction
-          return assert(err.includes('Locked'));
+      await pol.withdrawLoyalty({ from: USER1 })
+      .then(async (tx) => {
+        /// Attempt to obtain balances of treasury and SparkleLoyalty addresses
+        postBalanceTreasury = await st.methods.balanceOf(TREASURY).call();
+        postBalancePol = await st.methods.balanceOf(pol.address).call();
+        truffleAssert.eventEmitted(tx, 'LoyaltyWithdrawnEvent', (event) => {
+          /// Return success is expected value returned
+          return (event[0] == USER1 && event[2].eq(deposit.add(collected)));
         });
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if expected event was emitted from transaction
+        return assert(err.includes('Locked'));
+      });
     });
 
     /**
@@ -822,19 +760,17 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('lockAccount(USER1, false, { from: OWNER }) should pass', async () => {
       /// Attempt to unlock USER1's account
-      await pol.lockAccount(USER1, false, {
-          from: OWNER
-        })
-        .then((response) => {
-          truffleAssert.eventEmitted(response, 'LockedAccountEvent', (event) => {
-            /// Return success is expected value returned
-            return (event[0] == USER1 && event[1] == false);
-          });
-        })
-        .catch((error) => {
-          /// Should never get here, return failure
-          return assert(false);
-        })
+      await pol.lockAccount(USER1, false, { from: OWNER })
+      .then((response) => {
+        truffleAssert.eventEmitted(response, 'LockedAccountEvent', (event) => {
+          /// Return success is expected value returned
+          return (event[0] == USER1 && event[1] == false);
+        });
+      })
+      .catch((error) => {
+        /// Should never get here, return failure
+        return assert(false);
+      })
     });
 
     /**
@@ -843,15 +779,15 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
     it('isLocked(USER1) should return false', async () => {
       /// Attempt to determine if USER1's account has been locked
       await pol.isLocked(USER1)
-        .then((response) => {
-          /// Return success is expected value returned
-          return assert.equal(response, false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Should never get here, return failure
-          return assert(false);
-        })
+      .then((response) => {
+        /// Return success is expected value returned
+        return assert.equal(response, false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Should never get here, return failure
+        return assert(false);
+      })
     });
 
     /**
@@ -865,22 +801,20 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
       deposit = await pol.getDepositBalance(USER1);
       collected = await pol.getTokensCollected(USER1);
       /// Attempt to perform loyalty withdrawl for USER1
-      await pol.withdrawLoyalty({
-          from: USER1
-        })
-        .then(async (tx) => {
-          /// Attempt to obtain balances of treasury and SparkleLoyalty addresses
-          postBalanceTreasury = await st.methods.balanceOf(TREASURY).call();
-          postBalancePol = await st.methods.balanceOf(pol.address).call();
-          truffleAssert.eventEmitted(tx, 'LoyaltyWithdrawnEvent', (event) => {
-            /// Return success if expected event was emitted from transaction
-            return (event[0] == USER1 && event[1].eq(deposit.add(collected)));
-          });
-        })
-        .catch((error) => {
-          /// Return success if expected error encountered
-          return assert(false);
+      await pol.withdrawLoyalty({ from: USER1 })
+      .then(async (tx) => {
+        /// Attempt to obtain balances of treasury and SparkleLoyalty addresses
+        postBalanceTreasury = await st.methods.balanceOf(TREASURY).call();
+        postBalancePol = await st.methods.balanceOf(pol.address).call();
+        truffleAssert.eventEmitted(tx, 'LoyaltyWithdrawnEvent', (event) => {
+          /// Return success if expected event was emitted from transaction
+          return (event[0] == USER1 && event[1].eq(deposit.add(collected)));
         });
+      })
+      .catch((error) => {
+        /// Return success if expected error encountered
+        return assert(false);
+      });
     });
 
     /**
@@ -896,18 +830,16 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
      */
     it('Loyalty claim attempt should fail', async () => {
       /// Attempt to claim loyalty rewards from withdrawn USER1 account
-      await pol.claimLoyaltyReward({
-          from: USER1
-        })
-        .then((response) => {
-          /// Should never get here, return faiure
-          return assert(false);
-        })
-        .catch((error) => {
-          let err = new String(error);
-          /// Return success if error value is expected
-          return assert(err.includes('No record'));
-        });
+      await pol.claimLoyaltyReward({ from: USER1 })
+      .then((response) => {
+        /// Should never get here, return faiure
+        return assert(false);
+      })
+      .catch((error) => {
+        let err = new String(error);
+        /// Return success if error value is expected
+        return assert(err.includes('No record'));
+      });
     });
 
   });
@@ -923,14 +855,14 @@ contract('SparkleLoyalty - Test coverage: Tier2(20%) Workflow', async accounts =
     it('getTotalTimesClaimed() should return 6', async () => {
       /// Attempt to obtain the total times a reward was claimed
       await pol.getTotalTimesClaimed()
-        .then((count) => {
-          /// Return success if expected value returned
-          return assert.equal(count, 6);
-        })
-        .catch((error) => {
-          /// Should not get here, return failure
-          return assert(false);
-        })
+      .then((count) => {
+        /// Return success if expected value returned
+        return assert.equal(count, 6);
+      })
+      .catch((error) => {
+        /// Should not get here, return failure
+        return assert(false);
+      })
     });
 
     /**
