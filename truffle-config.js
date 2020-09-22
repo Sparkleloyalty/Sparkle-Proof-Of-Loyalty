@@ -1,4 +1,6 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
+const NonceTrackerSubprovider = require('web3-provider-engine/subproviders/nonce-tracker');
+
 // Using dotenv
 require('dotenv').config();
 
@@ -43,7 +45,18 @@ module.exports = {
       // gas: 100000000,          // Updated gas amount (Closed to mainnet block gas)
     },
     ropsten: {
-      provider: `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECTID}`,  // infura Ropsten provider
+      provider: () => new HDWalletProvider(process.env.INFURA_MNEMONIC, `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECTID}`), // infura Ropsten provider
+      network_id: "3",            // Network id is 3 for ropsten
+      // websockets: true
+    },
+    ropsten2: {
+      provider: () => {
+        var wallet = new HDWalletProvider(process.env.INFURA_MNEMONIC, `https://ropsten.infura.io/v3/${process.env.INFURA_PROJECTID}`); // infura Ropsten provider
+        var nonceTracker = new NonceTrackerSubprovider();
+        wallet.engine._providers.unshift(nonceTracker);
+        nonceTracker.setEngine(wallet.engine);
+        return wallet;
+      },
       network_id: "3",            // Network id is 3 for ropsten
       // websockets: true
     },
