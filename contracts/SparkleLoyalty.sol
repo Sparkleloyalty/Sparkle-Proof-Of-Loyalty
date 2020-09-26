@@ -25,7 +25,7 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
   // Gas to send with certain transations that may cost more in the future due to chain growth
   uint256 private gasToSendWithTX = 25317;
   // Base rate APR (5%) factored to 365.2422 gregorian days
-  uint256 private baseRate = 0.00013690 * 10e7; // A full year is 365.2422 gregorian days (5%)
+  uint256 private baseRate = 0.00041069 * 10e7; // A full year is 365.2422 gregorian days (5%)
 
   // Account data structure
   struct Account {
@@ -700,6 +700,27 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
     emit GasSentChanged(_amount);
   }
 
+  function getBaseRate()
+  public
+  view
+  whenNotPaused
+  returns(uint256)
+  {
+    return baseRate;
+  }
+
+  function setBaseRate(uint256 _newRate)
+  public
+  onlyOwner
+  whenNotPaused
+  {
+    // Validate calling address (msg.sender)
+    require(msg.sender != address(0), 'Invalid {from}');
+    // Set the current minimum deposit allowed
+    baseRate = _newRate;
+    emit BaseRateChanged(_newRate);
+  }
+
   /**
    * @dev Set the minimum Proof Of Loyalty amount allowed for deposit
    * @param _minProof amount for new minimum accepted loyalty reward deposit
@@ -983,8 +1004,13 @@ contract SparkleLoyalty is Ownable, Pausable, ReentrancyGuard {
    */
   event CollectionAddressChanged(address);
 
- /**
+  /**
    * @dev Event signal: All stored tokens have been removed
    */
   event TokensWithdrawn(address, uint256);
+
+  /**
+   * @dev Event signal: Apr base rate has been changed
+   */
+  event BaseRateChanged(uint256);
 }

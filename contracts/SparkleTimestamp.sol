@@ -293,11 +293,13 @@ contract SparkleTimestamp is ISparkleTimestamp, Ownable, Pausable, ReentrancyGua
     /// Deterimine if reward address timestamp record has matured
     if(g_timestamps[msg.sender][_rewardAddress]._reward > block.timestamp) {
       /// No, then return indicating remaining time and false to indicate failure
-      return (g_timestamps[msg.sender][_rewardAddress]._reward - block.timestamp, false, g_timestamps[msg.sender][_rewardAddress]._deposit);
+      // return (g_timestamps[msg.sender][_rewardAddress]._reward - block.timestamp, false, g_timestamps[msg.sender][_rewardAddress]._deposit);
+      return (g_timestamps[msg.sender][_rewardAddress]._reward - block.timestamp, false, g_timestamps[msg.sender][_rewardAddress]._joined);
     }
 
     /// Return indicating time since reward maturing and true to indicate success
-    return (block.timestamp - g_timestamps[msg.sender][_rewardAddress]._reward, true, g_timestamps[msg.sender][_rewardAddress]._deposit);
+    // return (block.timestamp - g_timestamps[msg.sender][_rewardAddress]._reward, true, g_timestamps[msg.sender][_rewardAddress]._deposit);
+    return (block.timestamp - g_timestamps[msg.sender][_rewardAddress]._reward, true, g_timestamps[msg.sender][_rewardAddress]._joined);
   }
 
     /**
