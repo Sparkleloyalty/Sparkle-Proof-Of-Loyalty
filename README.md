@@ -87,10 +87,10 @@
 
 | **Field**     | **Type**  | **Value**    | **Price**                                 |
 | :------------ | :-------- | :----------- | :---------------------------------------- |
-| Base Rate     | uint256   | 5% APR       | Free (Default) |
-| Tier1 Rate    | uint256   | 10% APR      | 0.10 Ethereum |
-| Tier2 Rate    | uint256   | 20% APR      | 0.20 Ethereum |
-| Tier3 Rate    | uint256   | 30% APR      | 0.30 Ethereum |
+| Base Rate     | uint256   | 15% APR      | Free (Default) |
+| Tier1 Rate    | uint256   | +10% Bonus   | 0.10 Ethereum |
+| Tier2 Rate    | uint256   | +20% Bonus   | 0.20 Ethereum |
+| Tier3 Rate    | uint256   | +30% Bonus   | 0.30 Ethereum |
 
 **NOTICE** Users of the SparkleLoyalty program acknowledge that potential risks and/or the loss of tokens may occur through their use of the SparkleLoyalty platform. By joining users of the SparkleLoyalty program agree to not hold SparkleLoyalty Inc, and any and all subsiduaries therein owned wholy or in part liable.
 
